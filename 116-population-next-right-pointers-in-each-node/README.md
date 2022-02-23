@@ -23,8 +23,10 @@ Output: [1,#,2,3,#,4,5,6,7,#]
 
 **Example 2:**
 
+```
 Input: root = []
 Output: []
+```
 
 **Constraints:**
 
