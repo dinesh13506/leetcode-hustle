@@ -35,4 +35,5 @@ Output: 4
 
 ```
 Follow up: Could you solve the problem if repeated values on the tree are allowed?
+
 ```
