@@ -1,0 +1,1 @@
+1. Look for first null node in queue and examine rest of queue.
