@@ -25,3 +25,12 @@ Union(v1,v2) => O(logN)
 Find(v) => O(logN)
 isconnected(v1,v2) => O(logN)
 
+
+### Path Compression with Union By rank
+
+Union(v1,v2) => O(alpha(N)) where alpha(N) <=4 
+Find(v) => O(alpha(N))
+isconnected(v1,v2) => O(alpha(N))
+
+this one is faster due to anormatized time complexity.
+
