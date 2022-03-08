@@ -1,0 +1,1 @@
+1. sort logs by timestamp. return min timestamp after which all are connected.
