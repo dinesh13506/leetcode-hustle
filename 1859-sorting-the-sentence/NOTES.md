@@ -1,0 +1,1 @@
+1. Simple slice(start,end) //[start,end)
