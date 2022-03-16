@@ -95,3 +95,70 @@ class Myqueue {
         return this.front.data
     }
 }
+
+
+// using dfs 
+/**
+ * @param {number} n
+ * @param {number[][]} relations
+ * @return {number}
+ */
+ var minimumSemesters_v2 = function(n, relations) {
+    
+    let depth = new Array(n)
+    depth.fill(1)
+    let stack = new Array()
+    let rec = new Array(n)
+    let visited = new Array(n)
+    visited.fill(false)
+    rec.fill(false)
+    let adjacencyList = new Array(n)
+    for(let i = 0; i < n; i++) {
+        adjacencyList[i] = new Array()
+    }
+    
+    for(let relation of relations) {
+        let u = relation[0] - 1
+        let v = relation[1] - 1
+        adjacencyList[u].push(v)
+    }
+    
+    let dfsutil = function(s) {
+        visited[s] = true
+        rec[s] = true
+        
+        let neighbours = adjacencyList[s]
+        for(let v of neighbours) {
+            if(visited[v] == false) {
+                if(dfsutil(v) === true) {
+                    return true
+                }
+            } else if(rec[v] === true) {
+                return true
+            }
+            depth[s] = Math.max(depth[s], 1 + depth[v])
+        }
+        rec[s] = false
+        stack.push(s)
+        return false 
+    }
+    
+    
+    for(let i = 0; i < n; i++) {
+       if(visited[i] == false) {
+           if(dfsutil(i) === true) {
+               return -1
+           }
+       }
+    }
+    
+    //console.log(depth)
+    
+    let ans = -1
+    for(let i = 0; i < n; i++) {
+       ans = Math.max(ans,depth[i])
+    }
+    
+    return ans
+    
+};
