@@ -25,3 +25,29 @@
     }
     return answer
 };
+
+// optimised solution
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+ var scoreOfParenthesesOptimized = function(s) {
+    let open = "("
+    let close = ")"
+    
+    let balance = 0
+    let answer = 0
+    for(let i =0; i < s.length; i++) {
+        let ch = s[i]
+        if(ch === open) {
+            balance++
+        } else {
+            balance--
+            if(s[i-1] === open) {
+                answer = answer + (1<<balance)
+            }
+        }
+    }
+    return answer
+};
