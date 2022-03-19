@@ -19,3 +19,25 @@
     }
     return result
 };
+
+
+//second approch
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+ var balancedStringSplit2 = function(s) {
+    let i = 0
+    let balance = 0
+    let result = 0
+    while(i < s.length) {
+        let ch = s[i]
+        ch === "L" ? balance++ : balance--
+        if(balance ===0 ) {
+            result++
+        }
+        i++
+    }
+    return result
+};
