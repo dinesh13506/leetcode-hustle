@@ -7,3 +7,6 @@ Specifically, the steps we need to do are:
 3. Determine whether or not there is a palindrome.
 4. Restore the list.
 5. Return the result.
+
+Time Complexity: O(n)
+Space Complexity : O(1)
