@@ -1,0 +1,1 @@
+1. n % 1 === 0 , to check if n is an integer.
