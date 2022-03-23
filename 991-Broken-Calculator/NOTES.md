@@ -1,0 +1,3 @@
+```
+so here is my understanding on this solution. If  startValue < targetValue  then we know we can do one of subtract by 1 or multiply by 2, but this will lead towards a bigger tree and hence TLE. If we see in other direction targetValue > startValue we know if targetValue  is odd it means last operation on startValue is -1, that's why target++ to reach   previous startValue and if targetValue is even then the last operation done on previous startValue is one of multiplied by 2 or  prev startValue  was odd and then we did -1 to it, in both cases if we want to move towards previous startValue we need to divide by 2. Once target  < startValue we cannot do /2 or target++, we will simply add diff to ans.
+```
