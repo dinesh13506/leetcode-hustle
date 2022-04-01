@@ -14,9 +14,7 @@
             return 
         }
         
-        let temp = s[i]
-        s[i] = s[j]
-        s[j] = temp
+        [s[i],s[j]] = [s[j],s[i]]
         reverse(i+1,j-1)
     }
     let i = 0
