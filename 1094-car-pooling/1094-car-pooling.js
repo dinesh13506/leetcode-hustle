@@ -6,7 +6,6 @@
 var carPooling = function(trips, capacity) {
     trips.sort(function(t1,t2) { return t1[1] - t2[1]})
     let heap = new MinHeap(capacity)
-    //heap.insert(trips[0])
     for(let i = 0; i < trips.length; i++) {
         let trip = trips[i]
         let people = trip[0]
