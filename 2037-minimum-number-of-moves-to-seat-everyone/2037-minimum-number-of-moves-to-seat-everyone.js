@@ -13,3 +13,6 @@ var minMovesToSeat = function(seats, students) {
     }
     return moves
 };
+
+//Time Complexity : O(n)
+//Space Complexity :O(1)
