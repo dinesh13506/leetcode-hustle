@@ -14,3 +14,6 @@ var canMakeArithmeticProgression = function(arr) {
     }
     return isArithmatic(arr)
 };
+
+//time complexity O(nlogn)
+//space complexity O(1) and depends on sorting algo
