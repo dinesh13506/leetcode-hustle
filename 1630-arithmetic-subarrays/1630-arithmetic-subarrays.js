@@ -5,7 +5,6 @@
  * @return {boolean[]}
  */
 var checkArithmeticSubarrays = function(nums, l, r) {
-    
     let result = []
     let queries = l.length
     let isArithmatic = function(arr) {
@@ -29,6 +28,4 @@ var checkArithmeticSubarrays = function(nums, l, r) {
         result.push(isArithmatic(arr))
     }
     return result
-
-    
 };
