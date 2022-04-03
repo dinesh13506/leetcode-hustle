@@ -21,12 +21,12 @@ var indexPairs = function(text, words) {
         return false
     }
     let getsubstring = function(i,j) {
-        let str = ""
+        let str = []
         while(i<=j) {
-            str = str + text[i]
+            str.push(text[i])
             i++
         }
-        return str
+        return str.join('')
         
     }
     let answer = []
@@ -34,7 +34,6 @@ var indexPairs = function(text, words) {
         for(let j = i; j < len; j++) {
             let str = getsubstring(i,j)
             if(binarysearch(0,words.length-1,str)) {
-                //console.log(str,i,i + str.length -1)
                 answer.push([i,j])
             }
         }
