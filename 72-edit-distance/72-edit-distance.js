@@ -5,31 +5,32 @@
  */
 var minDistance = function(word1, word2) {
     
-    let memo = new Array(word1.length+1)
-    for(let i = 0; i <=word1.length ; i++) {
-        memo[i] = new Array(word2.length+1)
-        memo[i].fill(-1)
+    let m = word1.length, n = word2.length
+    let dp = new Array(m+1)
+    for(let i = 0; i <=m ;i++) {
+        dp[i] = new Array(n+1)
     }
-    //console.log(memo)
-    let dp = function(m,n) {
-        //console.log(memo[m][n],m,n)
-        if(memo[m][n] === -1) {
-            if(m == 0) {
-                memo[m][n] = n
-                return n
-            } 
-            if(n == 0) {
-                memo[m][n] =  m
-                return m
-            }
-            if(word1[m-1] === word2[n-1]) {
-                memo[m][n] =  dp(m-1,n-1)
-            } else {
-                memo[m][n] =  1 + Math.min(dp(m,n-1),dp(m-1,n),dp(m-1,n-1))
-            }
-        }
-        return memo[m][n]
+    //when word1 is empty
+    for(let j = 0; j <=n ;j++) {
+        dp[0][j] = j
+    }
+    //when word2 is empty
+    for(let i = 0; i <= m; i++) {
+        dp[i][0] = i
     }
     
-    return dp(word1.length,word2.length)
+    dp[0][0] = 0
+    
+    
+    for(let i = 1; i <=m ; i++) {
+        for(let j = 1; j<=n; j++) {
+            if(word1[i-1] == word2[j-1]) {
+                dp[i][j] = dp[i-1][j-1]
+            } else {
+                dp[i][j] = 1 + Math.min(Math.min(dp[i-1][j],dp[i][j-1]),dp[i-1][j-1])
+            }
+        }
+    }
+    
+    return dp[m][n]
 };
