@@ -20,8 +20,6 @@ var minDistance = function(word1, word2) {
     }
     
     dp[0][0] = 0
-    
-    
     for(let i = 1; i <=m ; i++) {
         for(let j = 1; j<=n; j++) {
             if(word1[i-1] == word2[j-1]) {
@@ -31,6 +29,5 @@ var minDistance = function(word1, word2) {
             }
         }
     }
-    
     return dp[m][n]
 };
