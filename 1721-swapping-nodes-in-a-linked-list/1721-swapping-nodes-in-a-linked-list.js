@@ -11,23 +11,26 @@
  * @return {ListNode}
  */
 var swapNodes = function(head, k) {
-    let stack = new Array()
-    let p = head
+    
+    let node1 = null, node2 = null, length = 0, p = head
     while(p) {
-        stack.push(p)
+        length++
+        p = p.next
+    }
+    let i = 0
+    p = head
+    while(p) {
+        if(i== k-1) {
+            node1 = p
+        } 
+        if( i== length - k) {
+            node2 = p
+        }
+        i++
         p = p.next
     }
     
-    p = head
-    let c = 0
-    while(p) {
-        let top = stack.pop()
-        c++
-        if(c == k) {
-            [p.val,top.val] = [top.val,p.val]
-            break
-        }
-        p = p.next
-    }
+    [node1.val,node2.val] = [node2.val,node1.val]
     return head
+    
 };
