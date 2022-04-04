@@ -12,9 +12,7 @@ var productExceptSelf = function(nums) {
     for(let i = 0; i < length; i++) {
         if(nums[i] == 0 && c == 1) {
             answer[i] = product
-        } else if(nums[i] == 0 && c >= 1) {
-            answer[i] = 0
-        } else if(nums[i] != 0 && c >= 1) {
+        } else if(c >= 1) {
             answer[i] = 0
         } else {
             answer[i] = product/ nums[i]
