@@ -4,13 +4,8 @@
  */
 var maxDistance = function(colors) {
     
-    let ans = -Infinity, length = colors.length
-    for(let i = 0; i < length; i++) {
-        for(let j = i + 1; j<length; j++) {
-            if(colors[i]!= colors[j]) {
-                ans = Math.max(ans, j - i)
-            }
-        }
-    }
-    return ans
+    let i = 0, n = colors.length, j = n-1
+    while(colors[0] == colors[j]) { j-- }
+    while(colors[n-1] == colors[i]) { i++ }
+    return Math.max(j,n-1-i)
 };
