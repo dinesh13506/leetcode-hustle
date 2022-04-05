@@ -5,17 +5,17 @@
  */
 var kthSmallest = function(matrix, k) {
     
-    let rowIndex = new Array(matrix.length)
-    rowIndex.fill(0)
-    //console.log(rowIndex)
+    let colIndex = new Array(matrix.length)
+    colIndex.fill(0)
+    //console.log(colIndex)
     let n = matrix.length
     let getMinimum = function() {
         let min = Infinity
         let row = -1
         for(let i = 0; i < n; i++) {
-            if(rowIndex[i] < n && matrix[i][rowIndex[i]] < min) {
+            if(colIndex[i] < n && matrix[i][colIndex[i]] < min) {
                 row = i
-                min = matrix[i][rowIndex[i]]
+                min = matrix[i][colIndex[i]]
             }
         }
         return row
@@ -24,9 +24,9 @@ var kthSmallest = function(matrix, k) {
     while( k > 0) {
         let rowNo = getMinimum()
         //console.log(rowNo)
-        let colNo = rowIndex[rowNo]
+        let colNo = colIndex[rowNo]
         ans = matrix[rowNo][colNo]
-        rowIndex[rowNo]++
+        colIndex[rowNo]++
         k--
     }
     return ans
