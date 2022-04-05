@@ -11,8 +11,7 @@ var fairCandySwap = function(aliceSizes, bobSizes) {
     for(let b of bobSizes)  {
          setb.add(b)
          Sb += b
-    }
-       
+    }  
     let delta = (Sb-Sa)/2
     for(let a of aliceSizes) {
         let b = delta + a
