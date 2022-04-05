@@ -4,7 +4,7 @@
  */
 var specialArray = function(nums) {
     
-    for(let x = 0; x<= 100; x++) {
+    for(let x = 0; x<= nums.length; x++) {
         let c = 0
         for(let num of nums) {
             if(num >= x) {
