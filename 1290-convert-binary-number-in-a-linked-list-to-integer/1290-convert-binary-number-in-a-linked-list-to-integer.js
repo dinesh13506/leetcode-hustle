@@ -10,17 +10,18 @@
  * @return {number}
  */
 var getDecimalValue = function(head) {
-    let stack = []
-    let p = head
-    while(p) {
-        stack.push(p.val)
-        p = p.next
-    }
-    let ans = 0
+    
+    let num = 0
     let x = 0
-    while(stack.length) {
-        ans = ans + (stack.pop()) * Math.pow(2,x)
+    let rev = function(p) {
+        if(p == null) {
+            return null
+        }
+        rev(p.next)
+        num = num + (p.val) * Math.pow(2,x)
         x++
     }
-    return ans
+    rev(head)
+    return num
+    
 };
