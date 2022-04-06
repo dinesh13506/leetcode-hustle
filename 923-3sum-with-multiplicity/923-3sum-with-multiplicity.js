@@ -4,8 +4,8 @@
  * @return {number}
  */
 var threeSumMulti = function(arr, target) {
-    
     let ans = 0
+    const mod = (Math.pow(10,9) + 7)
     arr.sort(function(a,b) { return a - b})
     let len = arr.length
     for(let i = 0; i < len; i++) {
@@ -27,13 +27,13 @@ var threeSumMulti = function(arr, target) {
                     right++
                 }
                 ans += (left * right)
-                ans %= (Math.pow(10,9) + 7)
+                ans %= mod
                 j++
                 k--
             } else {
                 let m = (k-j)+1
                 ans +=  ( (m) *(m-1) ) /2 
-                ans %= (Math.pow(10,9) + 7)
+                ans %= mod
                 break
             }
         }
