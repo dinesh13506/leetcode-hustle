@@ -66,17 +66,15 @@ class MinHeap {
                 for(let i = parseInt(this.len/2) - 1; i>=0; i--) {
                     this.heapify(i)
                 }
-                return this.list[0]
-            } else {
-                return this.list[0]
             }
+            
         } else {
             this.list.push(num)
             this.len++
             for(let i = parseInt(this.len/2) - 1; i>=0; i--) {
                 this.heapify(i)
             }
-            return this.list[0]
         }
+        return this.list[0]
     }
 }
