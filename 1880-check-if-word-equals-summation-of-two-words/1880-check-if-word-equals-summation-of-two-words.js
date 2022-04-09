@@ -7,11 +7,13 @@
 var isSumEqual = function(firstWord, secondWord, targetWord) {
     
     let convertToNum = function(s) {
-        let arr = []
-        for(let ch of s) {
-            arr.push(ch.charCodeAt() - 97)
+        let num = 0
+        let p = 0
+        for(let i = s.length-1; i >=0; i--) {
+            num = num + Math.pow(10,p)*(s[i].charCodeAt()-97)
+            p++
         }
-        return parseInt(arr.join(''))
+        return num
     }
     let num1 = convertToNum(firstWord)
     let num2 = convertToNum(secondWord)
