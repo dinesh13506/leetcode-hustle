@@ -4,14 +4,12 @@
  * @return {number[]}
  */
 var topKFrequent = function(nums, k) {
-  
     let freqMap = new Map()
     for(let num of nums) {
         freqMap.set(num, (freqMap.get(num) || 0) + 1)
     }
     let minheap = new MinHeap(freqMap)
     let uniqueNums = [...freqMap.keys()]
-    //console.log(freqMap,uniqueNums)
     for(let i = 0 ; i < k; i++) {
         minheap.insert(uniqueNums[i])
     }
@@ -22,9 +20,7 @@ var topKFrequent = function(nums, k) {
             minheap.insert(uniqueNums[i])
         }
     }
-    //console.log(minheap.list)
     return minheap.list
-    
 };
 
 class MinHeap {
@@ -58,7 +54,6 @@ class MinHeap {
             this.heapify(smallest)
         }
     }
-    
     insert(num) {
         this.list.push(num)
         this.len++
