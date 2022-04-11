@@ -5,20 +5,15 @@
  */
 var addToArrayForm = function(num, k) {
     
-    let karr = []
-    while(k) {
-        karr.unshift(k%10)
-        k = parseInt(k/10)
-    }
     let output = []
     let carry = 0
-    let i = num.length -1 , j = karr.length - 1
-    while(i >=0 && j >= 0) {
-        let sum = num[i] + karr[j] + carry
+    let i = num.length -1
+    while(i >=0 && k) {
+        let sum = num[i] + (k%10) + carry
         output.unshift(sum%10)
         carry = parseInt(sum/10)
         i--
-        j--
+        k = parseInt(k/10)
     }
     while(i >=0) {
         let sum = num[i]  + carry
@@ -26,11 +21,11 @@ var addToArrayForm = function(num, k) {
         carry = parseInt(sum/10)
         i--
     }
-    while(j >= 0) {
-        let sum = karr[j] + carry
+    while(k) {
+        let sum = (k%10) + carry
         output.unshift(sum%10)
         carry = parseInt(sum/10)
-        j--
+        k = parseInt(k/10)
     }
     
     if(carry) {
