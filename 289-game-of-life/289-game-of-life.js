@@ -17,13 +17,13 @@ var gameOfLife = function(board) {
             }
             aliveNeighbours = aliveNeighbours - board[i][j]
             if( (board[i][j] == 1) && (aliveNeighbours < 2)) {
-                board[i][j] = -1
+                board[i][j] = -1 // -negative means cell is dead now but it was alive sothat it will be included in neighbours
             }
             else if( (board[i][j] == 1) && (aliveNeighbours > 3)) {
                 board[i][j] = -1
             }
             else if( (board[i][j] == 0) && (aliveNeighbours == 3)) {
-                board[i][j] = 2
+                board[i][j] = 2 // + means it was dead initially and now it is alive, do not include such cells in neighbours
             } else {
                 board[i][j] = board[i][j]
             }
