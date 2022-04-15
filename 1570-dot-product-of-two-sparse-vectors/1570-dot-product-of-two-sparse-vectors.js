@@ -3,10 +3,11 @@
  * @return {SparseVector}
  */
 var SparseVector = function(nums) {
-    this.map = new Map()
+    this.pairs = []
     for(let i = 0; i < nums.length; i++) {
         if(nums[i]!=0) {
-            this.map.set(i, nums[i])
+            let pair = [i,nums[i]]
+            this.pairs.push(pair)
         }
     }
 };
@@ -17,12 +18,18 @@ var SparseVector = function(nums) {
  * @return {number}
  */
 SparseVector.prototype.dotProduct = function(vec) {
-    let ans = 0
-    let map1 = this.map
-    let map2 = vec.map
-    for(let k1 of map1.keys()) {
-        if(map2.has(k1)) {
-            ans = ans + (map1.get(k1) * map2.get(k1))
+    let p1 = this.pairs
+    let p2 = vec.pairs
+    let i = 0, j = 0, ans = 0
+    while( i < p1.length && j < p2.length) {
+        if(p1[i][0] === p2[j][0]) {
+            ans = ans + (p1[i][1] * p2[j][1])
+            i++
+            j++
+        } else if( p1[i][0] < p2[j][0]) {
+            i++
+        } else {
+            j++
         }
     }
     return ans
