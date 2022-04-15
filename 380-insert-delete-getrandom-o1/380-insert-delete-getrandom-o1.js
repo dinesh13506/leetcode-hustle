@@ -14,8 +14,6 @@ RandomizedSet.prototype.insert = function(val) {
     }
     this.indexMap.set(val, this.nums.length)
     this.nums.push(val)
-    //console.log(this.nums)
-    //console.log(this.indexMap)
     return true
 };
 
@@ -29,10 +27,10 @@ RandomizedSet.prototype.remove = function(val) {
     }
     let index = this.indexMap.get(val)
     let lastIndex = this.nums.length-1
+    this.indexMap.set(this.nums[lastIndex],index)
     let t = this.nums[index]
     this.nums[index] = this.nums[lastIndex]
     this.nums[lastIndex] = t
-    this.indexMap.set(this.nums[index],index)
     this.nums.pop()
     this.indexMap.delete(val)
     //console.log("deleted" , this.indexMap)
