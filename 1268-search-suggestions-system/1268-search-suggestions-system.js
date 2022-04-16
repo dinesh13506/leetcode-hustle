@@ -3,36 +3,77 @@
  * @param {string} searchWord
  * @return {string[][]}
  */
-var suggestedProducts = function(products, searchWord) {
+class Node {
+    constructor() {
+        this.children = new Array(26)
+        this.children.fill(null)
+        this.isEnd = false
+    }
+}
+class Trie {
     
-    products.sort(function(a,b) {return a.localeCompare(b)})
-    let map = new Map()
-    for(let product of products) {
-        let prefix = ''
-        for(let i = 0; i < product.length; i++) {
-            prefix = prefix + product[i]
-            let list = []
-            if(map.has(prefix)) {
-                list = map.get(prefix)
-                list.push(product)
-                map.set(prefix,list)
-            } else {
-                list.push(product)
-                map.set(prefix,list)
+    constructor() {
+        this.root = new Node()
+    }
+
+    getIndex(ch) {
+        return ch.charCodeAt() - 'a'.charCodeAt()
+    }
+    
+    insert(word) {
+        let curr = this.root
+        for(let ch of word) {
+            let index = this.getIndex(ch)
+            if(curr.children[index] == null) {
+                curr.children[index] = new Node()
+            }
+            curr = curr.children[index]
+        }
+        curr.isEnd = true
+    }
+
+    dfs(curr,prefix,words) {
+        
+        if(words.length == 3) {
+            return words
+        }
+        if(curr.isEnd) {
+            words.push(prefix)
+        }
+        
+        for(let i = 0; i < 26; i++) {
+            if(curr.children[i] != null) {
+                let ch = String.fromCharCode(97 + i)
+                this.dfs(curr.children[i], prefix + ch, words )
             }
         }
     }
-    //console.log(map)
-    let ans = []
-    let prefix = ''
-    for(let j = 0 ; j < searchWord.length; j++) {
-        prefix = prefix + searchWord[j]
-        let list = map.get(prefix) || []
-        let topThree = []
-        for(let i = 0 ; i < Math.min(3,list.length); i++) {
-            topThree.push(list[i])
+
+    getWordsStartingWith(prefix) {
+        let curr = this.root
+        let words = []
+        for(let ch of prefix) {
+            let index = this.getIndex(ch)
+            if(curr.children[index] == null) {
+                return words
+            }
+            curr = curr.children[index]
         }
-        ans.push(topThree)
+        this.dfs(curr,prefix, words)
+        return words
     }
-    return ans
+}
+var suggestedProducts = function(products, searchWord) {
+    let trie = new Trie()
+    for(let product of products) {
+        trie.insert(product)
+    }
+    let result = []
+    let prefix = []
+    for(let ch of searchWord) {
+        prefix.push(ch)
+        result.push(trie.getWordsStartingWith(prefix.join('')))
+    }
+    return result
+    
 };
