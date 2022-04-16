@@ -25,9 +25,14 @@ var WordDistance = function(wordsDict) {
 WordDistance.prototype.shortest = function(word1, word2) {
     let list1 = this.indexMap.get(word1), list2 = this.indexMap.get(word2)
     let d = Infinity
-    for(let i of list1) {
-        for(let j of list2) {
-            d = Math.min(d, Math.abs(i-j))
+    let i = 0, j = 0
+    while(i < list1.length && j < list2.length) {
+        let idx1 = list1[i], idx2 = list2[j]
+        d = Math.min(d, Math.abs(idx1 - idx2))
+        if(idx1 < idx2) {
+            i++
+        } else {
+            j++
         }
     }
     return d
