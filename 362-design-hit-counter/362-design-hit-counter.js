@@ -47,17 +47,19 @@ class MyQueue {
             this.size++
         } else {
             if(value == this.rear.value) {
-                let last = this.popFromBack()
-                let node = new Node(value,last.count+1)
-                if(this.size == 0) {
-                    this.front = node
-                    this.rear = node
-                } else {
-                    node.prev = this.rear
-                    this.rear.next = node
-                    this.rear = node 
-                }
-                this.size++
+                let last = this.rear
+                last.count++
+                // let last = this.popFromBack()
+                // let node = new Node(value,last.count+1)
+                // if(this.size == 0) {
+                //     this.front = node
+                //     this.rear = node
+                // } else {
+                //     node.prev = this.rear
+                //     this.rear.next = node
+                //     this.rear = node 
+                // }
+                // this.size++
             } else {
                 let node = new Node(value,1)
                 node.prev = this.rear
