@@ -10,6 +10,7 @@ class Node {
 
 class MyQueue {
     constructor() {
+        this.ans = 0
         this.front = null
         this.rear = null
         this.size  = 0
@@ -55,6 +56,7 @@ class MyQueue {
                 }
                 this.size++
             }
+            this.ans = this.ans + 1
     }
     
 }
@@ -79,6 +81,7 @@ HitCounter.prototype.getHits = function(timestamp) {
         let first = this.q.front
         if(first && (timestamp - first.value) >= 300) {
             this.q.popFromFront()
+            this.q.ans = this.q.ans - first.count
         } else {
             break
         }
@@ -88,7 +91,7 @@ HitCounter.prototype.getHits = function(timestamp) {
         ans = ans + p.count
         p = p.next
     }
-    return ans
+    return this.q.ans
 };
 
 /** 
