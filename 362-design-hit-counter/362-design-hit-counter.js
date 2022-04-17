@@ -86,11 +86,6 @@ HitCounter.prototype.getHits = function(timestamp) {
             break
         }
     }
-    let p = this.q.front, ans = 0
-    while(p) {
-        ans = ans + p.count
-        p = p.next
-    }
     return this.q.ans
 };
 
