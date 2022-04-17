@@ -11,22 +11,17 @@
  * @return {TreeNode}
  */
 var increasingBST = function(root) {
-    
-    let newRoot = null, p = null
+    let ans = new TreeNode(0) //dummy node
+    let p = ans
     const inorder = function(root) {
         if(root) {
             inorder(root.left)
-            if(newRoot == null) {
-                newRoot = new TreeNode(root.val)
-                p = newRoot
-            } else {
-                p.left = null
-                p.right = new TreeNode(root.val)
-                p = p.right
-            }
+            root.left = null
+            p.right = root
+            p = p.right
             inorder(root.right)
         }
     }
     inorder(root)
-    return newRoot
+    return ans.right
 };
