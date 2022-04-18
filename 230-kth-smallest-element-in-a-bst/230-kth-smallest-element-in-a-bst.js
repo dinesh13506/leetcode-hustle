@@ -13,20 +13,17 @@
  */
 var kthSmallest = function(root, k) {
     
-    const log = function(args) {
-        console.log(args)
-    }
-    let ans = Infinity, c = 0
-    const inorder = function(root) {
-        if(root) {
-            inorder(root.left)
-            c++
-            if(c == k) {
-                ans = root.val
-            }
-            inorder(root.right)
+    let stack = new Array(), p = root
+    while(true) {
+        while(p) {
+            stack.push(p)
+            p = p.left
         }
+        p = stack.pop()
+        k--
+        if(k == 0) {
+            return p.val
+        }
+        p = p.right
     }
-    inorder(root)
-    return ans
 };
