@@ -10,54 +10,49 @@
  * @param {TreeNode} root
  */
 var BSTIterator = function(root) {
-    let p = root, stack = [], values = []
-    while(p != null || stack.length > 0) {
-        while(p!= null) {
-            stack.push(p)
-            p = p.left
-        }
-        p = stack.pop()
-        values.push(p.val)
-        p = p.right
-    }
-    this.inorder = values
-    this.index = -1
+    this.last = root
+    this.stack = new Array()
+    this.pointer = -1
+    this.arr = []
 };
 
 /**
  * @return {boolean}
  */
 BSTIterator.prototype.hasNext = function() {
-    if(this.index + 1 < this.inorder.length) {
-        return true
-    }
-    return false
+    return this.last || this.stack.length || this.pointer + 1 < this.arr.length
 };
 
 /**
  * @return {number}
  */
 BSTIterator.prototype.next = function() {
-    this.index++
-    return this.inorder[this.index]
+    this.pointer++
+    if(this.pointer == this.arr.length) {
+        while(this.last) {
+            this.stack.push(this.last)
+            this.last = this.last.left
+        }
+        let curr = this.stack.pop()
+        this.last = curr.right
+        this.arr.push(curr.val)
+    }
+    return this.arr[this.pointer]
 };
 
 /**
  * @return {boolean}
  */
 BSTIterator.prototype.hasPrev = function() {
-    if(this.index - 1 >= 0) {
-        return true
-    }
-    return false
+    return this.pointer - 1 >=0
 };
 
 /**
  * @return {number}
  */
 BSTIterator.prototype.prev = function() {
-    this.index--
-    return this.inorder[this.index]
+    this.pointer--
+    return this.arr[this.pointer]
 };
 
 /** 
