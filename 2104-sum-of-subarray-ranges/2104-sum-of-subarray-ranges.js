@@ -3,20 +3,6 @@
  * @return {number}
  */
 var subArrayRanges = function(nums) {
-    
-    let max = function(start,end) {
-        if(start == end) {
-            return nums[start]
-        }
-        return Math.max(nums[start], max(start + 1, end))
-    }
-    let min = function(start,end) {
-        if(start == end) {
-            return nums[start]
-        }
-        return Math.min(nums[start], min(start + 1, end))
-    }
-    
     let ans = 0
     for(let i = 0; i < nums.length; i++) {
         let largest = nums[i], smallest = nums[i]
