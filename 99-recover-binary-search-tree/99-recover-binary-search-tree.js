@@ -19,9 +19,7 @@ var recoverTree = function(root) {
             root = root.left
         }
         root = stack.pop()
-        //console.log(root.val)
-        if(root.val > prev.val) {
-        } else {
+        if(prev.val > root.val) {
             if(swaps.length >= 2) {
                 swaps.pop()
                 swaps.push(root)
@@ -33,11 +31,8 @@ var recoverTree = function(root) {
         prev = root
         root = root.right
     }
-    //console.log(swaps.length)
     let node1 = swaps[0], node2 = swaps[1]
-    //console.log(node1.val,node2.val)
     let t = node1.val
     node1.val = node2.val
     node2.val = t
-    
 };
