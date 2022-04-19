@@ -12,27 +12,54 @@
  */
 var recoverTree = function(root) {
     
-    let stack = [], prev = new TreeNode(-Infinity), swaps = []
-    while(root || stack.length) {
-        while(root) {
-            stack.push(root)
-            root = root.left
-        }
-        root = stack.pop()
-        if(prev.val > root.val) {
-            if(swaps.length >= 2) {
-                swaps.pop()
-                swaps.push(root)
+    let lastNode = new TreeNode(-Infinity), swaps = []
+    //morris traversal - threaded tree
+    let curr = root
+    while(curr != null) {
+        //case 1
+        if(curr.left == null) {
+            if(lastNode.val > curr.val) {
+                if(swaps.length == 2) {
+                    swaps.pop()
+                    swaps.push(curr)
+                } else {
+                    swaps.push(lastNode)
+                    swaps.push(curr)
+                }
+            }
+            
+            lastNode = curr
+            curr = curr.right
+        } else {
+            //case 2, move to right most of left subtree
+            let prev = curr.left
+            while(prev.right != null && prev.right != curr) {
+                prev = prev.right
+            }
+            //visiting left substree for first time
+            if(prev.right == null) {
+                prev.right = curr //create a link
+                curr = curr.left
             } else {
-                swaps.push(prev)
-                swaps.push(root)
+                //already visited
+                prev.right = null
+                if(lastNode.val > curr.val) {
+                    if(swaps.length == 2) {
+                        swaps.pop()
+                        swaps.push(curr)
+                    } else {
+                        swaps.push(lastNode)
+                        swaps.push(curr)
+                    }
+                }
+                lastNode = curr
+                curr = curr.right
             }
         }
-        prev = root
-        root = root.right
     }
+    
     let node1 = swaps[0], node2 = swaps[1]
-    let t = node1.val
+    let temp = node1.val
     node1.val = node2.val
-    node2.val = t
+    node2.val = temp
 };
