@@ -12,28 +12,17 @@
  */
 var flatten = function(root) {
     
-    let ischild = function(root) {
-        if(root && root.left == null && root.right == null) {
-            return true
+    let node = root
+    while(node != null) {
+        if(node.left) {
+            let rightMost = node.left
+            while(rightMost.right!= null) {
+                rightMost = rightMost.right
+            }
+            rightMost.right = node.right
+            node.right = node.left
+            node.left = null
         }
-        return false
+        node = node.right
     }
-    let flatenTree = function(root) {
-        if(root == null) {
-            return root
-        }
-        if(ischild(root)) {
-            return root
-        }
-        let leftTail = flatenTree(root.left)
-        let rightTail = flatenTree(root.right)
-        
-        if(leftTail) {
-            leftTail.right = root.right
-            root.right = root.left
-            root.left = null
-        }
-        return rightTail ? rightTail : leftTail
-    }
-    flatenTree(root)
 };
