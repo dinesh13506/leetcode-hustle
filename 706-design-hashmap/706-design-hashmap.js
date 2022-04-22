@@ -60,7 +60,7 @@ LinkedList.prototype.put = function(key,value) {
 }
 
 var MyHashMap = function() {
-    this.key_space = 2069
+    this.key_space = 997
     this.buckets = new Array(this.key_space)
     for(let i = 0; i < this.key_space; i++) {
         this.buckets[i] = new LinkedList()
