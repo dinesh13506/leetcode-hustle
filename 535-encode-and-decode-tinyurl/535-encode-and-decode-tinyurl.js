@@ -1,11 +1,11 @@
 let MyHash = function() {
     this.alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; // 62 char
     this.map = new Map()
-    this.hashLength = 10
+    this.hashLength = 10 //can choose accordindgly
 }
 
 MyHash.prototype.getRandom = function() {
-    return Math.floor(Math.random() * this.hashLength); // 0 - 9
+    return Math.floor(Math.random() * this.alphabet.length); // 0 - 61
 }
 
 MyHash.prototype.getHashCode = function() {
@@ -30,7 +30,7 @@ let myhash = new MyHash()
 var encode = function(longUrl) {
     let hashCode = myhash.getHashCode()
     while(myhash.map.has(hashCode)) {
-        hashCode = myhash.getHashCode()
+        hashCode = myhash.getHashCode() //keep search for unsused hash
     }
     myhash.map.set(hashCode,longUrl)
     return "http://tinyurl.com/" + hashCode
