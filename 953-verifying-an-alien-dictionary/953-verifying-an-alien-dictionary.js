@@ -9,35 +9,19 @@ var isAlienSorted = function(words, order) {
     for(let i = 0; i < order.length; i++) {
         map.set(order[i],i)
     }
-    let copy = words.slice()
-    copy.sort(function(s1,s2) {
-        if(s1 == s2) {
-            return 0
-        }
-        else {
-            let len = Math.min(s1.length,s2.length)
-            for(let i = 0; i < len; i++) {
-                if(map.get(s1[i]) == map.get(s2[i])) {
-                    continue
-                }
-                else if(map.get(s1[i]) < map.get(s2[i])) {
-                    return -1
-                } else {
-                    return 1
-                }
-            }
-            if(s1.length < s2.length) {
-                return -1
+   
+    for(let i = 0; i < words.length - 1; i++) {
+        let curr = words[i]
+        let next = words[i+1]
+        for(let j = 0; j < curr.length; j++) {
+            if(j >= next.length) {  return false }
+            if(curr[j] == next[j]) {
+                continue
             } else {
-                return 1
+                if(map.get(curr[j]) > map.get(next[j])) {  return false }
+                else { break }
             }
         }
-    })
-    //console.log(map)
-    //console.log(copy)
-    
-    for(let i = 0; i < words.length; i++) {
-        if(copy[i] != words[i]) return false
     }
     return true
 };
