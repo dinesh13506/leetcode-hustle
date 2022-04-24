@@ -3,20 +3,29 @@
  * @return {number}
  */
 var countLatticePoints = function(circles) {
-    let count = 0
-    for(let x = 0; x <=200; x++) {
-        for(let y = 0; y<=200; y++) {
-            for(let i = 0; i < circles.length; i++) {
-                
-                let powx = Math.pow(x-circles[i][0] ,2)
-                let powy = Math.pow(y-circles[i][1] ,2)
-                let powr =  Math.pow(circles[i][2],2)
+    
+    let m = circles.length
+    let gethash = function(x,y) {
+        return `${x}_${y}`
+    }
+    let set = new Set()
+    for(let c = 0; c < m; c++) {
+        let a = circles[c][0]
+        let b = circles[c][1]
+        let r = circles[c][2]
+        for(let x = a - r; x <= a + r; x++) {
+            for(let y = b -r; y<= b + r; y++) {
+                let powx = Math.pow(x-a, 2)
+                let powy = Math.pow(y-b, 2)
+                let powr = Math.pow(r,2)
                 if(powx + powy <= powr) {
-                    count++
-                    break
+                    let hash = gethash(x,y)
+                    set.add(hash)
                 }
             }
         }
     }
-    return count
+    return set.size
+    
+    
 };
