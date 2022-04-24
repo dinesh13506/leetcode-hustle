@@ -20,12 +20,11 @@ var countLatticePoints = function(circles) {
                 let powr = Math.pow(r,2)
                 if(powx + powy <= powr) {
                     let hash = gethash(x,y)
-                    set.add(hash)
+                    if(set.has(hash) == false ) set.add(hash)
+                    
                 }
             }
         }
     }
     return set.size
-    
-    
 };
