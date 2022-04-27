@@ -1,2 +1,2 @@
-* Time Complexity : O(nxn)
+* Time Complexity : O(n)
 * Space Complexity : O(logn)
