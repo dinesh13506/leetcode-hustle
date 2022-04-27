@@ -12,19 +12,13 @@
  */
 var maxAncestorDiff = function(root) {
     
-    let result = 0
-    let dfsUtil = function(node,currMax,currMin) {
+    let dfsUtil = function(node,max,min) {
         if(node == null) {
-            return
+            return max - min
         }
-        let temp = Math.max(Math.abs(currMax - node.val), Math.abs(currMin - node.val))
-        result = Math.max(temp, result)
-        currMax = Math.max(currMax, node.val)
-        currMin = Math.min(currMin,node.val)
-        dfsUtil(node.left,currMax,currMin)
-        dfsUtil(node.right,currMax,currMin)
+        max = Math.max(node.val,max)
+        min = Math.min(node.val,min)
+        return Math.max(dfsUtil(node.left,max,min),dfsUtil(node.right,max,min))
     }
-    
-    dfsUtil(root,root.val,root.val)
-    return result
+    return dfsUtil(root,root.val,root.val)
 };
