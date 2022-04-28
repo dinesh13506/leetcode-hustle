@@ -11,26 +11,50 @@
  */
 var sortList = function(head) {
     
-    let arr = []
-    let p = head
-    while(p) {
-        arr.push(p.val)
-        p = p.next
-    }
-    arr.sort(function(a,b) {
-        if(a<b) {
-            return -1
-        } else if(a>b) {
-            return 1
-        } else {
-            return 0
+    let getMid = function(node) {
+        if(node == null) return
+        let slow = node, fast = node, prevmid = node
+        while(fast && fast.next) {
+            prevmid = slow
+            slow = slow.next
+            fast = fast.next.next
         }
-    })
-    p = head
-    let i = 0
-    while(p) {
-        p.val = arr[i++]
-        p = p.next
+        let mid = prevmid.next
+        prevmid.next = null
+        return mid
     }
-    return head
+    
+    let merge = function(l1,l2) {
+        let dummyhead = new ListNode()
+        let dummytail = dummyhead
+        while(l1 && l2) {
+            if(l1.val < l2.val) {
+                dummytail.next = l1
+                dummytail = dummytail.next
+                l1 = l1.next
+            } else {
+                dummytail.next = l2
+                dummytail = dummytail.next
+                l2 = l2.next
+            }
+        }
+        if(l1) {
+            dummytail.next = l1
+        }
+        if(l2) {
+            dummytail.next = l2
+        }
+        return dummyhead.next
+    }
+    
+    let sort = function(head) {
+        if(head == null || head.next == null) {
+            return head
+        }
+        let mid = getMid(head)
+        let l1 = sort(head)
+        let l2 = sort(mid)
+        return merge(l1,l2)
+    }
+    return sort(head)
 };
