@@ -16,7 +16,7 @@ var searchInsert = function(nums, target) {
             start = mid + 1
         }
     }
-    console.log(start,end)
+    //console.log(start,end)
     if(start >= nums.length) {
         return nums.length
     }
