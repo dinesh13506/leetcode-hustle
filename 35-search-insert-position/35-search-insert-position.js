@@ -17,7 +17,7 @@ var searchInsert = function(nums, target) {
         }
     }
     //console.log(start,end)
-    if(start >= nums.length) {
+    if(start == nums.length) {
         return nums.length
     }
     return start
