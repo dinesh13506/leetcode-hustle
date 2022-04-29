@@ -3,40 +3,19 @@
  * @return {number}
  */
 var maxProfit = function(prices) {
-    let n = prices.length
-    let input = new Array(n)
-    for(let i = 0; i < n; i++) {
-        input[i] = new Array()
-        for(let j = i + 1; j < n; j++) {
-            if(prices[j] > prices[i]) {
-                input[i].push(j)
-            }
+    let local_min = prices[0]
+    let local_max = prices[0]
+    let i = 0, profit = 0
+    while(i < prices.length - 1) {
+        while(i < prices.length - 1 && prices[i+1] <= prices[i]) {
+            i++
         }
-    }
-    //console.log(input)
-    let map = new Map()
-    let dp = function(i) {
-        if( i >= n) {
-            return 0
+        local_min = prices[i]
+        while(i < prices.length - 1 && prices[i+1] >= prices[i]) {
+            i++
         }
-        if(map.has(i) == false) {
-            let futureInx = input[i]
-            console
-            let profit = 0
-            for(let j of futureInx) {
-                profit = Math.max(profit, (prices[j] - prices[i]) + dp(j+1))
-            }
-            let max = Math.max(0 + dp(i+1), profit)
-            map.set(i,max)
-        }
-        
-        return map.get(i)
-        
+        local_max = prices[i]
+        profit = profit + (local_max - local_min)
     }
-    let maxProfit = 0
-    for(let i = 0; i < n; i++) {
-        maxProfit = Math.max(dp(i),maxProfit)
-    }
-    //console.log(map)
-    return maxProfit
+    return profit
 };
