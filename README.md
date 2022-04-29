@@ -4,6 +4,6 @@
 
 ### About
 
-1. I code everyday.
+1. I code everyday / goal = DSA Master.
 2. I keep track of my solutions.
-3. Its good to see greens on github profile at the end of year.
+3. Consistency is the key.
