@@ -7,23 +7,31 @@
  */
 var merge = function(nums1, m, nums2, n) {
     
-    let find = function(target, length) {
-        for(let i = 0; i < length; i++) {
-            if(target < nums1[i]) {
-                return i
-            }
+    let copy = []
+    for(let i = 0; i < m; i++) {
+        copy[i] = nums1[i]
+    }
+    let i = 0, j = 0, k = 0 
+    while(i < m && j < n) {
+        if(copy[i] <= nums2[j]) {
+            nums1[k] = copy[i]
+            i++
+            k++
+        } else {
+            nums1[k] = nums2[j]
+            j++
+            k++
         }
-        return length
     }
     
-    for(let j = 0; j < n; j++) {
-        let index = find(nums2[j], m + j)
-        let lastIndex = m + n - 1
-        while(index < lastIndex) {
-            nums1[lastIndex] = nums1[lastIndex-1]
-            lastIndex--
-        }
-        nums1[index] = nums2[j]
+    while(i<m) {
+       nums1[k] = copy[i]
+        i++
+        k++
     }
-    
+    while(j < n) {
+        nums1[k] = nums2[j]
+        j++
+        k++
+    }
 };
