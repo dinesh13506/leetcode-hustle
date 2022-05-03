@@ -15,21 +15,14 @@ var findUnsortedSubarray = function(nums) {
             return 0
         }
     })
-    
-    //console.log(nums)
-    //console.log(sorted)
-    let start = -1, end = -1
+    let start = Infinity, end = -Infinity
     for(let i = 0; i < nums.length; i++) {
         if(sorted[i] != nums[i]) {
-            if(start <= -1) {
-                start = i
-            } else {
-                end = i
-            }  
+            start = Math.min(start,i)
+            end = Math.max(end,i)
         }
     }
-    //console.log(start, end)
-    if(start <= -1) {
+    if(start > end) {
         return 0
     }
     return end - start + 1
