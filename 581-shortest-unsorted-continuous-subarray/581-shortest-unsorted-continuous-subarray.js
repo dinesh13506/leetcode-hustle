@@ -4,26 +4,25 @@
  */
 var findUnsortedSubarray = function(nums) {
     
-    let sorted = nums.slice()
-    sorted.sort(function(a,b) {
-        if(a < b) {
-            return -1
-            
-        } else if( a > b ) {
-            return 1
-        } else {
-            return 0
-        }
-    })
-    let start = Infinity, end = -Infinity
+    let stack = []
+    let left = Infinity, right = -Infinity
     for(let i = 0; i < nums.length; i++) {
-        if(sorted[i] != nums[i]) {
-            start = Math.min(start,i)
-            end = Math.max(end,i)
+        while(stack.length > 0 && nums[stack[stack.length -1]] > nums[i]) {
+            left = Math.min(left, stack.pop())
         }
+        stack.push(i)
     }
-    if(start > end) {
+    
+    while(stack.length) stack.pop()
+    
+    for(let j = nums.length - 1; j >=0; j--) {
+        while(stack.length > 0 && nums[stack[stack.length -1]] < nums[j]) {
+            right = Math.max(right, stack.pop())
+        }
+        stack.push(j)
+    }
+    if(left > right) {
         return 0
     }
-    return end - start + 1
+    return right - left + 1
 };
