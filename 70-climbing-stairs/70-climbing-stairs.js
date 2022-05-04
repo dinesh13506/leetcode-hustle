@@ -4,10 +4,12 @@
  */
 var climbStairs = function(n) {
     let dp = new Array(n+1)
-    dp[0] = 1
-    dp[1] = 1
+    let prev2 = 1
+    let prev = 1
     for(let i = 2; i <= n; i++) {
-        dp[i] = dp[i-2] + dp[i-1]
+        let curri = prev2 + prev
+        prev2 = prev
+        prev = curri
     }
-    return dp[n]
+    return prev
 };
