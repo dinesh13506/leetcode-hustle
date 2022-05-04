@@ -3,12 +3,24 @@
  * @return {number}
  */
 var rob = function(nums) {
-    let prevprev = 0
-    let prev = nums[0]
-    for(let i = 2; i <= nums.length; i++) {
-        let value = Math.max(nums[i-1] + prevprev, prev)
-        prevprev = prev
-        prev = value
+    
+    let dp = new Array(nums.length)
+    dp.fill(-1)
+    //top down
+    
+    let rob = function(index) {
+        if(index == 0) {
+            return nums[index]
+        }
+        if(index < 0) {
+            return 0
+        }
+        if(dp[index] == -1) {
+            let take = nums[index] + rob(index-2)
+            let nottake = rob(index-1)
+            dp[index] = Math.max(take,nottake)
+        }
+        return dp[index]
     }
-    return prev
+    return rob(nums.length-1)
 };
