@@ -28,9 +28,8 @@ var robBottomUp = function(nums) {
     let dp = new Array(nums.length)
     //start with base cases
     dp[0] = nums[0]
-    dp[1] = Math.max(nums[0], nums[1])
-    for(let i = 2; i < nums.length; i++) {
-        let take = nums[i] + dp[i-2]
+    for(let i = 1; i < nums.length; i++) {
+        let take = nums[i] + dp[i-2] ? dp[i-2] : 0
         let nottake = 0 + dp[i-1]
         dp[i] = Math.max(take,nottake)
     }
@@ -51,7 +50,6 @@ var robBottomUpSpaceOptimised = function(nums) {
         let curri = Math.max(take,nottake)
         prev2 = prev
         prev = curri
-        
     }
     return prev
 }
