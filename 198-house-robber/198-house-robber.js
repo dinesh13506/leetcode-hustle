@@ -2,12 +2,11 @@
  * @param {number[]} nums
  * @return {number}
  */
-var rob = function(nums) {
+var robTopDown = function(nums) {
     
     let dp = new Array(nums.length)
     dp.fill(-1)
-    //top down
-    
+    //top down, start with bigger problem - > base cases -> return solution of bigger problem
     let rob = function(index) {
         if(index == 0) {
             return nums[index]
@@ -24,3 +23,20 @@ var rob = function(nums) {
     }
     return rob(nums.length-1)
 };
+
+var robBottomUp = function(nums) {
+    let dp = new Array(nums.length)
+    //start with base cases
+    dp[0] = nums[0]
+    dp[1] = Math.max(nums[0], nums[1])
+    for(let i = 2; i < nums.length; i++) {
+        let take = nums[i] + dp[i-2]
+        let nottake = 0 + dp[i-1]
+        dp[i] = Math.max(take,nottake)
+    }
+    return dp[nums.length-1]
+}
+
+var rob = function(nums) {
+    return robBottomUp(nums)
+}
