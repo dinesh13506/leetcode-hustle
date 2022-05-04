@@ -37,6 +37,25 @@ var robBottomUp = function(nums) {
     return dp[nums.length-1]
 }
 
+var robBottomUpSpaceOptimised = function(nums) {
+    
+    //start with base cases
+    let prev2 = nums[0]
+    if(nums.length == 1) {
+        return prev2
+    }
+    let prev = Math.max(nums[0], nums[1])
+    for(let i = 2; i < nums.length; i++) {
+        let take = nums[i] + prev2
+        let nottake = 0 + prev
+        let curri = Math.max(take,nottake)
+        prev2 = prev
+        prev = curri
+        
+    }
+    return prev
+}
+
 var rob = function(nums) {
-    return robBottomUp(nums)
+    return robBottomUpSpaceOptimised(nums)
 }
