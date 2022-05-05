@@ -16,8 +16,7 @@ Myqueue.prototype.isEmpty = function() {
     return false
 }
 
-Myqueue.prototype.insert = function(val) {
-    let node = new Node(val)
+Myqueue.prototype.insert = function(node) {
     if(this.front == null && this.rear == null) {
         this.front = node
         this.rear = node
@@ -61,14 +60,15 @@ var MyStack = function() {
  * @return {void}
  */
 MyStack.prototype.push = function(x) {
-    this.q2.insert(x)
+    let newNode = new Node(x)
+    this.q2.insert(newNode)
     while(this.q1.isEmpty() === false) {
         let node = this.q1.delete()
-        this.q2.insert(node.val)
+        this.q2.insert(node)
     }
     while(this.q2.isEmpty() === false) {
         let node = this.q2.delete()
-        this.q1.insert(node.val)
+        this.q1.insert(node)
     }
     
 };
