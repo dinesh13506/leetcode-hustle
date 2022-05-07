@@ -3,12 +3,8 @@
  * @return {boolean}
  */
 var find132pattern = function(nums) {
-    
-    let stack = []
-    let secondHighest = -Infinity //relative to top of stack
-    for(let i = nums.length - 1; i >= 0; i--) {
-        
-        //stack maintains 32 , we need to check 1
+    let stack = [], secondHighest = -Infinity
+    for(let i = nums.length-1; i>=0 ; i--) {
         if(nums[i] < secondHighest) {
             return true
         }
@@ -17,7 +13,5 @@ var find132pattern = function(nums) {
         }
         stack.push(nums[i])
     }
-    
     return false
-    
 };
