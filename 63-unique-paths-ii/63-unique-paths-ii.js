@@ -5,32 +5,33 @@
 var uniquePathsWithObstacles = function(obstacleGrid) {
     
     let m = obstacleGrid.length, n = obstacleGrid[0].length
-    let dp = new Array(m)
-    for(let i = 0; i < m; i++) {
-        dp[i] = new Array(n)
-        dp[i].fill(0)
-    }
+    let prev = new Array(n)
+    prev.fill(0)
     
+    let mod = 2 * Math.pow(10,9)
     for(let i = 0; i < m; i++) {
+        let curr = new Array(n)
+        curr.fill(0)
         for(let j = 0; j < n; j++) {
             if(obstacleGrid[i][j] == 1) {
-                dp[i][j] = 0
+                curr[j] = 0
             }
             else if( i == 0 && j == 0) {
-                dp[i][j] = 1
+                curr[j] = 1
             }
             else {
                 let up = 0 
                 if(i > 0 ) {
-                    up = dp[i-1][j]
+                    up = prev[j]
                 }
                 let left = 0
                 if( j > 0) {
-                    left = dp[i][j-1]
+                    left = curr[j-1]
                 }
-                dp[i][j] = up + left
+                curr[j] = ((up%mod) + (left%mod))%mod
             }
         }
+        prev = curr.slice()
     }
-    return dp[m-1][n-1]
+    return prev[n-1]
 };
