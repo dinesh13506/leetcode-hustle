@@ -4,32 +4,23 @@
  * @return {number}
  */
 var uniquePaths = function(m, n) {
-    let memo = new Array(m)
+    
+    let dp = new Array(m)
     for(let i = 0; i < m; i++) {
-        memo[i] = new Array(n)
-        memo[i].fill(-1)
-    }
-    let mod = 2 * Math.pow(10,9)
-    
-    let dp = function(i,j) {
-        
-        if(i == 0 && j == 0) {
-            return 1
-        }
-        if(i < 0 || j < 0) {
-            return 0
-        }
-        if(memo[i][j] != -1) {
-            return memo[i][j]
-        }
-        
-        let up = dp(i-1,j)
-        let left = dp(i, j-1)
-        memo[i][j] = ( (up) % mod + (left) % mod ) % mod
-        return memo[i][j]
+        dp[i] = new Array(n)
+        dp[i].fill(0)
     }
     
-    let ans = dp(m-1,n-1)
-    console.log(ans)
-    return ans % mod
+    for(let j= 0 ; j < n; j++) {
+        dp[0][j] = 1
+    }
+    for(let i = 0; i < m; i++) {
+        dp[i][0] = 1
+    }
+    for(let i = 1; i < m; i++) {
+        for(let j = 1; j < n; j++) {
+            dp[i][j] = dp[i-1][j] + dp[i][j-1]
+        }
+    }
+    return dp[m-1][n-1]
 };
