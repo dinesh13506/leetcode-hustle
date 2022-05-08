@@ -29,18 +29,17 @@
  * @param {NestedInteger[]} nestedList
  */
 var NestedIterator = function(nestedList) {
-    let res = []
-    let expand = function(nestedList) {
+    this.list = []
+    let expand = function(nestedList,list) {
         for(let ni of nestedList) {
             if(ni.isInteger()) {
-                res.push(ni.getInteger())
+                list.push(ni.getInteger())
             } else {
-                expand(ni.getList())
+                expand(ni.getList(),list)
             }
         }
     }
-    expand(nestedList)
-    this.list = res
+    expand(nestedList,this.list)
     this.index = 0
 };
 
