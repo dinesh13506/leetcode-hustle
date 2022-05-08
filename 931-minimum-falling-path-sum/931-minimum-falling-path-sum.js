@@ -39,7 +39,7 @@ var minFallingPathSumMemo = function(matrix) {
 };
 
 
-var minFallingPathSum = function(matrix) {
+var minFallingPathSumTab = function(matrix) {
     
     let n = matrix.length
     let dp = new Array(n)
@@ -47,7 +47,6 @@ var minFallingPathSum = function(matrix) {
         dp[i] = new Array(n)
         dp[i].fill(-1)
     }
-    
     for(let i = 0; i < n; i++) {
         for(let j = 0; j < n; j++) {
             if(i == 0) {
@@ -64,6 +63,36 @@ var minFallingPathSum = function(matrix) {
     let ans = Infinity
     for(let i = 0; i < n; i++) {
         ans = Math.min(ans, dp[n-1][i])
+    }
+    return ans
+};
+
+
+var minFallingPathSum = function(matrix) {
+    
+    let n = matrix.length
+    let prev = new Array(n)
+    for(let j = 0; j < n; j++) {
+        prev[j] = matrix[0][j]
+    }
+    for(let i = 0; i < n; i++) {
+        let curr = new Array(n)
+        for(let j = 0; j < n; j++) {
+            if(i == 0) {
+                curr[j] = matrix[i][j]
+            } else {
+                let top = matrix[i][j] + ( prev[j] )
+                let ld =  matrix[i][j] + ( prev[j-1] || Infinity)
+                let rd =  matrix[i][j] + (prev[j+1] || Infinity)
+                curr[j] = Math.min(top, Math.min(ld,rd))
+            }
+        }
+        prev = curr
+    }
+    
+    let ans = Infinity
+    for(let i = 0; i < n; i++) {
+        ans = Math.min(ans, prev[i])
     }
     return ans
 };
