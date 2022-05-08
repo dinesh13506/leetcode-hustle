@@ -68,6 +68,7 @@ var minFallingPathSumTab = function(matrix) {
 };
 
 
+//space optimised solution 
 var minFallingPathSum = function(matrix) {
     
     let n = matrix.length
