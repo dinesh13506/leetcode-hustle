@@ -18,20 +18,21 @@ var letterCombinations = function(digits) {
     map.set('8',"tuv")
     map.set('9',"wxyz")
     
-    let mergeDigit = function(d) {
-        let temp = []
-        let s = map.get(d).split('')
-        for(let ch of s) {
-            for(let i = 0 ; i < result.length; i++) {
-                temp.push(result[i] + ch)
-            }
+    let backtrack = function(index, path) {
+        
+        if(path.length == digits.length) {
+            result.push(path.join(''))
+            return
         }
-        result = temp
+        
+        let s = map.get(digits[index])
+        for(let ch of s) {
+            path.push(ch)
+            backtrack(index + 1, path)
+            path.pop()
+        }
     }
-    result = map.get(digits[0]).split('')
-    for(let i = 1; i < digits.length; i++) {
-        let d = digits[i]
-        mergeDigit(d)
-    }
+    
+    backtrack(0,[])
     return result
 };
