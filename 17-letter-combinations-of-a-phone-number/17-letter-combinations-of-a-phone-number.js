@@ -3,31 +3,35 @@
  * @return {string[]}
  */
 var letterCombinations = function(digits) {
+    let result = []
+    if(digits.length <= 0) {
+        return result
+    }
     
-    let map = {
-        '2' : "abc",
-        '3' : "def",
-        '4' : "ghi",
-        '5' : "jkl",
-        '6' : "mno",
-        '7' : "pqrs",
-        '8' : "tuv",
-        '9' : "wxyz"
-    }
-    if(digits.length == 0) {
-        return []
-    } else if(digits.length == 1) {
-        return map[digits[0]].split('')
-    }
-    let temp = map[digits[0]].split('')
-    for(let i = 1; i < digits.length; i++) {
-        let res = []
-        for(let ch1 of temp) {
-            for(let ch2 of map[digits[i]].split('')) {
-                res.push(ch1+ch2)
+    let map = new Map()
+    map.set('2',"abc")
+    map.set('3', "def")
+    map.set('4', "ghi")
+    map.set('5', "jkl")
+    map.set('6',"mno")
+    map.set('7',"pqrs")
+    map.set('8',"tuv")
+    map.set('9',"wxyz")
+    
+    let mergeDigit = function(d) {
+        let temp = []
+        let s = map.get(d).split('')
+        for(let ch of s) {
+            for(let i = 0 ; i < result.length; i++) {
+                temp.push(result[i] + ch)
             }
         }
-        temp = res
+        result = temp
     }
-    return temp
+    result = map.get(digits[0]).split('')
+    for(let i = 1; i < digits.length; i++) {
+        let d = digits[i]
+        mergeDigit(d)
+    }
+    return result
 };
