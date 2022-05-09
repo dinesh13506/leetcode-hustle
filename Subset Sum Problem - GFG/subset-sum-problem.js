@@ -65,25 +65,23 @@ function main() {
 
 class Solution {
     isSubsetSum(arr,n,sum){
-        let dp = new Array(n)
+        let prev = new Array(sum+1)
+        prev.fill(-1)
         for(let i = 0 ; i < n; i++) {
-            dp[i] = new Array(sum+1)
-            dp[i].fill(-1)
-        }
-        //console.log(dp)
-        for(let i = 0 ; i < n; i++) {
-            dp[i][0] = true
+            prev[0] = true
         }
         for(let j = 1; j <= sum; j++) {
-            dp[0][j] = ( j == arr[0])
+            prev[j] = ( j == arr[0])
         }
         
         for(let i = 1; i < n; i++) {
+            let curr = new Array(sum+1)
             for(let j = 1; j <=sum; j++) {
-                dp[i][j] = dp[i-1][j] || ( j >= arr[i] ? dp[i-1][j-arr[i]] : false)
+                curr[j] = prev[j] || ( j >= arr[i] ? prev[j-arr[i]] : false)
             }
+            prev = curr
         }
         
-        return dp[n-1][sum] ? 1 : 0
+        return prev[sum] ? 1 : 0
     }
 }
