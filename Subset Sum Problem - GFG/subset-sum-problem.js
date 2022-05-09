@@ -65,33 +65,25 @@ function main() {
 
 class Solution {
     isSubsetSum(arr,n,sum){
-        let memo = new Array(n)
-        for(let i =0 ; i < n; i++) {
-            memo[i] = new Array(sum+1)
-            memo[i].fill(-1)
+        let dp = new Array(n)
+        for(let i = 0 ; i < n; i++) {
+            dp[i] = new Array(sum+1)
+            dp[i].fill(-1)
         }
-        //code here
-        let dp = function(index, sum) {
-            if(sum === 0) {
-                return true
-            }
-            if(index === 0) {
-                return sum == arr[0]
-            }
-            
-            if(memo[index][sum] != -1) {
-                return memo[index][sum]
-            }
-            
-            let nottake = dp(index-1, sum)
-            let take = false
-            if(arr[index] <= sum) {
-                take = dp(index-1, sum - arr[index])
-            }
-            memo[index][sum] =  take || nottake
-            return memo[index][sum]
+        //console.log(dp)
+        for(let i = 0 ; i < n; i++) {
+            dp[i][0] = true
+        }
+        for(let j = 1; j <= sum; j++) {
+            dp[0][j] = ( j == arr[0])
         }
         
-        return dp(n-1, sum) === true ? 1 : 0
+        for(let i = 1; i < n; i++) {
+            for(let j = 1; j <=sum; j++) {
+                dp[i][j] = dp[i-1][j] || ( j >= arr[i] ? dp[i-1][j-arr[i]] : false)
+            }
+        }
+        
+        return dp[n-1][sum] ? 1 : 0
     }
 }
