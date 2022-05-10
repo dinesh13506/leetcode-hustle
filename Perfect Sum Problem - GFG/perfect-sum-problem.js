@@ -56,40 +56,35 @@ class Solution {
     perfectSum(arr,n,sum){
         //code here
         let mod = Math.pow(10,9) + 7
-        let dp = new Array(n)
-        for(let i = 0; i < n; i++) {
-            dp[i] = new Array(sum+1)
-            dp[i].fill(0)
-        }
-       
-        for(let i = 0; i < n; i++) {
-            if(arr[i] === 0)
-                dp[i][0] = 2
-            else 
-                dp[i][0] = 1
-        }
-        
-        for(let target = 1; target <= sum; target++) {
-            if(arr[0] == target) {
-                dp[0][target] = 1
+        let prev = new Array(sum+1)
+        prev.fill(0)
+        for(let target = 0; target <= sum; target++) {
+            if(target == 0) {
+                if(arr[0] == 0) {
+                    prev[0] = 2
+                } else {
+                    prev[0] = 1
+                }
+            }
+            else if(arr[0] == target) {
+                prev[target] = 1
             }
         }
         
         
         for(let i = 1; i < n ;i++) {
+            let curr = new Array(sum+1)
             for(let target = 0; target <= sum; target++) {
-                let nottake = dp[i-1][target]%mod
+                let nottake = prev[target]%mod
                 let take = 0
                 if(arr[i] <= target) {
-                    take = dp[i-1][target - arr[i]]%mod
+                    take = prev[target - arr[i]]%mod
                 }
-                dp[i][target] = (take + nottake)%mod
+                curr[target] = (take + nottake)%mod
             }
+            prev = curr
         }
-        return dp[n-1][sum]
-        
-        
-        
+        return prev[sum]
     }
     
     
