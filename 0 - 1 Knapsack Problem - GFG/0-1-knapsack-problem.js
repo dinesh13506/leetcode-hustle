@@ -73,31 +73,31 @@ class Solution
     { 
        // code here
        
-       let dp = new Array(n)
-       for(let i = 0; i < n; i++) {
-           dp[i] = new Array(W+1)
-           dp[i].fill(0)
-       }
+       let prev = new Array(W+1)
+       prev.fill(0)
        
        for(let j = 0; j <= W; j++) {
            if(wt[0] <= j) {
-               dp[0][j] = val[0]
+               prev[j] = val[0]
            } else {
-               dp[0][j] = 0
+               prev[j] = 0
            }
        }
        
        for(let i = 1; i < n; i++) {
+           let curr = new Array(W+1)
+           curr.fill(0)
            for(let j = 0; j <=W; j++) {
-               let nottake = dp[i-1][j]
+               let nottake = prev[j]
                let take = -Infinity
                if(wt[i] <= j) {
-                   take = val[i] + dp[i-1][j-wt[i]]
+                   take = val[i] + prev[j-wt[i]]
                }
-               dp[i][j] = Math.max(take, nottake)
+               curr[j] = Math.max(take, nottake)
            }
+           prev = curr
        }
-       return dp[n-1][W]
+       return prev[W]
     }
 }
 
