@@ -63,7 +63,7 @@ class Solution {
         }
         //console.log(memo)
         let dp = function(index, sum) {
-            //if(sum === 0) return 1
+            if(index < 0 ) return 0
             if(index === 0) {
                 if(sum == 0 && arr[0] == 0) {
                     return 2
