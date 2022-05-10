@@ -15,34 +15,35 @@ var canPartition = function(nums) {
     
     let target = totalSum/2
     let n = nums.length
-    let memo = new Array(n)
+    let dp = new Array(n)
     for(let i = 0; i < n; i++) {
-        memo[i] = new Array(target+1)
-        memo[i].fill(-1)
+        dp[i] = new Array(target+1)
+        dp[i].fill(-1)
     }
     
-    let dp = function(index, target) {
-        
-        if(target === 0) {
-            return true
-        }
-        if(index == 0) {
-            return nums[0] === target
-        }
-        
-        if(memo[index][target] != -1) {
-            return memo[index][target]
-        }
-        let nottake = dp(index-1, target)
-        let take = false
-        if(nums[index] <= target) {
-            take = dp(index - 1, target - nums[index])
-        }
-        memo[index][target] = take || nottake
-        return memo[index][target]
+    for(let i = 0; i < n; i++) {
+        dp[i][0] = true
     }
     
-   
-    return dp(n-1, target)
+    if(nums[0] == target) {
+        dp[0][target] = true
+    }
+    
+    for(let i = 0; i < n; i++) {
+        for(let j = 1; j <= target; j++) {
+            if( i == 0) {
+                dp[i][j] = (j == nums[i])
+                continue
+            }
+            let nottake = dp[i-1][j]
+            let take = false
+            if(nums[i] <= j) {
+                take = dp[i-1][j-nums[i]]
+            }
+            dp[i][j] = take || nottake
+        }
+    }
+    return dp[n-1][target]
+    
     
 };
