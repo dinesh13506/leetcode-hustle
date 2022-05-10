@@ -73,7 +73,6 @@ class Solution {
                 }
                 return 0
             }
-            
             if(memo[index][sum] != -1) return memo[index][sum]
             
             let nottake = dp(index-1, sum)
