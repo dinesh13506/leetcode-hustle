@@ -56,35 +56,38 @@ class Solution {
     perfectSum(arr,n,sum){
         //code here
         let mod = Math.pow(10,9) + 7
-        let memo = new Array(n)
+        let dp = new Array(n)
         for(let i = 0; i < n; i++) {
-            memo[i] = new Array(sum+1)
-            memo[i].fill(-1)
+            dp[i] = new Array(sum+1)
+            dp[i].fill(0)
         }
-        //console.log(memo)
-        let dp = function(index, sum) {
-            if(index < 0 ) return 0
-            if(index === 0) {
-                if(sum == 0 && arr[0] == 0) {
-                    return 2
-                }
-                else if( sum === 0 || arr[index] === sum) {
-                    return 1
-                }
-                return 0
-            }
-            if(memo[index][sum] != -1) return memo[index][sum]
-            
-            let nottake = dp(index-1, sum)
-            let take = 0
-            if(arr[index] <= sum) {
-                take = dp(index-1, sum - arr[index])
-            }
-            memo[index][sum] =  ((take%mod) + (nottake%mod))%mod
-            return memo[index][sum]
+       
+        for(let i = 0; i < n; i++) {
+            if(arr[i] === 0)
+                dp[i][0] = 2
+            else 
+                dp[i][0] = 1
         }
         
-        return dp(n-1,sum)
+        for(let target = 1; target <= sum; target++) {
+            if(arr[0] == target) {
+                dp[0][target] = 1
+            }
+        }
+        
+        
+        for(let i = 1; i < n ;i++) {
+            for(let target = 0; target <= sum; target++) {
+                let nottake = dp[i-1][target]%mod
+                let take = 0
+                if(arr[i] <= target) {
+                    take = dp[i-1][target - arr[i]]%mod
+                }
+                dp[i][target] = (take + nottake)%mod
+            }
+        }
+        return dp[n-1][sum]
+        
         
         
     }
