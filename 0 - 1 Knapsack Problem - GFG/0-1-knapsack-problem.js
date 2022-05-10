@@ -73,35 +73,31 @@ class Solution
     { 
        // code here
        
-       let memo = new Array(n)
+       let dp = new Array(n)
        for(let i = 0; i < n; i++) {
-           memo[i] = new Array(W+1)
-           memo[i].fill(-1)
+           dp[i] = new Array(W+1)
+           dp[i].fill(0)
        }
        
-       let dp = function(index, W){
-           if(index === 0) {
-               if(wt[index] <= W) {
-                   return val[index]
-               } else {
-                   return 0
-               }
+       for(let j = 0; j <= W; j++) {
+           if(wt[0] <= j) {
+               dp[0][j] = val[0]
+           } else {
+               dp[0][j] = 0
            }
-           
-           if(memo[index][W] != -1) {
-               return memo[index][W]
-           }
-           
-           let nottake = dp(index-1, W)
-           let take = -Infinity
-           if(wt[index] <= W) {
-               take= val[index] + dp(index-1, W-wt[index])
-           }
-           
-           memo[index][W] = Math.max(take,nottake)
-           return memo[index][W]
        }
-       return dp(n-1, W)
+       
+       for(let i = 1; i < n; i++) {
+           for(let j = 0; j <=W; j++) {
+               let nottake = dp[i-1][j]
+               let take = -Infinity
+               if(wt[i] <= j) {
+                   take = val[i] + dp[i-1][j-wt[i]]
+               }
+               dp[i][j] = Math.max(take, nottake)
+           }
+       }
+       return dp[n-1][W]
     }
 }
 
