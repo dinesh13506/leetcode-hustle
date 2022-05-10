@@ -85,17 +85,14 @@ class Solution
        }
        
        for(let i = 1; i < n; i++) {
-           let curr = new Array(W+1)
-           curr.fill(0)
            for(let j = W; j >=0; j--) {
                let nottake = prev[j]
                let take = -Infinity
                if(wt[i] <= j) {
                    take = val[i] + prev[j-wt[i]]
                }
-               curr[j] = Math.max(take, nottake)
+               prev[j] = Math.max(take, nottake)
            }
-           prev = curr
        }
        return prev[W]
     }
