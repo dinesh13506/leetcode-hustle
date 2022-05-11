@@ -7,31 +7,29 @@ var change = function(amount, coins) {
     
     let n = coins.length
     
-    let memo = new Array(n)
+    let dp = new Array(n)
     for(let i = 0; i < n; i++) {
-        memo[i] = new Array(amount+1)
-        memo[i].fill(-1)
-    }
-    let dp = function(index, amount) {
-        
-        if(index == 0) {
-            if(amount % coins[0] == 0) {
-                return 1
-            } else {
-                return 0
-            }
-        }
-        if(memo[index][amount] != -1) {
-            return memo[index][amount]
-        }
-        let nottake = dp(index - 1, amount)
-        let take= 0 
-        if(coins[index] <= amount) {
-            take = dp(index, amount-coins[index]) //infinite supplies then stay at same index
-        }
-        memo[index][amount] =  take + nottake
-        return memo[index][amount]
+        dp[i] = new Array(amount+1)
+        dp[i].fill(0)
     }
     
-    return dp(n-1, amount)
+    for(let j = 0; j <= amount; j++) {
+        if(j % coins[0] == 0) {
+            dp[0][j] = 1
+        } else {
+            dp[0][j] = 0
+        }
+    }
+    
+    for(let i = 1; i <n; i++) {
+        for(let am = 0; am <= amount; am++) {
+            let nottake = dp[i-1][am]
+            let take = 0
+            if(coins[i] <= am) {
+                take = dp[i][am-coins[i]]
+            }
+            dp[i][am] = take + nottake
+        }
+    }
+    return dp[n-1][amount]
 };
