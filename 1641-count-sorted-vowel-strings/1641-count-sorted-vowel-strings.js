@@ -4,25 +4,24 @@
  */
 var countVowelStrings = function(n) {
     
-    let chars = ['a','e','i','o','u']
-    
-    let count = 0
-    let backtrack = function(index, curr) {
-        
-        if(curr.length == n) {
-            //console.log(curr.slice())
-            count++
-            return
-        }
-        
-        for(let start = index; start < 5; start++) {
-            curr.push(chars[start])
-            backtrack(start, curr)
-            curr.pop()
-        }
+    let vowels = 5
+    let memo = new Array(n+1)
+    for(let len=0; len <= n; len++) {
+        memo[len] = new Array(vowels+1)
+        memo[len].fill(-1)
     }
     
-    let curr = []
-    backtrack(0,curr)
-    return count
+    let dp = function(len, vowels) {
+        
+        if(len == 1) {
+            return vowels
+        }
+        if(vowels == 1) {
+            return 1
+        }
+        
+        return dp(len-1, vowels) + dp(len, vowels-1)
+    }
+    
+    return dp(n,5)
 };
