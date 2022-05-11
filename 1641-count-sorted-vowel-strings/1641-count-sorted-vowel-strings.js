@@ -6,12 +6,12 @@ var countVowelStrings = function(n) {
     
     let chars = ['a','e','i','o','u']
     
-    let results = []
+    let count = 0
     let backtrack = function(index, curr) {
         
         if(curr.length == n) {
             //console.log(curr.slice())
-            results.push(curr.slice().join(''))
+            count++
             return
         }
         
@@ -24,5 +24,5 @@ var countVowelStrings = function(n) {
     
     let curr = []
     backtrack(0,curr)
-    return results.length
+    return count
 };
