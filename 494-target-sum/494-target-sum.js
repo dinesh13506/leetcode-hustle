@@ -18,41 +18,41 @@ var findTargetSumWays = function(nums, target) {
     
     let newTarget = s2 / 2
     
-    let memo = new Array(n)
+    let dp = new Array(n)
     for(let i = 0; i < n; i++) {
-        memo[i] = new Map()
+        dp[i] = new Map()
     }
     
-    let dp = function(index, target) {
-        
-        if(index == 0) {
-            if(target == 0 && nums[0] == 0) {
-                return 2
-            }
-            if(target == 0) {
-                return 1
-            }
-            
-            if(target == nums[0]) {
-                return 1
-            } else {
-                return 0
-            }
-            
+    for(let j = 0; j <= newTarget; j++) {
+        if(j == 0 && nums[0] == 0) {
+            dp[0].set(j,2)
+            continue
         }
-        
-        if(memo[index].has(target)) {
-            return memo[index].get(target)
+        if(j == 0) {
+            dp[0].set(j,1)
+            continue
         }
-        
-        let nottake = dp(index-1, target)
-        let take = 0
-        if(nums[index] <= target) {
-            take = dp(index-1, target-nums[index])
+        if( j == nums[0]) {
+            dp[0].set(j,1)
+            continue
+        } else {
+            dp[0].set(j,0)
+            continue
         }
-        memo[index].set(target, take + nottake)
-        return memo[index].get(target)
     }
     
-    return dp(n-1, newTarget)
+    for(let i = 1; i < n; i++) {
+        for(let j = 0; j <= newTarget; j++) {
+            let notake = dp[i-1].get(j) || 0
+            let take= 0 
+            if(nums[i] <= j) {
+                take = dp[i-1].get(j - nums[i]) || 0
+            }
+            dp[i].set(j,take + notake)
+        }
+    }
+    
+    return dp[n-1].get(newTarget) || 0
+    
+    
 };
