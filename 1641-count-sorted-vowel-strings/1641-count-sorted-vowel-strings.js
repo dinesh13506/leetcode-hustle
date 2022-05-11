@@ -19,8 +19,12 @@ var countVowelStrings = function(n) {
         if(vowels == 1) {
             return 1
         }
+        if(memo[len][vowels] != -1) {
+            return memo[len][vowels]
+        }
         
-        return dp(len-1, vowels) + dp(len, vowels-1)
+        memo[len][vowels] = dp(len-1, vowels) + dp(len, vowels-1)
+        return memo[len][vowels]
     }
     
     return dp(n,5)
