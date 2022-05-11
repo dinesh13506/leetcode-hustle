@@ -18,41 +18,41 @@ var findTargetSumWays = function(nums, target) {
     
     let newTarget = s2 / 2
     
-    let dp = new Array(n)
-    for(let i = 0; i < n; i++) {
-        dp[i] = new Map()
-    }
+    let prev = new Map()
+    
     
     for(let j = 0; j <= newTarget; j++) {
         if(j == 0 && nums[0] == 0) {
-            dp[0].set(j,2)
+            prev.set(j,2)
             continue
         }
         if(j == 0) {
-            dp[0].set(j,1)
+            prev.set(j,1)
             continue
         }
         if( j == nums[0]) {
-            dp[0].set(j,1)
+            prev.set(j,1)
             continue
         } else {
-            dp[0].set(j,0)
+            prev.set(j,0)
             continue
         }
     }
     
     for(let i = 1; i < n; i++) {
+        let curr = new Map()
         for(let j = 0; j <= newTarget; j++) {
-            let notake = dp[i-1].get(j) || 0
+            let notake = prev.get(j) || 0
             let take= 0 
             if(nums[i] <= j) {
-                take = dp[i-1].get(j - nums[i]) || 0
+                take = prev.get(j - nums[i]) || 0
             }
-            dp[i].set(j,take + notake)
+            curr.set(j,take + notake)
         }
+        prev = curr
     }
     
-    return dp[n-1].get(newTarget) || 0
+    return prev.get(newTarget) || 0
     
     
 };
