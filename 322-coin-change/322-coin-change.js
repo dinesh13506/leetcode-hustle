@@ -6,34 +6,31 @@
 var coinChange = function(coins, amount) {
     
     let n = coins.length
-    let memo = new Array(n)
+    let dp = new Array(n)
     for(let i = 0; i < n; i++) {
-        memo[i] = new Array(amount+1)
-        memo[i].fill(-1)
+        dp[i] = new Array(amount+1)
+        dp[i].fill(0)
     }
     
-   
-    let dp = function(index, amount) {
-        if(index == 0) {
-            if( (amount % coins[0]) === 0) {
-                return (amount/coins[0])
-            } else {
-                return Infinity
+    for(let am = 0; am <= amount; am++) {
+        if(am % coins[0] === 0) {
+            dp[0][am] = am / coins[0]
+        } else {
+            dp[0][am] = Infinity
+        }
+    }
+    
+    for(let i = 1; i < n; i++) {
+        for(let am = 0; am <= amount; am++) {
+            let nottake = dp[i-1][am]
+            let take = Infinity
+            if(coins[i] <= am) {
+                take = 1 + dp[i][am-coins[i]]
             }
+            dp[i][am] = Math.min(nottake, take)
         }
-        
-        if(memo[index][amount] != -1) {
-            return memo[index][amount]
-        }
-        let nottake = 0 + dp(index-1, amount)
-        let take = Infinity
-        if(coins[index] <= amount) {
-            take = 1 + dp(index, amount - coins[index])
-        }
-        memo[index][amount] = Math.min(nottake, take)
-        return memo[index][amount]
     }
     
-    let ans = dp(n-1, amount)
+    let ans = dp[n-1][amount]
     return ans === Infinity ? -1 : ans
 };
