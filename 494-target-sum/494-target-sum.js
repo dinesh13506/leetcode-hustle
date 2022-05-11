@@ -53,6 +53,4 @@ var findTargetSumWays = function(nums, target) {
     }
     
     return prev.get(newTarget) || 0
-    
-    
 };
