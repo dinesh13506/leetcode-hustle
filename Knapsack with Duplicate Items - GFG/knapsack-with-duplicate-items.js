@@ -59,28 +59,29 @@ class Solution {
     knapSack(N,W,val,wt){
         //code here
         
-        let dp = new Array(N)
-        for(let i = 0; i < N; i++){
-            dp[i] = new Array(W+1)
-            dp[i].fill(0)
-        }
+        let prev = new Array(W+1)
+        prev.fill(0)
+        
         
         for(let j = 0; j <= W; j++){
-            dp[0][j] = (val[0]) * parseInt( j / wt[0])
+            prev[j] = (val[0]) * parseInt( j / wt[0])
         }
         
         for(let i = 1; i < N; i++){
+             let curr = new Array(W+1)
+             curr.fill(0)
              for(let j = 0; j <= W; j++){
-                let nottake = dp[i-1][j]
+                let nottake = prev[j]
                 let take = 0
                 if(wt[i] <= j) {
-                    take = val[i] + dp[i][j-wt[i]]
+                    take = val[i] + curr[j-wt[i]]
                 }
-                dp[i][j] = Math.max(take,nottake)
+                curr[j] = Math.max(take,nottake)
             }
+            prev = curr
         }
         
-        return dp[N-1][W]
+        return prev[W]
         
     }
 }
