@@ -59,31 +59,28 @@ class Solution {
     knapSack(N,W,val,wt){
         //code here
         
-        let memo = new Array(N)
+        let dp = new Array(N)
         for(let i = 0; i < N; i++){
-            memo[i] = new Array(W+1)
-            memo[i].fill(-1)
-        }
-        let dp = function(index, W) {
-            //console.log(index,W)
-            if(index == 0) {
-                return val[index] * parseInt( W / wt[index])
-            }
-            if(memo[index][W] != -1) {
-                return memo[index][W]
-            }
-            let nottake = dp(index-1, W)
-            let take = -Infinity
-            if(wt[index] <= W) {
-                take = val[index] + dp(index, W-wt[index])
-            }
-            //console.log("max ",Math.max(take,nottake))
-            memo[index][W] =  Math.max(take,nottake)
-            return memo[index][W]
+            dp[i] = new Array(W+1)
+            dp[i].fill(0)
         }
         
-        let ans = dp(N-1, W)
-        return ans != -Infinity ?  ans : 0
+        for(let j = 0; j <= W; j++){
+            dp[0][j] = (val[0]) * parseInt( j / wt[0])
+        }
+        
+        for(let i = 1; i < N; i++){
+             for(let j = 0; j <= W; j++){
+                let nottake = dp[i-1][j]
+                let take = 0
+                if(wt[i] <= j) {
+                    take = val[i] + dp[i][j-wt[i]]
+                }
+                dp[i][j] = Math.max(take,nottake)
+            }
+        }
+        
+        return dp[N-1][W]
         
     }
 }
