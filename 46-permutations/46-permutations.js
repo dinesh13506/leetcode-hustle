@@ -4,29 +4,29 @@
  */
 var permute = function(nums) {
     
-    let myfun = function(nums) {
-        if(nums.length == 1) {
-            return [nums]
+    let n = nums.length
+    let visited = new Map()
+    let results = []
+    let temp = []
+    
+    let backtrack = function(temp) {
+        
+        if(temp.length === n) {
+            results.push(temp.slice())
+            return
         }
-        let result = []
-        for(let num of nums) {
-            let numsNew = []
-            for(let x of nums) {
-                if(x!= num) {
-                    numsNew.push(x)
-                }
+        
+        for(let i = 0; i <n; i++) {
+            if(visited.has(i) === false) {
+                visited.set(i,true)
+                temp.push(nums[i])
+                backtrack(temp)
+                visited.delete(i)
+                temp.pop()
             }
-            //console.log(num,numsNew)
-            let pnc = myfun(numsNew)
-            for(let temp of pnc) {
-                temp.push(num)
-            }
-            //console.log("pnc = " , pnc)
-            result.push(...pnc)
         }
-        return result
     }
     
-    
-    return myfun(nums)
+    backtrack(temp)
+    return results
 };
