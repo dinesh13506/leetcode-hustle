@@ -68,24 +68,24 @@ class Solution {
     longestCommonSubstr(S1,S2,n,m){
         //code here
         
-        let dp = new Array(n+1)
-        for(let i = 0; i <= n; i++) {
-            dp[i] = new Array(m+1)
-            dp[i].fill(0)
-        }
+        let prev = new Array(m+1)
+        prev.fill(0)
         
         let ans = 0
         for(let i = 1; i <= n; i++) {
+            let curr = new Array(m+1)
+            curr.fill(0)
             for(let j =1 ; j <=m; j++) {
                 let ch1 = S1[i-1]
                 let ch2 = S2[j-1]
                 if(ch1 === ch2) {
-                    dp[i][j] = 1 + dp[i-1][j-1]
-                    ans = Math.max(ans,dp[i][j])
+                    curr[j] = 1 + prev[j-1]
+                    ans = Math.max(ans,curr[j])
                 } else {
-                    dp[i][j] = 0
+                    curr[j] = 0
                 }
             }
+            prev = curr
         }
 
         return ans
