@@ -31,9 +31,11 @@ TimeMap.prototype.get = function(key, timestamp) {
     while(left < right) {
         let mid = parseInt((left + right)/2)
         let t = arr[mid][0]
-        if(t <= timestamp) {
-           left = mid + 1
+        if(t == timestamp) {
+           return arr[mid][1]
             
+        } else if(t < timestamp) {
+            left = mid + 1
         } else {
             right = mid-1
         }
