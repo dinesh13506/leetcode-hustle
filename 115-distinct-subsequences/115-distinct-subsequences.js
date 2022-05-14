@@ -34,7 +34,7 @@ var numDistinctMemo = function(s, t) {
     return dp(m-1, n-1)
 };
 
-var numDistinct = function(s, t) {
+var numDistinctTab = function(s, t) {
     
     let m = s.length, n = t.length
     let dp = new Array(m + 1)
@@ -62,5 +62,36 @@ var numDistinct = function(s, t) {
         }
     }
     return dp[m][n]
+    
+};
+
+
+var numDistinct = function(s, t) {
+    
+    let m = s.length, n = t.length
+    let prev = new Array(n + 1)
+    prev.fill(0)
+    
+    // j = 0
+    prev[0] = 1
+    //i = 0
+    for(let j = 1; j <= n; j++) {
+        prev[j] = 0
+    }
+    
+    for(let i = 1; i <= m; i++)  {
+        let curr = new Array(n + 1)
+        curr.fill(0)
+        curr[0] = 1
+        for(let j = 1; j <= n; j++) {
+            if(s[i-1] === t[j-1]) {
+                curr[j] = prev[j-1] + prev[j]
+            } else {
+                curr[j] = prev[j]
+            }
+        }
+        prev = curr
+    }
+    return prev[n]
     
 };
