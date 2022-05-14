@@ -11,9 +11,9 @@ var TimeMap = function() {
  */
 TimeMap.prototype.set = function(key, value, timestamp) {
     if(this.map.has(key) === false) {
-        this.map.set(key, new Map())
+        this.map.set(key, [[timestamp, value]])
     }
-    this.map.get(key).set(timestamp, value)
+    this.map.get(key).push([timestamp, value])
 };
 
 /** 
@@ -26,12 +26,23 @@ TimeMap.prototype.get = function(key, timestamp) {
     if(!map) {
         return ""
     }
-    for(let t = timestamp; t>=0; t--) {
-        if(map.has(t)) {
-            return map.get(t)
+    let arr = this.map.get(key)
+    let left = 0, right = arr.length 
+    while(left < right) {
+        let mid = parseInt((left + right)/2)
+        let t = arr[mid][0]
+        if(t <= timestamp) {
+           left = mid + 1
+            
+        } else {
+            right = mid-1
         }
     }
-    return ""
+    if(right == 0) {
+        return ""
+    }
+    //console.log(arr)
+    return arr[right-1][1]
 };
 
 /** 
