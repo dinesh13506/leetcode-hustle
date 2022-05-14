@@ -50,5 +50,4 @@ var networkDelayTime = function(times, n, k) {
         }
     }
     return max === Infinity ? -1 : max
-    
 };
