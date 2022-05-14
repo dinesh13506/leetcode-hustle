@@ -6,28 +6,22 @@ var minInsertions = function(s) {
     
     let n = s.length
     let revs = s.split('').reverse().join('')
-    let memo = new Array(n)
-    for(let i = 0; i < n; i++) {
-        memo[i] = new Array(n)
-        memo[i].fill(-1)
+    let dp = new Array(n + 1)
+    for(let i = 0; i <= n; i++) {
+        dp[i] = new Array(n + 1)
+        dp[i].fill(0)
     }
-    let lcs = function(index1, index2) {
-        
-        if(index1 < 0 || index2 < 0) {
-            return 0
+    for(let i = 1; i <=n; i++) {
+        for(let j = 1; j <=n ; j++) {
+            let ch1 = s[i-1], ch2 = revs[j-1]
+            if(ch1 === ch2) {
+                dp[i][j] = 1 + dp[i-1][j-1]
+            } else {
+                dp[i][j] = Math.max(dp[i-1][j],dp[i][j-1])
+            }
         }
-        if(memo[index1][index2] != -1) {
-            return memo[index1][index2]
-        }
-        if(s[index1] === revs[index2]) {
-            memo[index1][index2] =  1 + lcs(index1 - 1, index2 - 1)
-        } else {
-            memo[index1][index2] =  Math.max(lcs(index1-1, index2), lcs(index1, index2-1))
-        }
-        return  memo[index1][index2]
     }
     
-    let ans = lcs(n-1, n-1)
-    //console.log(ans)
-    return n - ans
+    return n - dp[n][n]
+    
 };
