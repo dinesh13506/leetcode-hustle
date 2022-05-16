@@ -50,7 +50,7 @@ var isMatchMemo = function(s, p) {
 
 
 
-var isMatch = function(s, p) {
+var isMatchTab = function(s, p) {
     
     let s1 = p
     let s2 = s
@@ -92,5 +92,49 @@ var isMatch = function(s, p) {
     }
     
     return dp[m][n]
+
+};
+
+
+var isMatch = function(s, p) {
+    
+    let s1 = p
+    let s2 = s
+    let m = s1.length
+    let n = s2.length
+    
+    let prev = new Array(n + 1)
+    prev.fill(false)
+    for(let j = 1; j <=n; j++) {
+        prev[j] = false
+    }
+    prev[0] = true
+    
+    for(let i=1; i <= m ; i++) {
+        let curr = new Array(n + 1)
+        curr.fill(false)
+        let c = i, flag = true
+        while(c >= 1 ) {
+            if(s1[c-1] != "*") { 
+                flag = false
+                break       
+             }
+           c-- 
+        }
+        
+        curr[0] = flag
+        for(let j = 1; j <= n; j++) {
+            if(s1[i-1] == s2[j-1] || s1[i-1] == '?') {
+                curr[j] = prev[j-1]
+            } else if(s1[i-1] == '*') {
+                curr[j] = prev[j] || curr[j-1]
+            } else {
+                curr[j] = false
+            }
+        }
+        prev = curr
+    }
+    
+    return prev[n]
 
 };
