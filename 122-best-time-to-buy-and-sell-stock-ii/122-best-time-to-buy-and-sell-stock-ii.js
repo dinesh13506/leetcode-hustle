@@ -38,7 +38,7 @@ var maxProfitMemo = function(prices) {
     return dp(0,1)
 };
 
-var maxProfit = function(prices) {
+var maxProfitTab = function(prices) {
     
     let n = prices.length
     let dp = new Array(n+1)
@@ -66,4 +66,35 @@ var maxProfit = function(prices) {
         }
     }
     return dp[0][1]
+};
+
+
+var maxProfit = function(prices) {
+    
+    let n = prices.length
+    let ahead = new Array(2)
+    ahead.fill(0)
+    
+    ahead[0] = 0
+    ahead[1] = 0
+    
+    for(let i = n-1; i >=0; i--) {
+        let curr = new Array(2)
+        curr.fill(0)
+        for(let buy = 0; buy <=1; buy++) {
+            let profit = 0
+            if(buy) {
+                let profit1 = -1 * prices[i] + ahead[0]
+                let profit2 = 0 + ahead[1]
+                profit = Math.max(profit1, profit2)
+            } else {
+                let profit1 = 1 * prices[i] + ahead[1]
+                let profit2 = 0 + ahead[0]
+                profit = Math.max(profit1, profit2)
+            }
+            curr[buy] = profit
+        }
+        ahead = curr
+    }
+    return ahead[1]
 };
