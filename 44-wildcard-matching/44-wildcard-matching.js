@@ -3,7 +3,7 @@
  * @param {string} p
  * @return {boolean}
  */
-var isMatch = function(s, p) {
+var isMatchMemo = function(s, p) {
     
     let s1 = p
     let s2 = s
@@ -46,4 +46,51 @@ var isMatch = function(s, p) {
     }
     
     return dp(m-1,n-1)
+};
+
+
+
+var isMatch = function(s, p) {
+    
+    let s1 = p
+    let s2 = s
+    let m = s1.length
+    let n = s2.length
+    
+    let dp = new Array(m + 1)
+    for(let i = 0; i <= m; i++) {
+        dp[i] = new Array(n + 1)
+        dp[i].fill(false)
+    }
+    
+    for(let j = 1; j <=n; j++) {
+        dp[0][j] = false
+    }
+    for(let i = 1; i <= m; i++) {
+        let c = i, flag = true
+        while(c >= 1 ) {
+            if(s1[c-1] != "*") { 
+                flag = false
+                break       
+             }
+           c-- 
+        }
+        dp[i][0] = flag
+    }
+    dp[0][0] = true
+    
+    for(let i=1; i <= m ; i++) {
+        for(let j = 1; j <= n; j++) {
+            if(s1[i-1] == s2[j-1] || s1[i-1] == '?') {
+                dp[i][j] = dp[i-1][j-1]
+            } else if(s1[i-1] == '*') {
+                dp[i][j] = dp[i-1][j] || dp[i][j-1]
+            } else {
+                dp[i][j] = false
+            }
+        }
+    }
+    
+    return dp[m][n]
+
 };
