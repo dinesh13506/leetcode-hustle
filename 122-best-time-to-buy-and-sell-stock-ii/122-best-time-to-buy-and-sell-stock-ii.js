@@ -2,7 +2,7 @@
  * @param {number[]} prices
  * @return {number}
  */
-var maxProfit = function(prices) {
+var maxProfitMemo = function(prices) {
     
     let n = prices.length
     let memo = new Array(n)
@@ -36,4 +36,34 @@ var maxProfit = function(prices) {
     }
     
     return dp(0,1)
+};
+
+var maxProfit = function(prices) {
+    
+    let n = prices.length
+    let dp = new Array(n+1)
+    for(let i = 0; i <= n; i++) {
+        dp[i] = new Array(2)
+        dp[i].fill(0)
+    }
+    
+    dp[n][0] = 0
+    dp[n][1] = 0
+    
+    for(let i = n-1; i >=0; i--) {
+        for(let buy = 0; buy <=1; buy++) {
+            let profit = 0
+            if(buy) {
+                let profit1 = -1 * prices[i] + dp[i+1][0]
+                let profit2 = 0 + dp[i+1][1]
+                profit = Math.max(profit1, profit2)
+            } else {
+                let profit1 = 1 * prices[i] + dp[i+1][1]
+                let profit2 = 0 + dp[i+1][0]
+                profit = Math.max(profit1, profit2)
+            }
+            dp[i][buy] = profit
+        }
+    }
+    return dp[0][1]
 };
