@@ -27,7 +27,7 @@ var maxProfitMemo = function(prices,fee) {
             
             
         } else {
-            let profit1 = 1 * prices[index] + dp(index + 1, 1) //sell
+            let profit1 = 1 * prices[index] + dp(index + 1, 1)  - fee //sell
             let profit2 = 0 + dp(index+1, 0) //not sell, can still sell on next days
             profit = Math.max(profit1, profit2)
             
@@ -59,7 +59,7 @@ var maxProfitTab = function(prices,fee) {
                 let profit2 = 0 + dp[i+1][1]
                 profit = Math.max(profit1, profit2)
             } else {
-                let profit1 = 1 * prices[i] + dp[i+1][1]
+                let profit1 = 1 * prices[i] + dp[i+1][1] - fee
                 let profit2 = 0 + dp[i+1][0]
                 profit = Math.max(profit1, profit2)
             }
