@@ -1,6 +1,9 @@
 
 var RecentCounter = function() {
     this.map = new Map()
+    this.timestamps = []
+    this.start = 0
+    this.sum = 0
 };
 
 /** 
@@ -14,14 +17,14 @@ RecentCounter.prototype.ping = function(t) {
         this.map.set(t, 1)
     }
     
-    let times = this.map.keys()
-    let ans = 0
-    for(let time of times) {
-        if(time <= t && time >= (t-3000)) {
-            ans = ans + this.map.get(time)
-        }
+    this.timestamps.push(t)
+    
+    while(this.timestamps[this.start] > t || (this.timestamps[this.start] <  t- 3000)) {
+        this.sum = this.sum - this.map.get(this.timestamps[this.start])
+        this.start++
     }
-    return ans
+    this.sum = this.sum + this.map.get(t)
+    return this.sum
 };
 
 /** 
