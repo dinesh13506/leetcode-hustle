@@ -13,7 +13,6 @@ var maxProfit = function(prices) {
             memo[i][j].fill(-1)
         }
     }
-    console.log(memo)
     
     let dp = function(index, buy, cap) {
         
