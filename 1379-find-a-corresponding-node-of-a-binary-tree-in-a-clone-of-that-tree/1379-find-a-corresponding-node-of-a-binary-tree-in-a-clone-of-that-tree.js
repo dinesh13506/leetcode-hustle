@@ -23,7 +23,12 @@ var getTargetCopy = function(original, cloned, target) {
                 return
             }
             preorder(orig.left, clone.left)
-            preorder(orig.right, clone.right)
+            if(ans == null) {
+                preorder(orig.right, clone.right)
+            } else {
+                return ans
+            }
+            
         }
     }
     preorder(original, cloned)
