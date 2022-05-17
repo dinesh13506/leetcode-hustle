@@ -2,7 +2,7 @@
  * @param {number[]} prices
  * @return {number}
  */
-var maxProfit = function(prices) {
+var maxProfitMemo = function(prices) {
     
     let n = prices.length
     
@@ -36,7 +36,7 @@ var maxProfit = function(prices) {
     return dp(0,1)
 };
 
-var maxProfitMemo = function(prices) {
+var maxProfit = function(prices) {
     
     let n = prices.length
     
