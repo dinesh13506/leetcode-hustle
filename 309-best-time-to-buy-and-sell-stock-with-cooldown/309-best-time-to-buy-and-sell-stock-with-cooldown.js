@@ -40,8 +40,8 @@ var maxProfitMemo = function(prices) {
     
     let n = prices.length
     
-    let dp = new Array(n+1)
-    for(let i = 0; i <=n; i++) {
+    let dp = new Array(n+2)
+    for(let i = 0; i <=n+1; i++) {
         dp[i] = new Array(2)
         dp[i].fill(0)
     }
@@ -58,7 +58,7 @@ var maxProfitMemo = function(prices) {
                 let profit = Math.max(buystock, notbuy)
                 dp[i][buy] = profit
             } else {
-                let sellstock = prices[i] + (dp[i+2][1] || 0)
+                let sellstock = prices[i] + (dp[i+2][1])
                 let notsellstock = 0 + dp[i+1][0]
                 let profit = Math.max(sellstock, notsellstock)
                dp[i][buy] = profit
