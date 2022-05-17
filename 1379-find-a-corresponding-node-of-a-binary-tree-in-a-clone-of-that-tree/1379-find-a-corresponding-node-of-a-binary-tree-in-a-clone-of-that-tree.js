@@ -18,7 +18,7 @@ var getTargetCopy = function(original, cloned, target) {
     let preorder = function(orig,clone) {
         if(orig && clone) {
             //console.log(orig.val, clone.val,target)
-            if(orig.val == target.val && clone.val == target.val) {
+            if(orig == target) {
                 ans = clone
                 return
             }
