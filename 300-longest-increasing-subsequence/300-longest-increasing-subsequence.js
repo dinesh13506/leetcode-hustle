@@ -96,3 +96,32 @@ var lengthOfLIS = function(nums) {
     
     return lis
 };
+
+
+var lengthOfLIS = function(nums) {
+    let n = nums.length
+    let dp = new Array(n)
+    dp.fill(1)
+    let lis = new Array(n)
+    for(let i = 0; i < n; i++) {
+        lis[i] = []
+        lis[i].push(nums[i])
+    }
+    for(let i = 0; i < n; i++) {
+        for(let prev = 0; prev <= i-1; prev++) {
+            if(nums[prev] < nums[i]) {
+                if(dp[i] < 1 + dp[prev]) {
+                    dp[i] = Math.max(dp[i], 1+ dp[prev])
+                    lis[i].unshift(nums[prev])
+                }
+            }
+        }
+    }
+    //console.log(lis)
+    let ans = 1
+    for(let i = 0; i < n; i++) {
+        ans = Math.max(ans, lis[i].length)
+    }
+    
+    return ans
+};
