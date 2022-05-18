@@ -131,6 +131,8 @@ var lengthOfLIS = function(nums) {
     let n = nums.length
     let dp = new Array(n)
     let temp = []
+    
+    //find index where target is found or just greater value is found
     let lowerBound = function(target) {
         let start = 0, end = temp.length - 1, ans = -1
         while(start <= end) {
@@ -148,16 +150,19 @@ var lengthOfLIS = function(nums) {
         return ans
     }
     
+    let len = 0
     temp.push(nums[0])
+    len++
     for(let i = 1; i < n; i++) {
         
         if(nums[i] > temp[temp.length-1]) {
             temp.push(nums[i])
+            len++
         } else {
             let idx = lowerBound(nums[i])
             temp[idx] = nums[i]
         }
     }
     
-    return temp.length
+    return len
 };
