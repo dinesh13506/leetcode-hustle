@@ -11,33 +11,34 @@
  * @return {Node}
  */
 var findRoot = function(tree) {
+    
     let indegree = new Map()
-    let nodeMap = new Map()
-    let set = new Set()
     for(let node of tree) {
-        indegree.set(node.val, 0)
+        indegree.set(node, 0)
     }
-    for(let node of tree) {
-        nodeMap.set(node.val, node)
-        //console.log(node.val, node.children.length)
-        if(node.children && node.children.length > 0) {
-            
-            for(let child of node.children) {
-                indegree.set(child.val, (indegree.get(child) || 0) + 1)
-                nodeMap.set(child.val, child)
-                set.add(child)
-            }
+    
+    let dfsUtil = function(node,parent) {
+        //console.log(node.val, parent)
+        if(parent) {
+            indegree.set(node, indegree.get(node) + 1)
+        }
+        
+        let children = node.children
+        for(let child of children) {
+            dfsUtil(child, node)
         }
     }
-    //console.log(indegree,nodeMap)
-    for(let nodeval of indegree.keys()) {
-        if(indegree.get(nodeval) == 0) {
-            return nodeMap.get(nodeval)
+    for(let node of tree) {
+        if(indegree.get(node) == 0) {
+            dfsUtil(node,null)
         }
     }
     
+    //console.log(indegree)
     
-    
-    
-    
+    for(let node of indegree.keys()) {
+        if(indegree.get(node) === 0) {
+            return node
+        }
+    }
 };
