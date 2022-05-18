@@ -32,7 +32,7 @@ var lengthOfLISMemo = function(nums) {
 
 
 
-var lengthOfLIS = function(nums) {
+var lengthOfLISBottomUp = function(nums) {
     let n = nums.length
     let dp = new Array(n+1)
     for(let i = 0; i <= n; i++) {
@@ -53,4 +53,28 @@ var lengthOfLIS = function(nums) {
     }
     
     return dp[0][0]
+};
+
+
+var lengthOfLIS = function(nums) {
+    let n = nums.length
+    let next = new Array(n+1)
+    next.fill(0)
+    
+    for(let i = n-1; i >=0; i--) {
+        let curr = new Array(n+1)
+        curr.fill(0)
+        for(let previ = i-1; previ >= -1; previ--) {
+            
+            let notake = 0 + next[previ+1]
+            let take = 0
+            if(previ == -1 || nums[previ] < nums[i]) {
+                take = 1 + next[i+1]
+            }
+            curr[previ+1] = Math.max(take, notake)
+        }
+        next = curr
+    }
+    
+    return next[0]
 };
