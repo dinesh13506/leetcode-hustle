@@ -56,7 +56,7 @@ var lengthOfLISBottomUp = function(nums) {
 };
 
 
-var lengthOfLIS = function(nums) {
+var lengthOfLISSpaceOptimisation = function(nums) {
     let n = nums.length
     let next = new Array(n+1)
     next.fill(0)
@@ -77,4 +77,22 @@ var lengthOfLIS = function(nums) {
     }
     
     return next[0]
+};
+
+
+var lengthOfLIS = function(nums) {
+    let n = nums.length
+    let dp = new Array(n)
+    dp.fill(1)
+    let lis = 1
+    for(let i = 0; i < n; i++) {
+        for(let prev = 0; prev <= i-1; prev++) {
+            if(nums[prev] < nums[i]) {
+                dp[i] = Math.max(dp[i], 1+ dp[prev])
+                lis = Math.max(lis, dp[i])
+            }
+        }
+    }
+    
+    return lis
 };
