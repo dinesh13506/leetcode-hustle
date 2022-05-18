@@ -2,7 +2,7 @@
  * @param {number[]} nums
  * @return {number}
  */
-var lengthOfLIS = function(nums) {
+var lengthOfLISMemo = function(nums) {
     let n = nums.length
     let memo = new Array(n)
     for(let i = 0; i < n; i++) {
@@ -28,4 +28,29 @@ var lengthOfLIS = function(nums) {
     }
     
     return dp(0, -1)
+};
+
+
+
+var lengthOfLIS = function(nums) {
+    let n = nums.length
+    let dp = new Array(n+1)
+    for(let i = 0; i <= n; i++) {
+        dp[i] = new Array(n+1)
+        dp[i].fill(0)
+    }
+    
+    for(let i = n-1; i >=0; i--) {
+        for(let previ = i-1; previ >= -1; previ--) {
+            
+            let notake = 0 + dp[i+1][previ+1]
+            let take = 0
+            if(previ == -1 || nums[previ] < nums[i]) {
+                take = 1 + dp[i+1][i+1]
+            }
+            dp[i][previ+1] = Math.max(take, notake)
+        }
+    }
+    
+    return dp[0][0]
 };
