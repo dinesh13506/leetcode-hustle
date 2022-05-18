@@ -3,30 +3,29 @@
  * @return {number}
  */
 var lengthOfLIS = function(nums) {
-    
-    let ceilIdx = function(tail, start, end, target) {
-        while( end > start) {
-            let mid = parseInt((start+end)/2)
-            if(tail[mid] >= target) {
-                end = mid
-            } else {
-                start = mid + 1
-            }
+    let n = nums.length
+    let memo = new Array(n)
+    for(let i = 0; i < n; i++) {
+        memo[i] = new Array(n+1)
+        memo[i].fill(-1)
+    }
+    let dp = function(index, prevIndex) {
+        
+        if(index == n) {
+            return 0
         }
-        return end
+        if(memo[index][prevIndex+1] != -1) {
+            return memo[index][prevIndex+1]
+        }
+        //nottake
+        let nottake = 0 + dp(index+1, prevIndex)
+        let take = 0
+        if(prevIndex == -1 || nums[prevIndex] < nums[index]) {
+            take = 1 + dp(index+1, index)
+        }
+        memo[index][prevIndex+1] = Math.max(nottake, take)
+        return memo[index][prevIndex+1]
     }
     
-    let tail = new Array(nums.length), len = 0
-    tail[0] = nums[0]
-    len++
-    for(let i = 1; i < nums.length; i++) {
-        if(nums[i] > tail[len-1]) {
-            tail[len] = nums[i]
-            len++
-        } else {
-            let idx = ceilIdx(tail,0,len, nums[i])
-            tail[idx] = nums[i]
-        }
-    }
-    return len
+    return dp(0, -1)
 };
