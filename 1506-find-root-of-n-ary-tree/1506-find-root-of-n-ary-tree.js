@@ -18,16 +18,15 @@ var findRoot = function(tree) {
         indegree.set(node.val, 0)
     }
     for(let node of tree) {
+        nodeMap.set(node.val, node)
         //console.log(node.val, node.children.length)
         if(node.children && node.children.length > 0) {
-            nodeMap.set(node.val, node)
+            
             for(let child of node.children) {
                 indegree.set(child.val, (indegree.get(child) || 0) + 1)
                 nodeMap.set(child.val, child)
                 set.add(child)
             }
-        } else {
-            nodeMap.set(node.val, node)
         }
     }
     //console.log(indegree,nodeMap)
