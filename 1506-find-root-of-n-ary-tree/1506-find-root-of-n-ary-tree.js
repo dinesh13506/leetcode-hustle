@@ -16,29 +16,15 @@ var findRoot = function(tree) {
     for(let node of tree) {
         indegree.set(node, 0)
     }
-    
-    let dfsUtil = function(node,parent) {
-        //console.log(node.val, parent)
-        if(parent) {
-            indegree.set(node, indegree.get(node) + 1)
-        }
-        
-        let children = node.children
-        for(let child of children) {
-            dfsUtil(child, node)
-        }
-    }
     for(let node of tree) {
-        if(indegree.get(node) == 0) {
-            dfsUtil(node,null)
+        for(let child of node.children) {
+            indegree.set(child, indegree.get(child) + 1)
         }
     }
     
     //console.log(indegree)
-    
     for(let node of indegree.keys()) {
-        if(indegree.get(node) === 0) {
-            return node
-        }
+        if(indegree.get(node) === 0) return node
     }
+    
 };
