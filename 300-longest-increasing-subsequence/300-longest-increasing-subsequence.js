@@ -80,7 +80,7 @@ var lengthOfLISSpaceOptimisation = function(nums) {
 };
 
 
-var lengthOfLIS = function(nums) {
+var lengthOfLISTimeTaking = function(nums) {
     let n = nums.length
     let dp = new Array(n)
     dp.fill(1)
@@ -124,4 +124,40 @@ var lengthOfLISPrint = function(nums) {
     }
     
     return ans
+};
+
+
+var lengthOfLIS = function(nums) {
+    let n = nums.length
+    let dp = new Array(n)
+    let temp = []
+    let lowerBound = function(target) {
+        let start = 0, end = temp.length - 1, ans = -1
+        while(start <= end) {
+            let mid = parseInt((start + end) / 2)
+            if(temp[mid] === target) {
+                ans = mid
+                break
+            } else if(target < temp[mid]) {
+                ans = mid
+                end = mid - 1
+            } else {
+                start = mid + 1
+            }
+        }
+        return ans
+    }
+    
+    temp.push(nums[0])
+    for(let i = 1; i < n; i++) {
+        
+        if(nums[i] > temp[temp.length-1]) {
+            temp.push(nums[i])
+        } else {
+            let idx = lowerBound(nums[i])
+            temp[idx] = nums[i]
+        }
+    }
+    
+    return temp.length
 };
