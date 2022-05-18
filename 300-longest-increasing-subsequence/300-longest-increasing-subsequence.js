@@ -98,7 +98,7 @@ var lengthOfLIS = function(nums) {
 };
 
 
-var lengthOfLIS = function(nums) {
+var lengthOfLISPrint = function(nums) {
     let n = nums.length
     let dp = new Array(n)
     dp.fill(1)
