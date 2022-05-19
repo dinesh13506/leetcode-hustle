@@ -29,7 +29,6 @@ var largestDivisibleSubset = function(nums) {
         }
     }
     
-    console.log(index)
     while(index != -1) {
         ans.push(nums[index])
         index = idx[index]
