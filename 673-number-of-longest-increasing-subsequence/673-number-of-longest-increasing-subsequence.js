@@ -4,33 +4,40 @@
  */
 var findNumberOfLIS = function(nums) {
     
-    let length = nums.length
-    let lis = new Array(length)
-    let count = new Array(length)
+    let n = nums.length
+    let dp = new Array(n)
+    dp.fill(1)
+    let count = new Array(n)
+    count.fill(1)
     
-    let max = 0
-    let ans = 0
-    for(let i = 0; i < length; i++) {
-        lis[i] = 1
-        count[i] = 1
-        for(let j = 0; j < i; j++) {
-            if(nums[i] > nums[j]) {
-                if(lis[i] === 1+lis[j] ) {
-                    count[i] += count[j]
-                } 
-                if(lis[i] < 1+lis[j]) {
-                    lis[i] = 1+lis[j]
-                    count[i] = count[j]
+    for(let i = 0; i < n; i++) {
+        for(let prev = 0; prev < i; prev++) {
+            if(nums[i] > nums[prev]) {
+                if(dp[i] === dp[prev] + 1) {
+                    count[i] = count[prev] + count[i]
                 }
-                
+                if(dp[i] < dp[prev] + 1) {
+                    dp[i] = dp[prev] + 1
+                    count[i] = count[prev]
+                }
             }
         }
-        if(max === lis[i]) { ans = ans + count[i]}
-        if(max < lis[i]) {
-            max = lis[i]
-            ans = count[i]
+    }
+    
+    let maxLen = 0
+    let maxCount = 0
+    for(let i = 0; i < n; i++) {
+        if(maxLen < dp[i]) {
+            maxLen = dp[i]
         }
     }
-    return ans
     
+    for(let i = 0; i < n; i++) {
+        if(maxLen  === dp[i]) {
+            maxCount = maxCount + count[i]
+        }
+    }
+    
+    //console.log(dp, count)
+    return maxCount
 };
