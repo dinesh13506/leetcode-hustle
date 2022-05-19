@@ -22,17 +22,17 @@ var longestIncreasingPath = function(matrix) {
         if(memo[i][j] != -1) {
             return memo[i][j]
         }
-        let longestPathLen = 0
+        let longestPathLen = 1
         for(let direction of directions) {
             let dx = direction[0], dy = direction[1]
             if(i + dx >=0 && i + dx < n && j + dy >=0 && j + dy < m) {
                  if(matrix[i+dx][j+dy] > matrix[i][j]) {
-                     longestPathLen = Math.max(longestPathLen, dfsUtil(i + dx, j + dy))
+                     longestPathLen = Math.max(longestPathLen, 1 + dfsUtil(i + dx, j + dy))
                  }
             }
            
         }
-        longestPathLen = longestPathLen + 1
+        //longestPathLen = longestPathLen + 1
         memo[i][j] = longestPathLen
         return memo[i][j]
     }
