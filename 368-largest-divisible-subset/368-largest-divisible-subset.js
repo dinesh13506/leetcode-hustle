@@ -22,9 +22,6 @@ var largestDivisibleSubset = function(nums) {
         }
         lis[i].push(nums[i])
     }
-    
-    //console.log(lis)
-    //console.log(dp)
     let ans = null, max = 0
     for(let i = 0; i < n; i++) {
         if(max < lis[i].length) {
