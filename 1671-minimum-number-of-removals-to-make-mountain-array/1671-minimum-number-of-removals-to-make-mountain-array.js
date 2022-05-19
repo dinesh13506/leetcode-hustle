@@ -4,39 +4,34 @@
  */
 var minimumMountainRemovals = function(nums) {
     
-    //question of biotonic subsequence
-    let len = nums.length
-    let lis = new Array(len)
-    let lds = new Array(len)
-    lis[0] = 1
-    for(let i = 1; i < len; i++) {
-        lis[i] = 1
-        for(let j = 0; j < i; j++) {
-            if(nums[i] > nums[j]) {
-                lis[i] = Math.max(lis[i],lis[j] + 1)
+    let n = nums.length
+    let dp1 = new Array(n)
+    dp1.fill(1)
+    let dp2 = new Array(n)
+    dp2.fill(1)
+    
+    for(let i = 0; i < n; i++) {
+        for(let prev = 0; prev < i; prev++) {
+            if(nums[i] > nums[prev] && (dp1[prev] + 1 > dp1[i])) {
+                dp1[i] = dp1[prev] + 1
             }
         }
     }
     
-    lds[len-1] = 1
-    for(let i = len-2; i>=0; i--) {
-        lds[i] = 1
-        for(let j = i + 1; j< len;j++) {
-            if(nums[i] > nums[j]) {
-                lds[i] = Math.max(lds[i],lds[j] + 1)
+    for(let i = n-1; i >=0; i--) {
+        for(let prev = n-1; prev > i; prev--) {
+            if(nums[i] > nums[prev] && (dp2[prev] + 1 > dp2[i])) {
+                dp2[i] = dp2[prev] + 1
             }
         }
     }
-    //console.log(lis)
-    //console.log(lds)
     
-    let maxBioTonicLen = -Infinity
-    for(let i = 1; i <len-1; i++) {
-        if(lis[i] > 1 && lds[i] > 1) {
-            maxBioTonicLen = Math.max(maxBioTonicLen,lis[i] + lds[i] - 1)
-        } 
-        
+    
+    let maxBioTonicLen = 0
+    for(let i = 1; i < n-1; i++) {
+        if(dp1[i] > 1 && dp2[i] > 1)
+            maxBioTonicLen = Math.max(maxBioTonicLen, dp1[i] + dp2[i] -1)
     }
-    //console.log(maxBioTonicLen)
-    return len - maxBioTonicLen
+    
+    return n - maxBioTonicLen
 };
