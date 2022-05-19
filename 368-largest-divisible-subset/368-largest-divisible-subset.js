@@ -8,26 +8,31 @@ var largestDivisibleSubset = function(nums) {
     nums.sort(function(a,b) { return a - b })
     let dp = new Array(n)
     dp.fill(1)
-    let lis = new Array(n)
-    for(let i = 0; i < n; i++) {
-        lis[i] = []
-    }
+    
+    let idx = new Array(n)
+    idx.fill(-1)
     
     for(let i = 0; i < n; i++) {
         for(let prev = 0; prev < i; prev++) {
             if(nums[i] % nums[prev] === 0 && dp[i] < dp[prev] + 1) {
-                dp[i] = Math.max(dp[i], dp[prev] + 1)
-                lis[i] = lis[prev].slice()
+                dp[i] = dp[prev] + 1
+                idx[i] = prev
             }
         }
-        lis[i].push(nums[i])
     }
-    let ans = null, max = 0
+    
+    let ans = [], max = 0, index = -1
     for(let i = 0; i < n; i++) {
-        if(max < lis[i].length) {
-            max = lis[i].length
-            ans = lis[i]
+        if(max < dp[i]) {
+            max = dp[i]
+            index = i
         }
     }
-    return ans
+    
+    console.log(index)
+    while(index != -1) {
+        ans.push(nums[index])
+        index = idx[index]
+    }
+    return ans.reverse()
 };
