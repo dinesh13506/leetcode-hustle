@@ -11,21 +11,21 @@ var longestMountain = function(arr) {
     dp2.fill(1)
     
     
-    for(let i = 1; i < n; i++) {
-        let curr = i
+    let i = 1, j = n - 2
+    while( i < n && j >= 0) {
+        let curr1 = i
         let prev = i - 1
-        if(arr[curr] > arr[prev]) {
-            dp1[curr] = dp1[prev] + 1
+        let curr2 = j
+        let next = j + 1
+        if(arr[curr1] > arr[prev]) {
+            dp1[curr1] = dp1[prev] + 1
         }
-    }
-    
-    
-    for(let  i = n-2; i >=0; i--) {
-        let curr = i
-        let next = i + 1
-        if(arr[next] < arr[curr]) {
-            dp2[curr] = dp2[next] + 1
-        } 
+        
+        if(arr[curr2] > arr[next]) {
+            dp2[curr2] = dp2[next] + 1
+        }
+        i++
+        j--
     }
     
     //console.log(dp1, dp2)
