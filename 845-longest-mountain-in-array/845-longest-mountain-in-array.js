@@ -35,7 +35,7 @@ var longestMountain = function(arr) {
     //console.log(dp1, dp2)
     
     let maxLen = 0
-    for(let i = 1; i < n-1; i++) {
+    for(let i = 0; i < n; i++) {
         if(dp1[i] > 1 && dp2[i] > 1) {
             maxLen = Math.max(maxLen, dp1[i] + dp2[i] - 1)
         }
