@@ -16,8 +16,6 @@ var longestMountain = function(arr) {
         let prev = i - 1
         if(arr[curr] > arr[prev]) {
             dp1[curr] = dp1[prev] + 1
-        } else {
-             dp1[curr] = 1
         }
     }
     
@@ -27,9 +25,7 @@ var longestMountain = function(arr) {
         let next = i + 1
         if(arr[next] < arr[curr]) {
             dp2[curr] = dp2[next] + 1
-        } else {
-            dp2[curr] = 1
-        }
+        } 
     }
     
     //console.log(dp1, dp2)
