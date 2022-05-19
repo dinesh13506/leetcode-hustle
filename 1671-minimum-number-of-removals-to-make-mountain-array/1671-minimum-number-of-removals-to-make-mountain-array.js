@@ -28,6 +28,7 @@ var minimumMountainRemovals = function(nums) {
     
     
     let maxBioTonicLen = 0
+    //arr.length >= 3
     for(let i = 1; i < n-1; i++) {
         if(dp1[i] > 1 && dp2[i] > 1)
             maxBioTonicLen = Math.max(maxBioTonicLen, dp1[i] + dp2[i] -1)
