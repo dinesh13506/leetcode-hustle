@@ -2,7 +2,7 @@
  * @param {number[][]} grid
  * @return {number}
  */
-var countNegatives = function(grid) {
+var countNegativesBrute = function(grid) {
     
     let count = 0
     let m = grid.length, n = grid[0].length
@@ -14,6 +14,35 @@ var countNegatives = function(grid) {
                 count++
             }
         }
+    }
+    return count
+};
+
+
+var countNegatives = function(grid) {
+    
+    let count = 0
+    let m = grid.length, n = grid[0].length
+    for(let i = 0; i < m; i++) {
+        if(grid[i][0] < 0 ) {
+            count += n
+            continue
+        }
+        if(grid[i][n-1] >= 0) {
+            continue
+        }
+        
+        let start = 0, end = n-1
+        while(start <= end) {
+            let mid = parseInt((start + end)/2)
+            if(grid[i][mid] >= 0) {
+                start = mid + 1
+            } else {
+                end = mid - 1
+            }
+        }
+        
+        count += (n - start)
     }
     return count
 };
