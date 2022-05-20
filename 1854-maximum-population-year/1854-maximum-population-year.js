@@ -12,7 +12,6 @@ var maximumPopulation = function(logs) {
         }
     }
     
-    //console.log(map)
     let arr = []
     for(let year of map.keys()) {
         arr.push([year, map.get(year)])
@@ -23,6 +22,5 @@ var maximumPopulation = function(logs) {
         }
         return b[1] - a[1]
     })
-    //console.log(arr)
     return arr[0][0]
 };
