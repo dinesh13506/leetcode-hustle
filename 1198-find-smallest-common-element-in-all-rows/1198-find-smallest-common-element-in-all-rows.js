@@ -12,13 +12,13 @@ var smallestCommonElement = function(mat) {
             map.set(mat[i][j], 1 + (map.get(mat[i][j]) || 0))
         }
     }
-    let ans = Infinity
+    let ans = 100000
     for(let num of map.keys()) {
         if(map.get(num) == m) {
             ans = Math.min(ans, num)
         }
     }
-    return ans == Infinity ? -1 : ans
+    return ans == 100000 ? -1 : ans
 };
 
 
