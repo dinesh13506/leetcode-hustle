@@ -12,15 +12,20 @@ var maximumPopulation = function(logs) {
         }
     }
     
-    let arr = []
+    let max = 0, earlistyear = Infinity
     for(let year of map.keys()) {
-        arr.push([year, map.get(year)])
-    }
-    arr.sort(function(a,b) {
-        if(b[1] == a[1]) {
-            return a[0] - b[0]
+        let count = map.get(year)
+        if(count >= max) {
+            max = count
         }
-        return b[1] - a[1]
-    })
-    return arr[0][0]
+    }
+   
+    for(let year of map.keys()) {
+        let count = map.get(year)
+        if(count == max) {
+            max = count
+            earlistyear = Math.min(earlistyear, year)
+        }
+    }
+    return earlistyear
 };
