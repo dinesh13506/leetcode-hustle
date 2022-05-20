@@ -6,6 +6,26 @@ var smallestCommonElement = function(mat) {
     
     let prevset = new Set()
     let m = mat.length, n = mat[0].length
+    let map = new Map()
+    for(let i = 0; i < m; i++) {
+        for(let j = 0; j < n; j++) {
+            map.set(mat[i][j], 1 + (map.get(mat[i][j]) || 0))
+        }
+    }
+    let ans = Infinity
+    for(let num of map.keys()) {
+        if(map.get(num) == m) {
+            ans = Math.min(ans, num)
+        }
+    }
+    return ans == Infinity ? -1 : ans
+};
+
+
+var smallestCommonElementFirst = function(mat) {
+    
+    let prevset = new Set()
+    let m = mat.length, n = mat[0].length
     for(let j = 0 ; j < n; j++) {
         prevset.add(mat[0][j])
     }
