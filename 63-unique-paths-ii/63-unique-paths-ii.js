@@ -45,52 +45,11 @@ var uniquePathsWithObstaclesMemo = function(grid) {
 var uniquePathsWithObstaclesTab = function(grid) {
     //DP on grid
     let n = grid.length, m = grid[0].length
-    
     let dp = new Array(n)
     for(let i = 0; i < n; i++) {
         dp[i] = new Array(m)
         dp[i].fill(0)
     }
-    
-    dp[0][0] = grid[0][0] == 1 ? 0 : 1
-    for(let j = 1; j < m; j++) {
-        if(grid[0][j] == 1) {
-            dp[0][j] = 0
-        } else {
-            dp[0][j] = dp[0][j-1]
-        }
-    }
-    for(let i = 1; i < n; i++) {
-        if(grid[i][0] == 1) {
-            dp[i][0] = 0
-        } else {
-            dp[i][0] = dp[i-1][0]
-        }
-    }
-    
-    
-    for(let i = 1; i < n; i++) {
-        for(let j = 1; j < m; j++) {
-            if(grid[i][j] == 1) {
-                dp[i][j] = 0
-            } else {
-               dp[i][j] = dp[i-1][j] + dp[i][j-1] 
-            }
-        }
-    }
-    return dp[n-1][m-1]
-};
-
-var uniquePathsWithObstacles = function(grid) {
-    //DP on grid
-    let n = grid.length, m = grid[0].length
-    
-    let dp = new Array(n)
-    for(let i = 0; i < n; i++) {
-        dp[i] = new Array(m)
-        dp[i].fill(0)
-    }
-    dp[0][0] = grid[0][0] == 1  ? 0 : 1
     for(let i = 0; i < n; i++) {
         for(let j = 0; j < m; j++) {
             if(grid[i][j] == 1) {
@@ -111,4 +70,34 @@ var uniquePathsWithObstacles = function(grid) {
         }
     }
     return dp[n-1][m-1]
+};
+
+var uniquePathsWithObstacles = function(grid) {
+    //DP on grid
+    let n = grid.length, m = grid[0].length
+    let prev = new Array(m)
+    prev.fill(0)
+    for(let i = 0; i < n; i++) {
+        let curr = new Array(m)
+        curr.fill(0)
+        for(let j = 0; j < m; j++) {
+            if(grid[i][j] == 1) {
+                curr[j] = 0
+            } else if(i == 0 && j == 0) {
+                curr[j] = grid[i][j] == 1  ? 0 : 1
+            } else {
+                let top = 0
+                if(i > 0) {
+                    top = prev[j]
+                }
+                let left = 0
+                if(j > 0 ) {
+                    left = curr[j-1]
+                }
+               curr[j] = top + left
+            }
+        }
+        prev = curr
+    }
+    return prev[m-1]
 };
