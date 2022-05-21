@@ -7,10 +7,10 @@ var ZigzagIterator = function ZigzagIterator(v1, v2) {
     
     let n1 = v1.length, n2 = v2.length
     let i = 0 , j = 0
-    let first = true
+    let counter = 0
     let result = []
     while( i < n1 && j < n2) {
-        if(first) {
+        if(counter == 0) {
             result.push(v1[i])
             i++
             first = false
@@ -19,6 +19,8 @@ var ZigzagIterator = function ZigzagIterator(v1, v2) {
             j++
             first = true
         }
+        counter++
+        counter = counter % 2
     }
     while(i < n1) {
         result.push(v1[i])
