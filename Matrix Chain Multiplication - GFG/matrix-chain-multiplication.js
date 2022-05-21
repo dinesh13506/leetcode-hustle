@@ -52,7 +52,7 @@ function main() {
 
 class Solution {
     
-    matrixMultiplication(arr, n)
+    matrixMultiplicationMemo(arr, n)
     {
         //your code here
         let memo = new Array(n)
@@ -77,6 +77,29 @@ class Solution {
             return memo[i][j]
         }
         return dp(1, n-1)
+    }
+    
+    matrixMultiplication(arr, n)
+    {
+        //your code here
+        let dp = new Array(n)
+        for(let i = 0; i < n; i++) {
+            dp[i] = new Array(n)
+            dp[i].fill(0)
+        }
+        
+        for(let i = n-1; i>=1; i--) {
+            for(let j = i + 1; j < n; j++) {
+                let ans = Infinity
+                for(let k = i; k < j; k++) {
+                    let steps = (arr[i-1] * arr[k] * arr[j]) + dp[i][k] + dp[k+1][j]
+                    ans = Math.min(steps, ans)
+                }
+                dp[i][j] = ans
+            }
+        }
+        return dp[1][n-1]
+        
     }
     
 }
