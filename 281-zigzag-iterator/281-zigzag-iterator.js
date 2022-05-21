@@ -1,3 +1,45 @@
+let Node = function(value) {
+    this.value = value
+}
+
+let Myqueue = function() {
+    this.front = null
+    this.rear = null
+}
+
+Myqueue.prototype.isEmpty = function() {
+    if(this.front == null && this.rear == null) {
+        return true
+    }
+    return false
+}
+
+Myqueue.prototype.enque = function(value) {
+    let node = new Node(value)
+    if(this.isEmpty()) {
+        this.front = node
+        this.rear = node
+    } else {
+        this.rear.next = node
+        this.rear = this.rear.next
+    }
+}
+
+
+Myqueue.prototype.deque = function() {
+    if(this.isEmpty()) {
+        return
+    }
+    let node = this.front
+    this.front = this.front.next
+    if(this.front == null) {
+        this.rear = null
+    }
+    return node
+}
+
+
+
 /**
  * @constructor
  * @param {Integer[]} v1
@@ -5,36 +47,23 @@
  */
 var ZigzagIterator = function ZigzagIterator(v1, v2) {
     
-    let n1 = v1.length, n2 = v2.length
-    let i = 0 , j = 0
+    let k = 2
+    let input = [[0,v1],[0,v2]]
+    let n = v1.length + v2.length
     let counter = 0
-    let result = []
-    while( i < n1 && j < n2) {
-        if(counter == 0) {
-            result.push(v1[i])
+    let i = 0
+    let q = new Myqueue()
+    while(i < n) {
+        let v = input[counter]
+        if(v[0] < v[1].length ) {
+            //console.log(v[1][v[0]])
+            q.enque(v[1][v[0]++])
             i++
-            first = false
-        } else {
-            result.push(v2[j])
-            j++
-            first = true
         }
         counter++
         counter = counter % 2
     }
-    while(i < n1) {
-        result.push(v1[i])
-        i++
-    }
-    while(j < n2) {
-        result.push(v2[j])
-        j++
-    }
-    
-    //console.log(result)
-    this.result = result
-    this.index = 0
-    this.length = n1 + n2
+    this.q = q
 };
 
 
@@ -43,10 +72,7 @@ var ZigzagIterator = function ZigzagIterator(v1, v2) {
  * @returns {boolean}
  */
 ZigzagIterator.prototype.hasNext = function hasNext() {
-    if(this.index < this.length) {
-        return true
-    }
-    return false
+    return this.q.isEmpty() ? false : true
 };
 
 /**
@@ -54,7 +80,8 @@ ZigzagIterator.prototype.hasNext = function hasNext() {
  * @returns {integer}
  */
 ZigzagIterator.prototype.next = function next() {
-    return this.result[this.index++]
+    let node = this.q.deque()
+    return node.value
     
 };
 
