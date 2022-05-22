@@ -2,7 +2,7 @@
  * @param {string} s
  * @return {number}
  */
-var minCut = function(s) {
+var minCutMemo = function(s) {
     
     let n = s.length
     let isPalindrome = function(i,j) {
@@ -41,4 +41,39 @@ var minCut = function(s) {
         return memo[i]
     }
     return dp(0) - 1
+};
+
+
+var minCut = function(s) {
+    
+    let n = s.length
+    let isPalindrome = function(i,j) {
+        while(i <=j ) {
+            if(s[i] != s[j]) {
+                return false
+            }
+            i++
+            j--
+        }
+        return true
+    }
+    if(n <= 1 || isPalindrome(0,n-1) == true) {
+        return 0
+    }
+    
+    let dp = new Array(n+1)
+    dp.fill(0)
+    for(let i = n-1; i >=0 ; i--) {
+        let min = Infinity
+        for(let j = i; j < n; j++) {
+            if(isPalindrome(i,j) == true) {
+                let count = 1 + dp[j+1]
+                min = Math.min(count, min)
+            }
+        }
+        dp[i] =  min
+    }
+    return dp[0] - 1
+    
+    
 };
