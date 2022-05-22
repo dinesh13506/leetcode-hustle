@@ -3,34 +3,34 @@
  * @return {number}
  */
 var countSubstrings = function(s) {
-   let count = 0
-   let n = s.length
-   let memo = new Map()
-   memo.set('',true)
     
-   for(let len = 1; len <= n; len++) {
-       for(let start = 0; start <= n - len; start++) {
-           let str = s.substr(start, len)
-           let prev = str.slice(1, str.length-1)
-           //console.log("curr => " ,s.substr(start, len))
-           //console.log("small => ", str.slice(1, -1), memo.get(str.slice(1, -1)))
-           if(str.length == 1) {
-               count++
-               //console.log("plaindrome => ", str)
-               memo.set(str, true)
-               continue
-           }
-           let firstChar = str[0]
-           let lastChar = str[str.length-1]
-          
-           if(firstChar === lastChar && memo.get(prev) == true) {
-               count++
-               //console.log("plaindrome => ", str)
-               memo.set(str, true)
-           } else {
-               memo.set(str, false)
-           }
-       }
-   }
-   return count
+    let n = s.length
+    let ans = 0
+    let dp = new Array(n)
+    for(let i = 0; i < n; i++) {
+        dp[i] = new Array(n)
+        dp[i].fill(false)
+    }
+    
+    for(let i = 0; i < n; i++) {
+        dp[i][i] = true
+        ans++
+    }
+    for(let i = 0; i < n-1; i++) {
+        if(s[i] == s[i+1]) {
+            dp[i][i+1] = true
+            ans++
+        }
+    }
+    
+    for(let len = 3; len <=n; len++) {
+        let i = 0, j = i + len -1
+        while(j < n) {
+            dp[i][j] = dp[i+1][j-1] && s[i] == s[j]
+            ans = ans + (dp[i][j] == true ? 1 : 0)
+            i++
+            j++
+        }
+    }
+    return ans
 };
