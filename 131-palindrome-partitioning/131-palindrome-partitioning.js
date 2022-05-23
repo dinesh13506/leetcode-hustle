@@ -20,7 +20,6 @@ var partition = function(s) {
     let dp = function(i,partition) {
         
         if(i == n) {
-            //console.log(partition.slice())
             result.push(partition.slice())
             return 
         }
@@ -31,7 +30,6 @@ var partition = function(s) {
                 for(let p = i; p <= j; p++) {
                     temp.push(s[p])
                 }
-                //console.log(temp.join(''))
                 partition.push(temp.join(''))
                 dp(j+1,partition)
                 partition.pop()
