@@ -4,7 +4,8 @@
  */
 var minCut = function(s) {
     
-    return minCutMemo(s)
+    //return minCutMemo(s)
+    return minCutTopDown(s)
 };
 
 
@@ -58,7 +59,7 @@ var minCutTopDown = function(s) {
         return true
     }
     
-    for(let i = n-1; i >=0; i++) {
+    for(let i = n-1; i >=0; i--) {
         let mini = Infinity
         for(let j = i; j < n; j++) {
             if(ispalindrome(i,j) === true) {
