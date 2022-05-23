@@ -6,6 +6,10 @@
  */
 var findMaxForm = function(strs, m, n) {
     
+    //strs has n states
+    //zeroes has 0 ..  to m states => m + 1
+    // ones has 0 ... n states => n+1
+    // memo[strs.length][m+1][n+1]
     let memo = new Array(strs.length)
     for(let i = 0; i < strs.length; i++) {
         memo[i] = new Array(m+1)
@@ -14,10 +18,9 @@ var findMaxForm = function(strs, m, n) {
             memo[i][j].fill(-1)
         }
     }
-    //console.log(memo)
     
-    
-    let getzo = function(str) {
+    //calculate zeroes and ones
+    let getCharCount = function(str) {
         let zero = 0, len = str.length
         for(let ch of str) {
             if(ch == '0') {
@@ -27,9 +30,10 @@ var findMaxForm = function(strs, m, n) {
         return [zero, len - zero]
     }
     
+    //pre calculate for all strs
     let count = []
     for(let str of strs) {
-        count.push(getzo(str))
+        count.push(getCharCount(str))
     }
     
     let dp = function(i, zeroes, ones) {
