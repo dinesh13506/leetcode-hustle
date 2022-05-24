@@ -70,9 +70,10 @@ var longestValidParenthesesWithdp = function(s) {
             else if(i > 0 && s[i-1] == closing) {
                 
                 // ....))
-                //prev2i,previ....i-1,i
+                //k,previ....i-1,i
+                let k = i - dp[i-1] - 2
                 
-                dp[i] = 2 + ( dp[i-dp[i-1]-2] || 0 )  + dp[i-1]
+                dp[i] = 2 + (  k >= 0 ? dp[k] : 0 )  + dp[i-1]
                 
             }
             max = Math.max(max, dp[i])
