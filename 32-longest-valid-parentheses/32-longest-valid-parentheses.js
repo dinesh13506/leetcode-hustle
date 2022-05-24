@@ -4,7 +4,7 @@
  */
 
 var longestValidParentheses = function(s) {
-    return longestValidParenthesesWithStack(s)
+    return longestValidParenthesesWithDp(s)
    
 };
 
@@ -51,7 +51,7 @@ var longestValidParenthesesWithStack = function(s) {
 };
 
 
-var longestValidParenthesesWithdp = function(s) {
+var longestValidParenthesesWithDp = function(s) {
     let n = s.length
     let dp = new Array(n)
     dp.fill(0)
@@ -74,12 +74,11 @@ var longestValidParenthesesWithdp = function(s) {
                 //index of j = i - len(j....i-1) - 1
                 //index of k = j - 1
                 let j = i - dp[i-1] - 1
-                let k = j - 1
-                if(k >= 0 && s[k] == opening) {
+                
+                if(j >= 0 && s[j] == opening) {
+                    let k = j - 1
                     dp[i] = 2 + (  k >= 0 ? dp[k] : 0 )  + (i > 0 ? dp[i-1] : 0)
                 }
-                
-                
             }
             max = Math.max(max, dp[i])
         }
