@@ -11,19 +11,22 @@ var combinationSum = function(candidates, target) {
         if(index == n) {
             if(target == 0) {
                 combinations.push(combination.slice())
+                return
+            } else {
+                return
             }
-            return
         }
-        
-        
         //take
         if(candidates[index] <= target) {
             combination.push(candidates[index])
             f(index, target - candidates[index], combination)
             //not take
             combination.pop()
+            f(index + 1, target, combination)
+        } else {
+            f(index + 1, target, combination)
         }
-        f(index + 1, target, combination)
+        
     }
     
     f(0, target, [])
