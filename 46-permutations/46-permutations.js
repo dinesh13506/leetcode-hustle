@@ -17,11 +17,11 @@ var permute = function(nums) {
         }
         
         for(let i = 0; i <n; i++) {
-            if(visited.has(i) === false) {
+            if(visited.has(i) === false || visited.get(i) == false ) {
                 visited.set(i,true)
                 temp.push(nums[i])
                 backtrack(temp)
-                visited.delete(i)
+                visited.set(i,false)
                 temp.pop()
             }
         }
