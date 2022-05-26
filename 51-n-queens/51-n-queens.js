@@ -3,9 +3,12 @@
  * @return {string[][]}
  */
 var solveNQueens = function(n) {
-   
-    
-    let result = []
+   return solveNQueensBySimple(n)
+};
+
+
+let solveNQueensBySimple = function (n) {
+        let result = []
     let board = new Array(n)
     for(let i = 0; i < n; i++) {
         board[i] = new Array(n)
@@ -64,4 +67,4 @@ var solveNQueens = function(n) {
     
     f(0, board)
     return result
-};
+}
