@@ -4,6 +4,10 @@
  */
 var totalNQueens = function(n) {
     
+    return totalNQueensSimple(n)
+};
+
+let totalNQueensSimple = function(n) {
     let board = new Array(n)
     for(let i = 0; i < n; i++) {
         board[i] = new Array(n)
@@ -60,4 +64,4 @@ var totalNQueens = function(n) {
     
     f(0, board)
     return ways
-};
+}
