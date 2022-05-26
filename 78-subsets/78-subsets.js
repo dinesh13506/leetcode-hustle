@@ -3,20 +3,23 @@
  * @return {number[][]}
  */
 var subsets = function(nums) {
-    let subsets = []
     
-    let backtrack = function(i,current) {
-        if(i>=nums.length) {
-            subsets.push(current.slice())
+    let n = nums.length
+    let powerset = []
+    let f = function(index, arr) {
+        
+        if(index === n) {
+            powerset.push(arr.slice())
             return
         }
-        current.push(nums[i])
-        backtrack(i+1,current)
-        current.pop()
-        backtrack(i+1,current)
+        //take it
+        arr.push(nums[index])
+        f(index+1, arr)
+        //not take it
+        arr.pop()
+        f(index+1, arr)
     }
     
-    let current= []
-    backtrack(0,current)
-    return subsets
+    f(0,[])
+    return powerset
 };
