@@ -3,16 +3,14 @@
  * @return {number}
  */
 var hammingWeight = function(n) {
-    let bin = dec2bin(n)
     let count = 0
-    for(let b of bin) {
-        if(b == '1') {
+    while(n!= 0) {
+        let bit = n &1
+        if(bit == 1) {
             count++
         }
+        n = n >>> 1
     }
     return count
 };
 
-function dec2bin(dec) {
-  return (dec >>> 0).toString(2);
-}
