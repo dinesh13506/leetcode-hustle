@@ -3,15 +3,46 @@
  * @return {number}
  */
 var peakIndexInMountainArray = function(arr) {
-    //[true,true,true,false,false,false]
-    let left = 0 , right = arr.length - 1
-    while(left < right) {
-        let mid = parseInt((left+right)/2)
-        if(arr[mid] > arr[mid+1]) {
-            right = mid
+    
+    let n = arr.length
+    let start = 0, end = n-1
+    while(start <= end) {
+        let mid = start + parseInt((end -start)/2)
+        if(mid > 0 && mid < n-1) {
+            if(arr[mid] > arr[mid-1] && arr[mid] > arr[mid+1]) {
+                return mid
+            }
+            else if(arr[mid-1] > arr[mid]) {
+                end = mid -1
+            }
+            else {
+                start = mid + 1
+            }
         } else {
-            left = mid + 1
+            if(mid == 0) {
+                if(mid < n-1) {
+                    if(arr[mid] > arr[mid+1]) {
+                        return mid
+                    } else {
+                        return mid + 1
+                    }
+                } else {
+                    return mid
+                }
+            } else {
+                if(mid == n-1) {
+                    if(mid -1 >= 0) {
+                        if(arr[mid] > arr[mid-1]) {
+                            return mid - 1
+                        } else {
+                            return mid
+                        }
+                    } else {
+                        return mid
+                    }
+                }
+            }
         }
+            
     }
-    return right
 };
