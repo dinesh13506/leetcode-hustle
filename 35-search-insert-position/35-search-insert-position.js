@@ -5,20 +5,41 @@
  */
 var searchInsert = function(nums, target) {
     
-    let start = 0, end = nums.length-1, ans = 0
-    while(start <= end) {
-        let mid = parseInt((start+end)/2)
-        if(nums[mid] === target) {
-            return mid
-        }else if(target < nums[mid]) {
-            end = mid - 1
-        } else {
-            start = mid + 1
+    let bs = function(start, end) {
+        while(start <= end) {
+            let mid = start + parseInt((end - start)/2)
+            if(nums[mid] == target) {
+                return mid
+            }
+            if(target < nums[mid]) {
+                end = mid - 1
+            } else {
+                start = mid + 1
+            }
         }
+        return -1
     }
-    //console.log(start,end)
-    if(start == nums.length) {
-        return nums.length
+    
+    let n = nums.length
+    let index = bs(0, n-1)
+    if(index != -1) {
+        return index
     }
-    return start
+    
+    let floor = function(start, end) {
+        while(start <= end) {
+            let mid = start + parseInt((end - start)/2)
+            if(nums[mid] == target) {
+                return mid
+            }
+            if(target < nums[mid]) {
+                end = mid - 1
+            } else if(target > nums[mid]) {
+                start = mid + 1
+            }
+        }
+        return start
+    }
+    
+    return floor(0,n-1)
 };
