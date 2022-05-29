@@ -4,6 +4,7 @@
  */
 var maxProduct = function(words) {
     
+    let lengthMap = new Map()
     let masterMap = new Map()
     //set freq of all words
     for(let word of words) {
@@ -11,6 +12,7 @@ var maxProduct = function(words) {
         if(masterMap.has(word)) {
             continue
         }
+        lengthMap.set(word, word.length)
         let map = new Map()
         masterMap.set(word, map)
         for(let ch of word) {
@@ -40,7 +42,7 @@ var maxProduct = function(words) {
     for(let i = 0; i < n; i++) {
         for(let j = i + 1; j < n; j++) {
             if(checkCommonChars(words[i], words[j]) == false) {
-                ans = Math.max(ans, words[i].length * words[j].length)
+                ans = Math.max(ans, lengthMap.get(words[i]) * lengthMap.get(words[j]))
             }
         }
     }
