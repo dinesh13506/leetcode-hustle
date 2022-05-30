@@ -39,7 +39,6 @@ var countPairs = function(nums1, nums2) {
     for(let i = 0; i < n; i++) {
         let x = nums1[i]
         let y = 0 - x + 1 // x + y > 0
-        //console.log(x,y)
         //calculate how many values are greater than equal y if we start from i + 1
         ans = ans + count(i + 1, n, y) 
     }
