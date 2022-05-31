@@ -30,14 +30,11 @@ var shipWithinDays = function(weights, days) {
             }
             i++
         }
-        //console.log("days_taken ", days_taken, " cap ", target)
         if(days_taken > days) {
             return false
         }
         return true
     }
-    
-    //console.log(max_capacity)
     let start = 0, end = max_capacity
     let ans = end
     while(start <= end) {
