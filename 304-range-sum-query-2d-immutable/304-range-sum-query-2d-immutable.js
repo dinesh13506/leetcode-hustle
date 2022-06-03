@@ -28,8 +28,6 @@ var NumMatrix = function(matrix) {
             this.prefix[i][j] = sum
         }
     }
-            
-    //console.log(this.prefix)
 };
 
 /** 
@@ -41,7 +39,6 @@ var NumMatrix = function(matrix) {
  */
 NumMatrix.prototype.sumRegion = function(row1, col1, row2, col2) {
    
-    //console.log(this.prefix[row2][col2], this.prefix[row2][col1], this.prefix[row1][col2])
     let sum = this.prefix[row2][col2] - this.prefix[row2][col1] - this.prefix[row1][col2] + this.prefix[row1][col1]
     for(let j = col1; j <= col2; j++) {
         sum = sum + this.matrix[row1][j]
