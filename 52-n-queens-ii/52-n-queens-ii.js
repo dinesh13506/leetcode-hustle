@@ -4,66 +4,61 @@
  */
 var totalNQueens = function(n) {
     
-    return totalNQueensSimple(n)
-};
-
-
-
-let totalNQueensSimple = function(n) {
+    
+    let ways = 0
     let board = new Array(n)
     for(let i = 0; i < n; i++) {
         board[i] = new Array(n)
-        board[i].fill('.')
+        board[i].fill(0)
     }
     
-    let canAttack = function(row, col) {
+    let canPlace = function(row,col) {
+        
         let i = row, j = col
-        while(j >= 0 ) {
+        while(j >=0) {
             if(board[i][j] == 'Q') {
-                return true
+                return false
             }
             j--
         }
-        
-        i = row
-        j = col
-        while( i >=0 && j >= 0) {
+        i = row, j = col
+        while(i >=0 && j >=0) {
             if(board[i][j] == 'Q') {
-                return true
+                return false
             }
+            j--
             i--
-            j--
         }
         
-        i = row
-        j = col
-        while( i < n && j >= 0) {
+        i = row, j = col
+        while(i < n && j >=0) {
             if(board[i][j] == 'Q') {
-                return true
+                return false
             }
-            i++
             j--
+            i++
         }
-        return false
+        
+        return true
     }
     
-    let ways = 0
     
-    let f = function(col, board) {
-        
+    let solve = function(col) {
         if(col == n) {
             ways++
             return
         }
-        for(let row = 0; row < n; row++) {
-            if(canAttack(row,col) == false) {
-                board[row][col] = 'Q'
-                f(col+1, board)
-                board[row][col] = '.'
+        for(let i = 0; i < n; i++) {
+            if(canPlace(i,col)) {
+                board[i][col] = 'Q'
+                solve(col+1)
+                board[i][col] = 0
             }
         }
     }
     
-    f(0, board)
+    solve(0)
     return ways
-}
+    
+    
+};
