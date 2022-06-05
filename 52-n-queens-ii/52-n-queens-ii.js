@@ -4,50 +4,10 @@
  */
 var totalNQueens = function(n) {
     
-    //return totalNQueensSimple(n)
-    return totalNQueensByHashing(n)
+    return totalNQueensSimple(n)
 };
 
-let totalNQueensByHashing = function(n) {
-    let board = new Array(n)
-    for(let i = 0; i < n; i++) {
-        board[i] = new Array(n)
-        board[i].fill('.')
-    }
-    
-    let leftRow = new Array(n)
-    leftRow.fill(0)
-    let upperDiagonal = new Array(2*n-1)
-    upperDiagonal.fill(0)
-    let lowerDiagonal = new Array(2*n-1)
-    lowerDiagonal.fill(0)
-    
-    let ways = 0
-    
-    let f = function(col, board) {
-        
-        if(col == n) {
-            ways++
-            return
-        }
-        for(let row = 0; row < n; row++) {
-            if(leftRow[row] == 0 && upperDiagonal[row+col] == 0 && lowerDiagonal[n-1 + col -row] == 0) {
-                leftRow[row] = 1
-                upperDiagonal[row+col] = 1
-                lowerDiagonal[n-1 + col -row] = 1
-                board[row][col] = 'Q'
-                f(col+1, board)
-                board[row][col] = '.'
-                leftRow[row] = 0
-                upperDiagonal[row+col] = 0
-                lowerDiagonal[n-1 + col -row] = 0
-            }
-        }
-    }
-    
-    f(0, board)
-    return ways
-}
+
 
 let totalNQueensSimple = function(n) {
     let board = new Array(n)
