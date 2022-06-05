@@ -78,7 +78,7 @@ var minKnightMoves = function(x, y) {
     }
     let q = new MyQueue()
     q.enque([0,0,0])    
-    visited[0+302][0+302] = 1
+    visited[0][0] = 1
     while(q.isEmpty() == false) {
         let currLevelSize = q.size
         for(let i = 0; i < currLevelSize; i++) {
