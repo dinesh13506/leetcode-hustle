@@ -71,25 +71,14 @@ var minKnightMoves = function(x, y) {
         return res
     }
     
-    let visited = new Map()
+    let visited = new Array(607)
+    for(let i = 0; i < 607; i++) {
+        visited[i] = new Array(607)
+        visited[i].fill(0)
+    }
     let q = new MyQueue()
     q.enque([0,0,0])    
-    let isvisited = function(a,b) {
-        if(visited.has(a) && visited.get(a).has(b)) {
-            return true
-        }
-        return false
-    }
-    
-    let markvisited = function(a,b) {
-        if(visited.has(a) == false) {
-            visited.set(a, new Set())
-            visited.get(a).add(b)
-        } else {
-            visited.get(a).add(b)
-        }
-    }
-    markvisited(0,0)
+    visited[0+302][0+302] = 1
     while(q.isEmpty() == false) {
         let currLevelSize = q.size
         for(let i = 0; i < currLevelSize; i++) {
@@ -101,8 +90,8 @@ var minKnightMoves = function(x, y) {
             let neighbours = getNeighbours(front[0], front[1])
             //console.log(neighbours)
             for(let neighbour of neighbours) {
-                if(isvisited(neighbour[0], neighbour[1]) == false) {
-                    markvisited(neighbour[0], neighbour[1])
+                if(visited[neighbour[0] + 302][neighbour[1] + 302] == 0) {
+                    visited[neighbour[0] + 302][neighbour[1] + 302] = 1
                     q.enque([neighbour[0], neighbour[1],front[2] + 1])
                 }
             }
