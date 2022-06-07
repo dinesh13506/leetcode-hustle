@@ -30,17 +30,7 @@ var longestWord = function(words) {
         curr.end = true
     }
     
-    words.sort(function(a,b) {
-        if(a.length == b.length) {
-            return a.localeCompare(b)
-        }
-        else if(a.length > b.length) {
-            return -1
-        }
-        else {
-            return 1
-        }
-    })
+    let ans = ""
     for(let word of words) {
         let curr = trie.root
         let isvalid = true
@@ -53,8 +43,12 @@ var longestWord = function(words) {
             }
         }
         if(isvalid) {
-            return word
+            if(word.length > ans.length) {
+                ans = word
+            } else if(word.length == ans.length && word.localeCompare(ans) < 0) {
+                ans = word
+            }
         }
     }
-    return ""
+    return ans
 };
