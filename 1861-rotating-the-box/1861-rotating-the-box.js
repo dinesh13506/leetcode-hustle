@@ -22,7 +22,6 @@ var rotateTheBox = function(box) {
                 
                 let row = j
                 let col = m - i - 1
-                //console.log("obst => " ,row,col)
                 output[row][col] = '*'
                 row--
                 while(row >= 0 && count > 0) {
