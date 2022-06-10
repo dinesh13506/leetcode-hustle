@@ -8,9 +8,11 @@ var lengthOfLongestSubstring = function(s) {
     let max = 0
     let start = 0, end = 0
     while(end < n) {
-        map.set(s[end], (map.get(s[end]) || 0) + 1)
-        while(map.get(s[end]) > 1) {
-            map.set(s[start], map.get(s[start]) - 1)
+        let endChar = s[end]
+        map.set(endChar, (map.get(endChar) || 0) + 1)
+        while(map.get(endChar) > 1) {
+            let startChar = s[start]
+            map.set(startChar, map.get(startChar) - 1)
             start++
         }
         max = Math.max(max, end - start + 1)
