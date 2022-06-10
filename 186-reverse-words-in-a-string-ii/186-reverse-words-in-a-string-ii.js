@@ -3,30 +3,32 @@
  * @return {void} Do not return anything, modify s in-place instead.
  */
 var reverseWords = function(s) {
-    let stack = []
-    for(let ch of s) {
-        if(ch == " ") {
-            stack.push(ch)
-        } else {
-            if(stack.length && stack[stack.length-1] != " ") {
-                stack[stack.length - 1].push(ch)
-            } else {
-                stack.push([ch])
-            }
-        }
+    let i = 0, j = s.length - 1
+    while(i <= j) {
+        let temp = s[i]
+        s[i] = s[j]
+        s[j] = temp
+        i++
+        j--
     }
-    let ans = []
-    let i = 0
-    //console.log(stack)
-    while(stack.length) {
-        let top = stack.pop()
-        if(top != " ") {
-            ans.push(...top)
-        } else {
-            ans.push(top)
+    //console.log(s)
+    
+    let start = 0
+    while(start < s.length) {
+        let end = start
+        while(end < s.length && s[end] != ' ') {
+            end++
         }
-    }
-    for(let i = 0; i < ans.length; i++) {
-        s[i] = ans[i]
+        let p1 = start
+        let p2 = end -1
+        while(p1 <= p2) {
+            let temp = s[p1]
+            s[p1] = s[p2]
+            s[p2] = temp
+            p1++
+            p2--
+        }
+        start = end+1
+        end++
     }
 };
