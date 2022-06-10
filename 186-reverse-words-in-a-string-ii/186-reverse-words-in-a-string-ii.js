@@ -9,21 +9,20 @@ var reverseWords = function(s) {
             stack.push(ch)
         } else {
             if(stack.length && stack[stack.length-1] != " ") {
-                stack[stack.length - 1] = stack[stack.length - 1] + ch
+                stack[stack.length - 1].push(ch)
             } else {
-                stack.push("" + ch)
+                stack.push([ch])
             }
         }
     }
-    //console.log(stack)
     let ans = []
     let i = 0
+    //console.log(stack)
     while(stack.length) {
         let top = stack.pop()
         
         if(top != " ") {
-            let arr = top.split("")
-            ans.push(...arr)
+            ans.push(...top)
         } else {
             ans.push(top)
         }
