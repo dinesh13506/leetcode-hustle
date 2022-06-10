@@ -20,7 +20,6 @@ var reverseWords = function(s) {
     //console.log(stack)
     while(stack.length) {
         let top = stack.pop()
-        
         if(top != " ") {
             ans.push(...top)
         } else {
