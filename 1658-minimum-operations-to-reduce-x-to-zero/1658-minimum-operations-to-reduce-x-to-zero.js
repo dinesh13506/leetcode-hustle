@@ -6,23 +6,31 @@
 var minOperations = function(nums, x) {
     
     let n = nums.length
-    let sum = 0
+    let total = 0
     for(let num of nums) {
-        sum += num
+        total = total + num
     }
-    let target = sum - x //longest subarray with sum == target
-    let left = 0
-    let maxi = -1
-    let currWindowSum = 0
-    for(let right = 0; right < n; right++) {
-        currWindowSum += nums[right]
-        while(currWindowSum > target && left <= right) {
-            currWindowSum = currWindowSum - nums[left]
-            left++
+    let target = total - x
+    
+    if(target == 0) {
+        return n
+    }
+    
+    let prefixsum = 0
+    let map = new Map()
+    let longest = -1
+    for(let i = 0; i < n; i++) {
+        prefixsum += nums[i]
+        if(prefixsum == target) {
+            longest = i + 1
         }
-        if(currWindowSum == target) {
-            maxi = Math.max(maxi, right - left + 1)
+        if(map.has(prefixsum - target)) {
+            longest = Math.max(longest, i - map.get(prefixsum - target))
+        }
+        if(!map.has(prefixsum)) {
+            map.set(prefixsum, i)
         }
     }
-    return maxi != -1 ? (n - maxi) : -1
+    
+    return longest == -1 ? -1 : n - longest
 };
