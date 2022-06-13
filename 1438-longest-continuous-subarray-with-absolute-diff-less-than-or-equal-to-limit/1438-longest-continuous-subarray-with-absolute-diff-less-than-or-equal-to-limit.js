@@ -22,7 +22,7 @@ var longestSubarray = function(nums, limit) {
         }
         mindeq.push(nums[right])
         
-        if(left <= right && (maxdeq[0] - mindeq[0]) > limit) {
+        while(left <= right && (maxdeq[0] - mindeq[0]) > limit) {
             if(nums[left] == maxdeq[0]) {
                 maxdeq.shift()
             }
@@ -30,9 +30,8 @@ var longestSubarray = function(nums, limit) {
                 mindeq.shift()
             }
             left++
-        } else {
-            longest = Math.max(longest, right - left + 1)
         }
+        longest = Math.max(longest, right - left + 1)
     }
     return longest
 };
