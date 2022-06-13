@@ -4,8 +4,13 @@
  */
 var minimumTotal = function(triangle) {
     
-    
-    let memo = new Map()
+    let m = triangle.length
+    let n = triangle[m-1].length
+    let memo = new Array(m)
+    for(let i = 0; i < m; i++) {
+        memo[i] = new Array(n)
+        memo[i].fill(-1)
+    }
     let dp = function(i,j) {
         
         if(i < 0 || j < 0 || j > i) {
@@ -14,17 +19,16 @@ var minimumTotal = function(triangle) {
         if(i == 0 && j == 0) {
             return triangle[0][0]
         }
-        let key = `${i},${j}`
-        if(memo.has(key)) {
-            return memo.get(key)
+        if(memo[i][j] != -1) {
+            return memo[i][j]
         }
         let sum = triangle[i][j] + Math.min(dp(i-1, j), dp(i-1, j-1))
-        memo.set(key,sum)
-        return memo.get(key)
+        memo[i][j] = sum
+        return memo[i][j]
     }
     
     let minpathsum = Infinity
-    let m = triangle.length
+   
     for(let j = 0; j < triangle[m-1].length; j++) {
         minpathsum = Math.min(minpathsum, dp(m-1, j))
     }
