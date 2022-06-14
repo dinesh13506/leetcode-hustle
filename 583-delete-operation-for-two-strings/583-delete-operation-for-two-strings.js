@@ -6,7 +6,8 @@
 var minDistance = function(word1, word2) {
     
     //return minDistanceMemo(word1, word2)
-    return minDistanceBottomUp(word1, word2)
+    //return minDistanceBottomUp(word1, word2)
+    return minDistanceBottomUpMemoryOptimised(word1, word2)
 };
 
 
@@ -40,7 +41,6 @@ var minDistanceMemo = function(word1, word2) {
 };
 
 var minDistanceBottomUp = function(word1, word2) {
-    
     let m = word1.length, n = word2.length
     let dp = new Array(m+1)
     for(let i = 0; i <=m; i++) {
@@ -57,6 +57,27 @@ var minDistanceBottomUp = function(word1, word2) {
         }
     }
     let lcs = dp[m][n]
+    let ops = (m-lcs) + (n-lcs)
+    return ops
+};
+
+var minDistanceBottomUpMemoryOptimised = function(word1, word2) {
+    let m = word1.length, n = word2.length
+    let prev = new Array(n+1)
+    prev.fill(0)
+    for(let i = 1; i <= m; i++) {
+        let curr = new Array(n+1)
+        curr.fill(0)
+        for(let j =1; j <=n; j++) {
+            if(word1[i-1] == word2[j-1]) {
+                curr[j] = 1 + prev[j-1]
+            } else {
+                curr[j] = Math.max(prev[j], curr[j-1])
+            }
+        }
+        prev = curr
+    }
+    let lcs = prev[n]
     let ops = (m-lcs) + (n-lcs)
     return ops
 };
