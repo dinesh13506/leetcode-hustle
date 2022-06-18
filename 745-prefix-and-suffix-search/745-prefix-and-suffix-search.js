@@ -1,55 +1,50 @@
-class Node {
+class TrieNode {
     constructor() {
         this.children = new Array(26)
         this.children.fill(null)
-        this.isEnd = false
+        this.isend = false
     }
 }
 
 class Trie {
     constructor() {
-        this.root = new Node()
+        this.root = new TrieNode()
     }
-    getIndex(ch) {
-        return ch.charCodeAt() - 'a'.charCodeAt()
-    }
+    
     insert(word) {
         let curr = this.root
         for(let ch of word) {
-            let index = this.getIndex(ch)
+            let index = ch.charCodeAt() - 'a'.charCodeAt()
             if(curr.children[index] == null) {
-                curr.children[index] = new Node()
+                curr.children[index] = new TrieNode()
             }
             curr = curr.children[index]
         }
-        curr.isEnd = true
+        curr.isend = true
     }
     
-    dfs(curr,prefix,words) {
-        if(curr.isEnd) {
+    dfs(curr, prefix,words) {
+        if(curr.isend) {
             words.push(prefix)
         }
         for(let i = 0; i < 26; i++) {
-            let ch = String.fromCharCode(i + 97)
-            let index = this.getIndex(ch)
-            if(curr.children[index] != null) {
-                this.dfs(curr.children[index],prefix+ch,words)
+            if(curr.children[i] != null) {
+                let ch = String.fromCharCode(i + 97)
+                this.dfs(curr.children[i], prefix + ch, words)
             }
         }
     }
     
-    findWordsStartingWith(prefix) {
+    getStartsWith(prefix, words) {
         let curr = this.root
-        let words = []
         for(let ch of prefix) {
-            let index = this.getIndex(ch)
-            if(curr.children[index] == null) {
+            let index = ch.charCodeAt() - 'a'.charCodeAt()
+            curr = curr.children[index]
+            if(curr == null) {
                 return words
             }
-            curr = curr.children[index]
         }
-        this.dfs(curr,prefix,words)
-        return words
+        this.dfs(curr, prefix, words)
     }
 }
 
@@ -59,30 +54,19 @@ class Trie {
  */
 var WordFilter = function(words) {
     
-    let reverse = function(s) {
-        let i = 0, j = s.length - 1
-        while(i < j) {
-            let t = s[i]
-            s[i] = s[j]
-            s[j] = t
-            i++
-            j--
-        }
-        return s.join('')
-    }
-    this.prefixTrie = new Trie()
-    for(let word of words) {
-        this.prefixTrie.insert(word)
-    }
-    this.suffixTrie = new Trie()
-    for(let word of words) {
-        word = reverse(word.split(''))
-        this.suffixTrie.insert(word)
-    }
-    //index map
-    this.indexMap = new Map()
+    this.map = new Map()
     for(let i = 0; i < words.length; i++) {
-        this.indexMap.set(words[i],i)
+        this.map.set(words[i],i)
+    }
+    this.prefixTree = new Trie()
+    for(let word of words) {
+        this.prefixTree.insert(word)
+    }
+    
+    this.suffixTree = new Trie()
+    for(let word of words) {
+        let arr = word.split('').reverse().join('')
+        this.suffixTree.insert(arr)
     }
 };
 
@@ -92,40 +76,31 @@ var WordFilter = function(words) {
  * @return {number}
  */
 WordFilter.prototype.f = function(prefix, suffix) {
-    let reverse = function(s) {
-        let i = 0, j = s.length - 1
-        while(i < j) {
-            let t = s[i]
-            s[i] = s[j]
-            s[j] = t
-            i++
-            j--
-        }
-        return s.join('')
+    
+    let word1 = []
+    this.prefixTree.getStartsWith(prefix,word1)
+    let word2 = []
+    suffix = suffix.split('').reverse().join('')
+    this.suffixTree.getStartsWith(suffix,word2)
+    
+    //console.log(word1, word2, this.map)
+    let common = [], set = new Set()
+    for(let word of word1) {
+        set.add(word)
     }
-    suffix = reverse(suffix.split(''))
-    let pwords = this.prefixTrie.findWordsStartingWith(prefix)
-    let swords = this.suffixTrie.findWordsStartingWith(suffix)
-    let set = new Set(), common = []
-    for(let pword of pwords) {
-        set.add(pword)
-    }
-    for(let sword of swords) {
-        sword = reverse(sword.split(''))
-        if(set.has(sword)) {
-            common.push(sword)
+    for(let word of word2) {
+        let arr = word.split('').reverse().join('')
+        if(set.has(arr) == true) {
+            common.push(arr)
         }
     }
-    //console.log(pwords,swords,common)
-    if(common.length <= 0 ) {
-        return -1
-    }
-    let ans = 0
+    //console.log(common)
+    let ans = -1
     for(let w of common) {
-        ans = Math.max(ans,this.indexMap.get(w))
+        ans = Math.max(ans, this.map.get(w))
     }
-    //console.log(ans)
     return ans
+    
 };
 
 /** 
