@@ -1,79 +1,84 @@
+class TrieNode {
+    constructor() {
+        this.children = new Array(26)
+        this.children.fill(null)
+        this.isend = false
+    }
+}
+
+class Trie {
+    constructor() {
+        this.root = new TrieNode()
+    }
+    insert(word) {
+        let curr = this.root
+        for(let ch of word) {
+            let index = ch.charCodeAt() - 'a'.charCodeAt()
+            if(curr.children[index] == null) {
+                curr.children[index] = new TrieNode()
+            }
+            curr = curr.children[index] 
+        }
+        curr.isend = true
+    }
+    
+    dfs(word, curr, words) {
+        if(curr == null) {
+            return 
+        }
+        if(curr.isend == true) {
+            words.push(word)
+        }
+        for(let i = 0; i < 26; i++) {
+            if(curr.children[i] != null) {
+                let ch = String.fromCharCode(i+97)
+                this.dfs(word+ch, curr.children[i], words)
+            }
+        }
+    }
+    
+    search(prefix) {
+        let curr = this.root
+        for(let ch of prefix) {
+            if(!curr) {
+                break
+            }
+            let index = ch.charCodeAt() - 'a'.charCodeAt()
+            curr = curr.children[index] 
+        }
+        
+        let words = []
+        this.dfs(prefix, curr, words)
+        return words
+    }
+}
+
 /**
  * @param {string[]} products
  * @param {string} searchWord
  * @return {string[][]}
  */
-class Node {
-    constructor() {
-        this.children = new Array(26)
-        this.children.fill(null)
-        this.isEnd = false
-    }
-}
-class Trie {
-    
-    constructor() {
-        this.root = new Node()
-    }
-
-    getIndex(ch) {
-        return ch.charCodeAt() - 'a'.charCodeAt()
-    }
-    
-    insert(word) {
-        let curr = this.root
-        for(let ch of word) {
-            let index = this.getIndex(ch)
-            if(curr.children[index] == null) {
-                curr.children[index] = new Node()
-            }
-            curr = curr.children[index]
-        }
-        curr.isEnd = true
-    }
-
-    dfs(curr,prefix,words) {
-        
-        if(words.length == 3) {
-            return words
-        }
-        if(curr.isEnd) {
-            words.push(prefix)
-        }
-        
-        for(let i = 0; i < 26; i++) {
-            if(curr.children[i] != null) {
-                let ch = String.fromCharCode(97 + i)
-                this.dfs(curr.children[i], prefix + ch, words )
-            }
-        }
-    }
-
-    getWordsStartingWith(prefix) {
-        let curr = this.root
-        let words = []
-        for(let ch of prefix) {
-            let index = this.getIndex(ch)
-            if(curr.children[index] == null) {
-                return words
-            }
-            curr = curr.children[index]
-        }
-        this.dfs(curr,prefix, words)
-        return words
-    }
-}
 var suggestedProducts = function(products, searchWord) {
+    
+    let answer = []
     let trie = new Trie()
-    for(let product of products) {
-        trie.insert(product)
+    for(let p of products) {
+        trie.insert(p)
     }
-    let result = []
-    let prefix = []
+    let prefix = ""
     for(let ch of searchWord) {
-        prefix.push(ch)
-        result.push(trie.getWordsStartingWith(prefix.join('')))
+        prefix = prefix + ch
+        let words = trie.search(prefix)
+        words.sort(function(a,b) {
+            return a.localeCompare(b)
+        })
+        //console.log(words)
+        let top3 = []
+        for(let i = 0; i < Math.min(words.length, 3); i++) {
+            top3.push(words[i])
+        }
+        answer.push(top3)
     }
-    return result
+    return answer
     
 };
