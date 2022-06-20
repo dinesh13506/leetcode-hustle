@@ -53,9 +53,6 @@ class Trie {
  * @return {number}
  */
 var minimumLengthEncoding = function(words) {
-    
-    
-    
     let suffixTree = new Trie()
     for(let w of words) {
         w = w.split('').reverse().join('')
@@ -68,7 +65,5 @@ var minimumLengthEncoding = function(words) {
     
     let s1 = ans1.join('#')
     //console.log(s1)
-    
-    
     return (s1.length) + 1
 };
