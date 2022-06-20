@@ -64,10 +64,10 @@ var minimumLengthEncoding = function(words) {
     
     let ans1 = []
     suffixTree.dfs('',ans1,  suffixTree.root)
-    console.log(ans1)
+    //console.log(ans1)
     
     let s1 = ans1.join('#')
-    console.log(s1)
+    //console.log(s1)
     
     
     return (s1.length) + 1
