@@ -4,12 +4,11 @@
  */
 var runningSum = function(nums) {
     
-    let n = nums.length
-    let runningSum = new Array(n)
+    let runningSum = []
     let sum = 0
-    for(let i = 0; i < n; i++) {
-        sum += nums[i]
-        runningSum[i] = sum
+    for(let num of nums) {
+        sum = sum + num
+        runningSum.push(sum)
     }
     return runningSum
 };
