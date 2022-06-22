@@ -9,23 +9,26 @@
  * @param {ListNode} head
  */
 var Solution = function(head) {
-    let p = head
-    let arr = []
-    while(p) {
-        arr.push(p.val)
-        p = p.next
-    }
-    this.arr = arr
+    this.head = head
 };
 
 /**
  * @return {number}
  */
 Solution.prototype.getRandom = function() {
-    
-    let rand = Math.random()
-    let i = Math.floor(rand * this.arr.length)
-    return this.arr[i]
+    let p = this.head
+    let scope = 1
+    let value = 0
+    while(p) {
+        let rand = Math.random()
+        let prob = 1.0 / scope
+        if(rand < prob) {
+            value = p.val
+        }
+        p = p.next
+        scope++
+    }
+    return value
 };
 
 /** 
