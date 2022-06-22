@@ -1,11 +1,14 @@
 class MyHash {
     constructor() {
-        this.chars ='abcdefghijklmnopqrswxyzABCDEFGHIJKLMNOPQRSTUV0123456789'
+        this.chars ='abcdefghijklmnopqrswxyzABCDEFGHIJKLMNOPQRSTUV0123456789+/'
         this.map = new Map()
         this.shortUrlLen = 8
     }
     
     encode(url) {
+        if(this.map.has(url)) {
+            return this.map.get(url)
+        }
         let encoded = []
         for(let i = 0; i < this.shortUrlLen; i++) {
             let rand = Math.random()
