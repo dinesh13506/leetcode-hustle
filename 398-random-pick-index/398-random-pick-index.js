@@ -5,14 +5,11 @@ var Solution = function(nums) {
     this.map = new Map()
     for(let i = 0; i < nums.length; i++) {
         let num = nums[i]
-        let indexArr = []
         if(this.map.has(num)) {
-            indexArr = this.map.get(num)
-            indexArr.push(i)
+            this.map.get(num).push(i)
         } else {
-            indexArr.push(i)
+            this.map.set(num, [i])
         }
-        this.map.set(num,indexArr)
     }
 };
 
@@ -21,10 +18,12 @@ var Solution = function(nums) {
  * @return {number}
  */
 Solution.prototype.pick = function(target) {
-    let indexArr = this.map.get(target)
-    let index = Math.floor(Math.random() * indexArr.length) //0 to indexArr.length(exclusive)
-    //console.log(target, indexArr,index)
-    return indexArr[index]
+    
+    let indexList = this.map.get(target)
+    
+    let rand = Math.random()
+    let i = Math.floor(rand * indexList.length)
+    return indexList[i]
 };
 
 /** 
