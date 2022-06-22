@@ -9,16 +9,22 @@ class MyHash {
         if(this.map.has(url)) {
             return this.map.get(url)
         }
+        let foundUnique = false
         let encoded = []
-        for(let i = 0; i < this.shortUrlLen; i++) {
-            let rand = Math.random()
-            let index = Math.floor(rand * this.chars.length)
-            encoded.push(this.chars[index])
+        while(foundUnique == false) {
+            for(let i = 0; i < this.shortUrlLen; i++) {
+                let rand = Math.random()
+                let index = Math.floor(rand * this.chars.length)
+                encoded.push(this.chars[index])
+            }
+            let shorturl = encoded.join('')
+            if(this.map.has(shorturl) == false) {
+                this.map.set(url, shorturl)
+                this.map.set(shorturl, url)
+                foundUnique = true
+            }
         }
-        let shorturl = encoded.join('')
-        this.map.set(url, shorturl)
-        this.map.set(shorturl, url)
-        return shorturl
+        return this.map.get(url)
     }
     
     decode(shorturl) {
