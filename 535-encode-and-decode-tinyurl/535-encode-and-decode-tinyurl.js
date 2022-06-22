@@ -1,39 +1,37 @@
-let MyHash = function() {
-    this.alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; // 62 char
-    this.map = new Map()
-    this.hashLength = 10 //can choose accordindgly
-}
-
-MyHash.prototype.getRandom = function() {
-    return Math.floor(Math.random() * this.alphabet.length); // 0 - 61
-}
-
-MyHash.prototype.getHashCode = function() {
-    let shortUrl = []
-    for(let i = 0; i < this.hashLength; i++) {
-        let index = this.getRandom()
-        shortUrl.push(this.alphabet[index])
+class MyHash {
+    constructor() {
+        this.chars ='abcdefghijklmnopqrswxyzABCDEFGHIJKLMNOPQRSTUV0123456789'
+        this.map = new Map()
+        this.shortUrlLen = 8
     }
-    return shortUrl.join('')
+    
+    encode(url) {
+        let encoded = []
+        for(let i = 0; i < this.shortUrlLen; i++) {
+            let rand = Math.random()
+            let index = Math.floor(rand * this.chars.length)
+            encoded.push(this.chars[index])
+        }
+        let shorturl = encoded.join('')
+        this.map.set(url, shorturl)
+        this.map.set(shorturl, url)
+        return shorturl
+    }
+    
+    decode(shorturl) {
+        return this.map.get(shorturl)
+    }
 }
 
-
-
+let myhash = new MyHash()
 /**
  * Encodes a URL to a shortened URL.
  *
  * @param {string} longUrl
  * @return {string}
  */
-
-let myhash = new MyHash()
 var encode = function(longUrl) {
-    let hashCode = myhash.getHashCode()
-    while(myhash.map.has(hashCode)) {
-        hashCode = myhash.getHashCode() //keep search for unsused hash
-    }
-    myhash.map.set(hashCode,longUrl)
-    return "http://tinyurl.com/" + hashCode
+    return myhash.encode(longUrl)
 };
 
 /**
@@ -43,8 +41,7 @@ var encode = function(longUrl) {
  * @return {string}
  */
 var decode = function(shortUrl) {
-    let hashCode = shortUrl.replace("http://tinyurl.com/","")
-    return myhash.map.get(hashCode)
+    return myhash.decode(shortUrl)
 };
 
 /**
