@@ -16,35 +16,35 @@ var mergeTwoLists = function(list1, list2) {
     let p1 = list1, p2 = list2
     while(p1 && p2) {
         if(p1.val == p2.val) {
-            list.push(p1.val)
-            list.push(p2.val)
+            list.push(p1)
+            list.push(p2)
             p1 = p1.next
             p2 = p2.next
         } else if(p1.val < p2.val) {
-            list.push(p1.val)
+            list.push(p1)
             p1 = p1.next
         } else {
-            list.push(p2.val)
+            list.push(p2)
             p2 = p2.next
         }
     }
     
     while(p1) {
-        list.push(p1.val)
+        list.push(p1)
         p1 = p1.next
     }
     while(p2) {
-        list.push(p2.val)
+        list.push(p2)
         p2 = p2.next
     }
     //console.log(list)
     let head = null, tail = null
     for(let i = 0; i < list.length; i++) {
         if(head == null && tail == null) {
-            head = new ListNode(list[i])
+            head = list[i]
             tail = head
         } else {
-            tail.next = new ListNode(list[i])
+            tail.next = list[i]
             tail = tail.next
         }
     }
