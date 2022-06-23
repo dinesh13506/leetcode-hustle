@@ -14,14 +14,23 @@ var reverseList = function(head) {
     let stack = []
     let p = head
     while(p) {
-        stack.push(p.val)
+        if(stack.length) {
+            let prev = stack[stack.length-1]
+            prev.next = null
+        }
+        stack.push(p)
         p = p.next
     }
     
-    p = head
+    let newhead = null, newtail = null
     while(stack.length) {
-        p.val = stack.pop()
-        p = p.next
+        if(newhead == null && newtail == null) {
+            newhead = stack.pop()
+            newtail = newhead
+        } else {
+            newtail.next = stack.pop()
+            newtail = newtail.next
+        }
     }
-    return head
+    return newhead
 };
