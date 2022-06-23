@@ -11,26 +11,17 @@
  */
 var reverseList = function(head) {
     
-    let stack = []
-    let p = head
-    while(p) {
-        if(stack.length) {
-            let prev = stack[stack.length-1]
-            prev.next = null
+    let reverse = (p) => {
+        if(p == null) {
+            return p
         }
-        stack.push(p)
-        p = p.next
-    }
-    
-    let newhead = null, newtail = null
-    while(stack.length) {
-        if(newhead == null && newtail == null) {
-            newhead = stack.pop()
-            newtail = newhead
-        } else {
-            newtail.next = stack.pop()
-            newtail = newtail.next
+        if(p.next == null) {
+            return p
         }
+        let newhead = reverse(p.next)
+        p.next.next = p
+        p.next = null
+        return newhead
     }
-    return newhead
+    return reverse(head)
 };
