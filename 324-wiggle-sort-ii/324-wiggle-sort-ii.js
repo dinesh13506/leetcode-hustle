@@ -9,7 +9,7 @@ var wiggleSort = function(nums) {
         return a - b
     })
     
-    let j = 0, k = parseInt((nums.length-1)/2) + 1
+    let j = 0, k =  nums.length & 1 ? parseInt((nums.length)/2) + 1 : parseInt((nums.length)/2)
     for(let i = nums.length - 1; i >=0; i--) {
         nums[i] = copy[i&1 ? k++ : j++]
     }
