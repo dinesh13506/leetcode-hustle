@@ -4,12 +4,13 @@
  */
 var maxProfit = function(prices) {
     
-    let profit = 0, min = prices[0]
+    let profit = 0
+    let minPrice = prices[0]
     for(let i = 0; i < prices.length; i++) {
         let currPrice = prices[i]
-        let cost = currPrice - min
-        profit = Math.max(profit, cost)
-        min = Math.min(min, currPrice)
+        let currProfit = currPrice - minPrice
+        profit = Math.max(currProfit, profit)
+        minPrice = Math.min(minPrice, currPrice)
     }
     return profit
 };
