@@ -21,8 +21,8 @@ var closedIsland = function(grid) {
     }
     
     let ans = 0
-    for(let i = 0; i < m; i++) {
-        for(let j = 0; j < n; j++) {
+    for(let i = 1; i < m-1; i++) {
+        for(let j = 1; j < n-1; j++) {
             if(grid[i][j] == 0) {
                 ans += dfs(i,j) ? 1 : 0
             }
