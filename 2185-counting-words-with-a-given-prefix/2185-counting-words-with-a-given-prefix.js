@@ -49,6 +49,5 @@ var prefixCount = function(words, pref) {
     for(let word of words) {
         trie.insert(word)
     }
-    
     return trie.search(pref)
 };
