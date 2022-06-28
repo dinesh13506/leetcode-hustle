@@ -3,26 +3,6 @@
  * @return {number}
  */
 var minDeletion = function(nums) {
-    
-    
-    let isbeautiful = () => {
-        if(nums.length %2 != 0) return false
-        let flag = true
-        for(let i = 0; i <=nums.length - 2; i++) {
-            if(i%2 == 0) {
-                if(nums[i] != nums[i+1]) {
-                    continue
-                } else {
-                    return false
-                }
-            }
-        }
-        return true
-    }
-    
-    // if(isbeautiful()) {
-    //     return 0
-    // }
     let stack = [], count = 0
     for(let num of nums) {
         if(stack.length <= 0 || stack[stack.length-1] != num) {
