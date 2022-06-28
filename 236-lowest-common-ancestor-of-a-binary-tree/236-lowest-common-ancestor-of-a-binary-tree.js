@@ -12,28 +12,33 @@
  * @return {TreeNode}
  */
 var lowestCommonAncestor = function(root, p, q) {
-  
     
-    let lca = function(node) {
-        if(node == null) {
-            return null
+    let parentMap = new Map()
+    let nodeMap = new Map()
+    
+    let preorder = function(node,parent) {
+        if(node) {
+            parentMap.set(node.val, parent)
+            nodeMap.set(node.val, node)
+            preorder(node.left, node)
+            preorder(node.right, node)
         }
-        
-        if(node.val == p.val || node.val == q.val) {
-            return node
-        }
-        
-        let lca_left = lca(node.left)
-        let lca_right = lca(node.right)
-        
-        if(lca_left && lca_right) {
-            return node
-        }
-        else if(lca_left == null) {
-            return lca_right
-        }
-        else return lca_left
     }
     
-    return lca(root)
+    preorder(root)
+    
+    let path = new Set()
+    let ptr = nodeMap.get(p.val)
+    while(ptr) {
+        path.add(ptr.val)
+        ptr = parentMap.get(ptr.val)
+    }
+    ptr = nodeMap.get(q.val)
+    while(ptr) {
+        if(path.has(ptr.val)) {
+            return nodeMap.get(ptr.val)
+        }
+        ptr = parentMap.get(ptr.val)
+    }
+    return null
 };
