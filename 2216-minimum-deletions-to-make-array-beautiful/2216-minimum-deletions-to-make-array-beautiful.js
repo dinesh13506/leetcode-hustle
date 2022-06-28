@@ -20,12 +20,11 @@ var minDeletion = function(nums) {
         return true
     }
     
-    if(isbeautiful()) {
-        return 0
-    }
+    // if(isbeautiful()) {
+    //     return 0
+    // }
     let stack = [], count = 0
     for(let num of nums) {
-        //console.log(num, stack,count)
         if(stack.length <= 0 || stack[stack.length-1] != num) {
             stack.push(num)
         } else {
