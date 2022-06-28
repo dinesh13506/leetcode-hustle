@@ -15,12 +15,13 @@
 var lowestCommonAncestor = function(root, p, q) {
     
     while(true) {
-        if(p.val - root.val > 0 && q.val - root.val > 0) {
-            root = root.right
-        }
-        
-        else if(root.val - p.val > 0 && root.val - q.val > 0) {
+        //both p and q are on left side of root
+        if(root.val - p.val > 0 && root.val - q.val > 0) {
             root = root.left
+        }
+        //both p and q are on right side of root
+        else if(p.val - root.val > 0 && q.val - root.val > 0) {
+            root = root.right
         }
         else {
             break
