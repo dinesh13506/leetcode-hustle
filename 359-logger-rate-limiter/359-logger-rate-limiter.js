@@ -9,12 +9,13 @@ var Logger = function() {
  * @return {boolean}
  */
 Logger.prototype.shouldPrintMessage = function(timestamp, message) {
-    if(this.map.has(message) === false) {
-        this.map.set(message, timestamp + 10)
+    if(this.map.has(message) == false) {
+        this.map.set(message, timestamp)
         return true
     } else {
-        if(timestamp >= this.map.get(message)) {
-            this.map.set(message, timestamp + 10)
+        let lastTimeStamp = this.map.get(message)
+        if(timestamp - lastTimeStamp >= 10) {
+            this.map.set(message, timestamp)
             return true
         } else {
             return false
