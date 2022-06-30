@@ -4,11 +4,10 @@
  */
 var fib = function(n) {
     
-    let prev2 = 0, prev = 1
-    for(let i = 2; i <=n ; i++) {
-        let curri = prev2 + prev
-        prev2 = prev
-        prev = curri
+    let dp = new Array(n+1)
+    dp[0] = 0, dp[1] = 1
+    for(let i = 2; i <= n; i++) {
+        dp[i] = dp[i-1] + dp[i-2]
     }
-    return n == 0 ? prev2 : prev
+    return dp[n]
 };
