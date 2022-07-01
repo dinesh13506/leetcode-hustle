@@ -22,7 +22,7 @@ var minCostClimbingStairsMemo = function(cost) {
 };
 
 
-var minCostClimbingStairs = function(cost) {
+var minCostClimbingStairsTopDown = function(cost) {
     
     let top = cost.length
     let dp = new Array(top+1)
@@ -32,4 +32,17 @@ var minCostClimbingStairs = function(cost) {
         dp[i] = Math.min(cost[i-1] + dp[i-1], cost[i-2] + dp[i-2])
     }
     return dp[top]
+};
+
+
+var minCostClimbingStairs = function(cost) {
+    
+    let top = cost.length
+    let prev2 = 0, prev1 = 0
+    for(let i = 2; i <= top; i++) {
+        let curr = Math.min(cost[i-1] + prev1, cost[i-2] + prev2)
+        prev2 = prev1
+        prev1 = curr
+    }
+    return prev1
 };
