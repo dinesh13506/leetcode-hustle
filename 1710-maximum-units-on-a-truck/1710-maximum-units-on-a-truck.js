@@ -22,6 +22,8 @@ var maximumUnits = function(boxTypes, truckSize) {
             let units = Math.min(bt[0], truckSize)
             maxunits += units * bt[1]
             truckSize -= units
+        } else {
+            break
         }
     }
     return maxunits
