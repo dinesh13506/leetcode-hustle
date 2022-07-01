@@ -1,9 +1,9 @@
 
 var Twitter = function() {
-    this.followerMap = new Map()
-    this.followingMap = new Map()
-    this.tweetMap = new Map()
-    this.time = 0
+    this.counter = 0
+    this.followersMap = new Map()
+    this.followeesMap = new Map()
+    this.tweets = new Map()
 };
 
 /** 
@@ -12,10 +12,10 @@ var Twitter = function() {
  * @return {void}
  */
 Twitter.prototype.postTweet = function(userId, tweetId) {
-    let tweets = this.tweetMap.get(userId) || []
-    this.time++
-    tweets.push([tweetId, this.time])
-    this.tweetMap.set(userId, tweets)
+    let currentTime = this.counter++
+    let list = this.tweets.get(userId) || []
+    list.push([tweetId, currentTime])
+    this.tweets.set(userId, list)
 };
 
 /** 
@@ -23,31 +23,31 @@ Twitter.prototype.postTweet = function(userId, tweetId) {
  * @return {number[]}
  */
 Twitter.prototype.getNewsFeed = function(userId) {
-    let ids = [userId]
-    let follwing = this.followingMap.get(userId) || []
-    for(let id of follwing) {
-        ids.push(id)
+    
+    //console.log(this.followeesMap, this.followersMap, userId, this.tweets)
+    let followedUsers = this.followeesMap.get(userId) ? Array.from(this.followeesMap.get(userId)) : []
+    let tweets = this.tweets.get(userId) ? this.tweets.get(userId).slice() : []
+    for(let user of followedUsers) {
+        tweets.push(...(this.tweets.get(user) || []) )
     }
-    let tweets = []
-    for(let id of ids) {
-        tweets.push(...(this.tweetMap.get(id) || []))
-    }
+    //console.log("tweets => ", tweets)
     tweets.sort(function(a,b) {
-        return b[1] - a[1]
+        //return b[1] - a[1]
+        if(a[1] > b[1]) {
+            return -1
+        } else if(a[1] < b[1]) {
+            return 1
+        }
+        return 0
     })
-    let set = new Set()
-    for(let t of tweets) {
-        set.add(t)
-    }
-    tweets = Array.from(set)
+    //console.log("tweets => ", tweets) 
     
     let top10 = []
     for(let i = 0; i < Math.min(10, tweets.length); i++) {
         top10.push(tweets[i][0])
     }
+    //console.log("top10 =>", top10)
     return top10
-    
-    
 };
 
 /** 
@@ -56,13 +56,17 @@ Twitter.prototype.getNewsFeed = function(userId) {
  * @return {void}
  */
 Twitter.prototype.follow = function(followerId, followeeId) {
-    let followers = this.followerMap.get(followeeId) || []
-    followers.push(followerId)
-    this.followerMap.set(followeeId, followers)
     
-    let following = this.followingMap.get(followerId) || []
-    following.push(followeeId)
-    this.followingMap.set(followerId, following)
+    if(this.followersMap.has(followeeId) == false) {
+        this.followersMap.set(followeeId, new Set())
+    }
+    
+    if(this.followeesMap.has(followerId) == false) {
+        this.followeesMap.set(followerId, new Set())
+    }
+    
+    this.followersMap.get(followeeId).add(followerId)
+    this.followeesMap.get(followerId).add(followeeId)
     
 };
 
@@ -72,14 +76,8 @@ Twitter.prototype.follow = function(followerId, followeeId) {
  * @return {void}
  */
 Twitter.prototype.unfollow = function(followerId, followeeId) {
-    let following = this.followingMap.get(followerId) || []
-    following = following.filter(function(id) { return id != followeeId })
-    this.followingMap.set(followerId, following)
-    
-    let followers = this.followerMap.get(followeeId) || []
-    followers.filter(function(id) { return id != followerId })
-    this.followerMap.set(followeeId, followers)
-    
+    this.followersMap.get(followeeId) ?  this.followersMap.get(followeeId).delete(followerId) : ""
+    this.followeesMap.get(followerId) ? this.followeesMap.get(followerId).delete(followeeId) : ""
 };
 
 /** 
