@@ -4,17 +4,25 @@
  * @return {number}
  */
 var maximumUnits = function(boxTypes, truckSize) {
-    
     boxTypes.sort(function(a,b) {
-        return ( b[1]) - ( a[1])
+        if(a[1] > b[1]) {
+            return -1
+        }
+        else if(a[1] < b[1]) {
+            return 1
+        }
+        return 0
     })
     //console.log(boxTypes)
-    let units = 0
-    for(let i = 0; i < boxTypes.length; i++ ) {
-        let boxes = Math.min(truckSize,boxTypes[i][0])
-        units  = units +  (boxes * boxTypes[i][1])
-        truckSize = truckSize - boxes
-        if(truckSize <= 0 ) break
+    
+    let maxunits = 0
+    for(let bt of boxTypes) {
+        //can take
+        if(truckSize > 0) {
+            let units = Math.min(bt[0], truckSize)
+            maxunits += units * bt[1]
+            truckSize -= units
+        }
     }
-    return units
+    return maxunits
 };
