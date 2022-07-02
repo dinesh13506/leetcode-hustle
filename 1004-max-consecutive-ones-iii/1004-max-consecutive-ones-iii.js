@@ -4,23 +4,19 @@
  * @return {number}
  */
 var longestOnes = function(nums, k) {
-    
-    let length = nums.length
-    let left = 0, ones = 0, zeroes = 0, ans = -Infinity
-    for(let right = 0; right < length; right++) {
-        nums[right] == 0 ? zeroes++ : ones++
-        //console.log("counts ", zeroes, ones)
+    let n = nums.length
+    let freq = new Array(2)
+    freq.fill(0)
+    let start = 0, end = 0, maxlen = 0
+    for(end = 0; end < n; end++) {
+        freq[nums[end]]++
+        let zeroes = freq[0]
         while(zeroes > k) {
-            if(nums[left] == 0) {
-                zeroes--
-            } else {
-                ones--
-            }
-            left++
+            freq[nums[start]]--
+            start++
+            zeroes = freq[0]
         }
-        //console.log("counts ", zeroes, ones)
-        //console.log("pointers", left,right)
-        ans = Math.max(ans, (right - left) + 1)
+        maxlen = Math.max(maxlen, end - start + 1)
     }
-    return ans
+    return maxlen
 };
