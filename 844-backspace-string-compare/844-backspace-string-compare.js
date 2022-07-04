@@ -5,36 +5,17 @@
  */
 var backspaceCompare = function(s, t) {
     
-    let i = s.length - 1, j = t.length - 1, skipS = 0, skipT = 0
-    while(i >=0 || j>=0 ) {
-        while(i>=0) {
-            if(s[i] === '#') {
-                skipS++
-                i--
-            } else if(skipS > 0) {
-                skipS--
-                i--
-            } else {
-                break
+    let getStr = (str) => {
+        let stack = []
+        for(let ch of str) {
+            if(ch == '#' && stack.length > 0) {
+                stack.pop()
+            } else if(ch >= 'a' && ch <= 'z') {
+                stack.push(ch)
             }
         }
-        
-        while(j>=0) {
-            if(t[j] === '#') {
-                skipT++
-                j--
-            } else if(skipT > 0) {
-                skipT--
-                j--
-            } else {
-                break
-            }
-        }
-        
-        if(i >=0 && j >=0 && s[i] != t[j]) return false
-        if((i>=0) != (j>=0)) return false
-        i--
-        j--
+        return stack.join('')
     }
-    return true
+    
+    return getStr(s) == getStr(t)
 };
