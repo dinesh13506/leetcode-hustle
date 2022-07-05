@@ -1,3 +1,58 @@
+class MaxHeap {
+    constructor() {
+        this.list = []
+        this.size = 0
+    }
+    getsize() {
+        return this.size
+    }
+    swap(i,j) {
+        if(i!= j) {
+            this.list[i] = this.list[i] ^ this.list[j]
+            this.list[j] = this.list[i] ^ this.list[j]
+            this.list[i] = this.list[i] ^ this.list[j]
+        }
+    }
+    heapify(i) {
+        let largest = i
+        let left = 2 * i + 1
+        let right = left + 1
+        if(left < this.getsize() && this.list[left] > this.list[largest]) {
+            largest = left
+        }
+        if(right < this.getsize() && this.list[right] > this.list[largest]) {
+            largest = right
+        }
+        if(largest != i) {
+            this.swap(i, largest)
+            this.heapify(largest)
+        }
+    }
+    
+    buildUp(i) {
+        let parent = parseInt((i-1)/2)
+        if(this.list[i] > this.list[parent]) {
+            this.swap(i,parent)
+            this.buildUp(parent)
+        }
+    }
+    
+    insert(value) {
+        this.list.push(value)
+        this.size++
+        this.buildUp(this.size - 1)
+    }
+    
+    extractMax() {
+        this.swap(0,this.size - 1)
+        let max = this.list.pop()
+        this.size--
+        this.heapify(0)
+        return max
+    }
+}
+
+
 /**
  * @param {number[]} stones
  * @return {number}
@@ -5,66 +60,15 @@
 var lastStoneWeight = function(stones) {
     
     let maxheap = new MaxHeap()
-    let length = stones.length
-    for(let i = 0; i < length; i++) {
-        maxheap.insert(stones[i])
+    for(let stone of stones) {
+        maxheap.insert(stone)
     }
-    while(maxheap.size() > 1) {
-        let firstLargest = maxheap.extractMax()
-        let secondLargest = maxheap.extractMax()
-        if(firstLargest != secondLargest) {
-            maxheap.insert(firstLargest - secondLargest)
+    
+    while(maxheap.getsize() > 1) {
+        let max1 = maxheap.extractMax(), max2 = maxheap.extractMax()
+        if(max1 != max2) {
+            maxheap.insert(max1 - max2)
         }
     }
-    return maxheap.size() == 1 ? maxheap.extractMax() : 0
-    
+    return maxheap.extractMax()
 };
-
-
-class MaxHeap {
-    constructor() {
-        this.list = []
-        this.len = 0
-    }
-    size() {
-        return this.len
-    }
-    swap(i,j) {
-        let temp = this.list[i]
-        this.list[i] = this.list[j]
-        this.list[j] = temp
-    }
-    heapify(i) {
-        let largest = i
-        let left = 2 * i + 1
-        let right = 2 * i + 2
-        
-        if(left < this.len && this.list[left] > this.list[largest]) {
-            largest = left
-        }
-        if(right < this.len && this.list[right] > this.list[largest]) {
-            largest = right
-        }
-        
-        if(largest != i) {
-            this.swap(i,largest)
-            this.heapify(largest)
-        }
-    }
-    insert(num) {
-        this.list.push(num)
-        this.len++
-        for(let i = parseInt(this.len / 2 ) - 1; i >= 0; i--) {
-            this.heapify(i)
-        }
-    }
-    
-    extractMax() {
-        let max = this.list[0]
-        this.swap(0, this.len-1)
-        this.list.pop()
-        this.len--
-        this.heapify(0)
-        return max
-    }
-}
