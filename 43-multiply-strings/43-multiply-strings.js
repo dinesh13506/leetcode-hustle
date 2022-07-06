@@ -59,9 +59,9 @@ var multiply = function(num1, num2) {
             if(carry > 0) {
                 answer.push(carry)
             }
-            answer.unshift(tens)
+            //answer.unshift(tens)
             //console.log(answer)
-            result.push(answer.reverse().join(''))
+            result.push(answer.reverse().join('') + tens)
             tens = tens + "0"
         }
         
