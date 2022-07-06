@@ -3,38 +3,33 @@
  * @return {number[]}
  */
 var spiralOrder = function(matrix) {
-    
-    let result = []
     let m = matrix.length, n = matrix[0].length
-    let row_start = 0, row_end = m-1, col_start = 0, col_end = n-1
-    while(row_start <= row_end && col_start <= col_end) {
+    let t = 0, b = m -1, l = 0, r = n - 1
+    let answer = []
+    while(t <= b && l <= r) {
         
         //left to right
-        for(let j = col_start; j<= col_end; j++) {
-            result.push(matrix[row_start][j])
+        for(let j = l; j <= r; j++) {
+            answer.push(matrix[t][j])
         }
         //top to bottom
-        for(let i = row_start + 1; i<= row_end; i++) {
-            result.push(matrix[i][col_end])
+        for(let i = t + 1; i <= b; i++) {
+            answer.push(matrix[i][r])
         }
-        if(row_end != row_start) {
-            //right to left
-            for(let j = col_end-1; j>= col_start; j--) {
-                result.push(matrix[row_end][j])
-            } 
+        if(t != b) {
+            for(let j = r -1; j >= l; j--) {
+                answer.push(matrix[b][j])
+            }
         }
-       
-        if(col_start != col_end) {
-            //bottom to top
-            for(let i = row_end-1; i > row_start; i--) {
-                result.push(matrix[i][col_start])
-            } 
+        if(l != r) {
+            for(let j = b - 1; j > t; j--) {
+                answer.push(matrix[j][l])
+            }
         }
-       
-        row_start++
-        col_start++
-        row_end--
-        col_end--
+        t++
+        b--
+        l++
+        r--
     }
-    return result
+    return answer
 };
