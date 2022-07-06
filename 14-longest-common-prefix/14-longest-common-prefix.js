@@ -3,15 +3,26 @@
  * @return {string}
  */
 var longestCommonPrefix = function(strs) {
-    if(strs.length === 0) return 0
-    let prefix = strs[0]
-    for(let i = 0; i < strs.length; i++) {
-        //console.log(strs[i])
-        while(strs[i].indexOf(prefix) != 0) {
-            prefix = prefix.substring(0,prefix.length-1)
-            //console.log("prefix = " + prefix)
+    
+    let map = new Map()
+    let n = strs.length
+    for(let str of strs) {
+        let prefix = ""
+        for(let ch of str) {
+            prefix += ch
+            if(map.has(prefix) == false) {
+                map.set(prefix, 0)
+            } 
+            map.set(prefix, map.get(prefix) + 1)
         }
     }
-    return prefix
-    
+    let ans = ""
+    for(let str of map.keys()) {
+        if(map.get(str) >= n) {
+            if(ans.length < str.length) {
+                ans = str
+            }
+        }
+    }
+    return ans
 };
