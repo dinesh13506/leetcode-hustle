@@ -6,6 +6,9 @@
  */
 var isInterleave = function(s1, s2, s3) {
     let m = s1.length, n = s2.length
+    if( m + n != s3.length) {
+        return false
+    }
     let i = 0, j = 0, k = 0
     
     let memo = new Array(m)
@@ -36,5 +39,6 @@ var isInterleave = function(s1, s2, s3) {
         return memo[i][j]
     }
     
+   
     return dp(0,0,0)
 };
