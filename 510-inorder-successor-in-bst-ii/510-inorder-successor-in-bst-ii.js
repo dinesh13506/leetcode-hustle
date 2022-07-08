@@ -15,11 +15,11 @@
 var inorderSuccessor = function(node) {
     
     if(node.right) {
-        node = node.right
-        while(node.left) {
-            node = node.left
+        let p = node.right
+        while(p.left) {
+            p = p.left
         }
-        return node
+        return p
     } 
     while(node.parent && node.parent.val < node.val) {
         node = node.parent
