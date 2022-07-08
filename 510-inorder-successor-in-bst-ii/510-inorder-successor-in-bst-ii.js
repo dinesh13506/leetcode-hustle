@@ -15,15 +15,17 @@
 var inorderSuccessor = function(node) {
     
     if(node.right) {
-        let p = node.right
-        while(p.left) {
-            p = p.left
+        node = node.right
+        while(node.left) {
+            node = node.left
         }
-        return p
-    } 
-    while(node.parent && node.parent.val < node.val) {
-        node = node.parent
+        return node
     }
-    return node.parent
-    
+    else {
+        while(node.parent && node.parent.val < node.val) {
+            node = node.parent
+        }
+        return node.parent
+    }
+    return null
 };
