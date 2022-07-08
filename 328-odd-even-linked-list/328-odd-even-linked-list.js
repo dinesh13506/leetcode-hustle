@@ -10,41 +10,25 @@
  * @return {ListNode}
  */
 var oddEvenList = function(head) {
-    let odds = []
-    let evens = []
-    let index = 1
-    let p = head
-    while(p) {
-        if(index % 2 == 0) {
-            evens.push(p.val)
-        }else {
-            odds.push(p.val)
-        }
-        p = p.next
-        index++
+    if(head == null) {
+        return head
     }
-    let newhead = null, newtail = null, i = 0
-    while( i < odds.length) {
-        if(newhead == null) {
-            newhead = new ListNode(odds[i])
-            newtail = newhead
-        } else {
-            newtail.next = new ListNode(odds[i])
-            newtail = newtail.next
-        }
-        i++
+    if(head && head.next == null) {
+        return head
     }
-    i = 0
-    while( i < evens.length ) {
-        if(newhead == null) {
-            newhead = new ListNode(evens[i])
-            newtail = newhead
-        } else {
-            newtail.next = new ListNode(evens[i])
-            newtail = newtail.next
-        }
-        i++
+    if(head && head.next && head.next.next == null) {
+        return head
     }
-    
-    return newhead
+    let oddhead = head
+    let oddtail = head
+    let evenhead = head.next
+    let eventail = evenhead
+    while(eventail && eventail.next) {
+        oddtail.next = oddtail.next.next
+        eventail.next = eventail.next.next
+        oddtail = oddtail.next
+        eventail = eventail.next 
+    }
+    oddtail.next = evenhead
+    return oddhead
 };
