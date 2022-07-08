@@ -10,21 +10,21 @@
  * @return {ListNode}
  */
 var sortList = function(head) {
-    
-    let getMid = function(node) {
+  
+    let getMid = (node) => {
         if(node == null) return
-        let slow = node, fast = node, prevmid = node
+        let slow = node, fast = node, midprev = node
         while(fast && fast.next) {
-            prevmid = slow
+            midprev = slow
             slow = slow.next
             fast = fast.next.next
         }
-        let mid = prevmid.next
-        prevmid.next = null
+        let mid = midprev.next
+        midprev.next = null
         return mid
     }
     
-    let merge = function(l1,l2) {
+    let merge = (l1,l2) => {
         let dummyhead = new ListNode()
         let dummytail = dummyhead
         while(l1 && l2) {
@@ -47,12 +47,10 @@ var sortList = function(head) {
         return dummyhead.next
     }
     
-    let sort = function(head) {
-        if(head == null || head.next == null) {
-            return head
-        }
-        let mid = getMid(head)
-        let l1 = sort(head)
+    let sort = (node) => {
+        if(node == null || node.next == null) return node
+        let mid = getMid(node)
+        let l1 = sort(node)
         let l2 = sort(mid)
         return merge(l1,l2)
     }
