@@ -23,7 +23,7 @@ var oddEvenList = function(head) {
     let oddtail = head
     let evenhead = head.next
     let eventail = evenhead
-    while(eventail && eventail.next) {
+    while(oddtail && oddtail.next && eventail && eventail.next) {
         oddtail.next = oddtail.next.next
         eventail.next = eventail.next.next
         oddtail = oddtail.next
