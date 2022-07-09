@@ -1,98 +1,87 @@
 class Node {
-    constructor(index) {
+    constructor(index, value) {
         this.index = index
-        this.next = null
-        this.prev = null
+        this.value = value
     }
 }
 
-class Deque {
+
+class MaxHeap {
     constructor() {
-        this.front = null
-        this.rear = null
+        this.size = 0
+        this.list = []
     }
-    
     isEmpty() {
-        if(!this.front && !this.rear) {
-            return true
-        }
-        return false
-    }
-    getFront() {
-        if(!this.front || !this.rear) {
-            return
-        }
-        return this.front
+        return this.size > 0 ? false : true
     }
     
-    getRear() {
-        if(!this.front || !this.rear) {
-            return
-        }
-        return this.rear
+    swap(i,j) {
+        let temp = this.list[i]
+        this.list[i] = this.list[j]
+        this.list[j] = temp
     }
     
-    insertAtRear(index) {
-        let node = new Node(index)
-        if(this.front == null && this.rear == null) {
-            this.front = node
-            this.rear = node
-        } else {
-            this.rear.next = node
-            node.prev = this.rear
-            this.rear = this.rear.next
+    heapify(i) {
+        let largest = i 
+        let left = 2 * i + 1
+        let right = left + 1
+        if(left < this.list.length && this.list[left].value > this.list[largest].value) {
+            largest = left
+        }
+        if(right < this.list.length && this.list[right].value > this.list[largest].value) {
+            largest = right
+        }
+        if(largest != i) {
+            this.swap(i, largest)
+            this.heapify(largest)
         }
     }
     
-    popFromFront() {
-        if(!this.front || !this.rear) {
-            return
-        }
-        this.front = this.front.next
-        if(this.front) {
-            this.front.prev = null
-        }
-        if(this.front == null) {
-            this.rear = null
+    bottomUp(i) {
+        let parent = parseInt((i-1)/2)
+        while(parent >= 0 && this.list[parent].value < this.list[i].value) {
+            this.swap(i,parent)
+            this.bottomUp(parent)
         }
     }
-    popFromRear() {
-        if(!this.front || !this.rear) {
-            return
-        }
-        this.rear = this.rear.prev
-        if(this.rear) {
-            this.rear.next = null
-        }
-        if(this.rear == null) {
-            this.front = null
-        }
+    
+    insert(index, value) {
+        let node = new Node(index, value)
+        this.list.push(node)
+        this.size++
+        this.bottomUp(this.size - 1)
+    }
+    
+    extractMax() {
+        this.swap(0, this.size - 1)
+        let node = this.list.pop()
+        this.size--
+        this.heapify(0)
+        return node
+    }
+    
+    getMax() {
+        return this.list[0]
     }
 }
-
-
 /**
  * @param {number[]} nums
  * @param {number} k
  * @return {number}
  */
 var maxResult = function(nums, k) {
-    
     let n = nums.length
-    let score = new Array(n) // score[i] max score ending at i and starting at 0
-    
-    let dq = new Deque()
+    let score = new Array(n)
     score[0] = nums[0]
-    dq.insertAtRear(0)
+    let maxheap = new MaxHeap()
+    maxheap.insert(0, nums[0])
     for(let i = 1; i < n; i++) {
-        while(dq.isEmpty() == false && dq.getFront().index < i - k) {
-            dq.popFromFront()
+        while(maxheap.isEmpty() == false && maxheap.getMax().index < i - k) {
+            maxheap.extractMax()
         }
-        score[i] = nums[i] + score[dq.getFront().index]
-        while(dq.isEmpty() == false && score[dq.getRear().index] < score[i]) {
-            dq.popFromRear()
-        }
-        dq.insertAtRear(i)
+        let max = maxheap.getMax().value
+        score[i] = nums[i] + max
+        maxheap.insert(i, score[i])
     }
     return score[n-1]
 };
