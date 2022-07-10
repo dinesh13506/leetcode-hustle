@@ -12,26 +12,28 @@
  */
 var isBalanced = function(root) {
     
-    if( root == null ) {
-        return true
+    let postorder = (node) => {
+        if(node == null) {
+            return [0, true]
+        }
+        if(node.left == null && node.right == null) {
+            return [1, true]
+        }
+        
+        let lh = postorder(node.left)
+        let rh = postorder(node.right)
+        let h = Math.max(lh[0],rh[0]) + 1
+        if(lh[1] == false || rh[1] == false) {
+            return [h, false]
+        }
+        let diff = Math.abs(lh[0] - rh[0])
+        if(diff > 1) {
+            return [h, false]
+        } else {
+            return [h, true]
+        }
     }
     
-    let lh = isBalanced( root.left ) 
-    if( lh == false ) {
-        return false
-    }
-    
-    let rh = isBalanced( root.right ) 
-    if( rh == false ) {
-        return false
-    }
-    
-    //console.log(lh,rh)
-    let diff = Math.abs(lh-rh)
-    if(diff > 1) {
-        return false
-    }
-    else {
-        return Math.max(lh,rh) + 1
-    }
+    let response = postorder(root)
+    return response[1]
 };
