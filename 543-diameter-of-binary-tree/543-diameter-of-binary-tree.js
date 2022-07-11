@@ -18,7 +18,7 @@ var diameterOfBinaryTree = function(root) {
             return 0
         }
         let l = dfs(node.left), r = dfs(node.right)
-        maxDia = Math.max(l+r, maxDia)
+        maxDia = Math.max(l+r, maxDia) // l = max number of nodes from left, r = max number of nodes from right
         return 1 + Math.max( l , r )
     }
     dfs(root)
