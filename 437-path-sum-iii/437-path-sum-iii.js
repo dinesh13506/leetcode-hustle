@@ -11,27 +11,34 @@
  * @param {number} targetSum
  * @return {number}
  */
+let count = 0
 var pathSum = function(root, targetSum) {
-    
-    let count = 0
-    
-    let dfs = (node,sum) => {
-        if(node) {
-            if(sum + node.val == targetSum) {
-                count++
-            }
-            dfs(node.left, sum + node.val)
-            dfs(node.right, sum + node.val)
-        }
+    count = 0
+    let preorder = []
+    preorder_traversal(root,preorder)
+    for( let i=0; i<preorder.length;i++) {
+        helper(preorder[i],targetSum)
     }
-    
-    let preorder = (node) => {
-        if(node) {
-            dfs(node,0)
-            preorder(node.left)
-            preorder(node.right)
-        }
-    }
-    preorder(root)
     return count
 };
+
+let preorder_traversal = function(root,preorder) {
+    if(root) {
+        preorder.push(root)
+        preorder_traversal(root.left,preorder)
+        preorder_traversal(root.right,preorder)
+    }
+}
+
+let helper = function(root,remainingsum) {
+    if(root == null) {
+        return 
+    }
+    
+    if(root.val == remainingsum){
+        count++
+    }
+    
+    helper(root.left,remainingsum-root.val)
+    helper(root.right,remainingsum-root.val)
+}
