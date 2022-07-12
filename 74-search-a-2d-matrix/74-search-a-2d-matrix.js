@@ -4,18 +4,16 @@
  * @return {boolean}
  */
 var searchMatrix = function(matrix, target) {
-    
     let m = matrix.length, n = matrix[0].length
-    
-    let i = 0, j = n-1
-    while(i < m && j >=0) {
-        let curr = matrix[i][j]
-        if(curr === target) {
+    let row = 0, col = n-1
+    while(row < m && col >= 0) {
+        let mid = matrix[row][col]
+        if(target == mid) {
             return true
-        } else if(target < curr) {
-            j--
+        } else if(target < mid) {
+            col -= 1
         } else {
-            i++
+            row += 1
         }
     }
     return false
