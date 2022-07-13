@@ -20,7 +20,6 @@ var BSTIterator = function(root) {
  * @return {number}
  */
 BSTIterator.prototype.next = function() {
-    
     this.pointer++
     if(this.pointer == this.nums.length) {
         let p = this.last
@@ -31,8 +30,9 @@ BSTIterator.prototype.next = function() {
         p = this.stack.pop()
         this.nums.push(p.val)
         this.last = p.right
+        return p.val
     }
-    return this.nums[this.pointer]
+    //return this.nums[this.pointer]
 };
 
 /**
