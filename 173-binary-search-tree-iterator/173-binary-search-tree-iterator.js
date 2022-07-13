@@ -21,18 +21,15 @@ var BSTIterator = function(root) {
  */
 BSTIterator.prototype.next = function() {
     this.pointer++
-    if(this.pointer == this.nums.length) {
-        let p = this.last
-        while(p) {
-            this.stack.push(p)
-            p = p.left
-        }
-        p = this.stack.pop()
-        this.nums.push(p.val)
-        this.last = p.right
-        return p.val
+    let p = this.last
+    while(p) {
+        this.stack.push(p)
+        p = p.left
     }
-    //return this.nums[this.pointer]
+    p = this.stack.pop()
+    this.nums.push(p.val)
+    this.last = p.right
+    return this.nums[this.pointer]
 };
 
 /**
