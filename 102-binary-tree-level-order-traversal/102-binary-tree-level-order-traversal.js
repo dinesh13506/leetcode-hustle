@@ -10,29 +10,69 @@
  * @param {TreeNode} root
  * @return {number[][]}
  */
+
+class Node {
+    constructor(val) {
+        this.val = val
+        this.next = null
+    }
+}
+class MyQueue {
+    constructor() {
+        this.front = null
+        this.rear = null
+    }
+    isEmpty() {
+        return (this.front == null) && (this.rear == null)
+    }
+    
+    enque(val) {
+        let node = new Node(val)
+        if(this.isEmpty()) {
+            this.front = node
+            this.rear = node
+        } else {
+            this.rear.next = node
+            this.rear = this.rear.next
+        }
+    }
+    
+    deque() {
+        if(this.isEmpty()) return null
+        let node = this.front
+        if(this.front == this.rear) {
+            this.front = null
+            this.rear = null
+        } else {
+            this.front = this.front.next
+        }
+        return node
+    }
+}
 var levelOrder = function(root) {
     
-    let ans = []
-    if(root == null) {
-        return ans
+    let levelOrder = []
+    if(!root) {
+        return levelOrder
     }
-    let q = new Queue()
-    q.enqueue(root)
-    while(q.isEmpty() == false) {
-        let temp = new Queue()
-        let arr = []
-        while(q.isEmpty() == false) {
-            let node = q.dequeue()
+    let queue = new MyQueue()
+    queue.enque(root)
+    while(!queue.isEmpty()) {
+        let tempq = new MyQueue()
+        let level = []
+        while(!queue.isEmpty()) {
+            let node = queue.deque().val
+            level.push(node.val)
             if(node.left) {
-                temp.enqueue(node.left)
+                tempq.enque(node.left)
             }
             if(node.right) {
-                temp.enqueue(node.right)
+                tempq.enque(node.right)
             }
-            arr.push(node.val)
         }
-        ans.push(arr)
-        q = temp
+        queue = tempq
+        levelOrder.push(level)
     }
-    return ans
+    return levelOrder
+    
 };
