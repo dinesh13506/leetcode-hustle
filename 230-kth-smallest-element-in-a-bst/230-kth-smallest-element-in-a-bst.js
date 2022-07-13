@@ -12,18 +12,19 @@
  * @return {number}
  */
 var kthSmallest = function(root, k) {
-    
-    let stack = new Array(), p = root
-    while(true) {
-        while(p) {
-            stack.push(p)
-            p = p.left
+    let arr = []
+    let inorder = (node) => {
+        if(node == null) {
+            return 
         }
-        p = stack.pop()
-        k--
-        if(k == 0) {
-            return p.val
-        }
-        p = p.right
+        inorder(node.left)
+        arr.push(node.val)
+        inorder(node.right)
     }
+    inorder(root)
+    if( k < 0 || k > arr.length) {
+        return null
+    }
+    
+    return arr[k-1]
 };
