@@ -10,16 +10,10 @@
  * @param {TreeNode} root
  */
 var BSTIterator = function(root) {
-    this.arr = []
-    let inorder = (node) => {
-        if(node) {
-            inorder(node.left)
-            this.arr.push(node.val)
-            inorder(node.right)
-        }
-    }
-    inorder(root)
-    this.pointer = 0
+    this.nums = []
+    this.pointer = -1
+    this.stack = []
+    this.last = root
 };
 
 /**
@@ -27,19 +21,28 @@ var BSTIterator = function(root) {
  */
 BSTIterator.prototype.next = function() {
     
-    let ans = this.arr[this.pointer]
     this.pointer++
-    return ans
+    if(this.pointer == this.nums.length) {
+        let p = this.last
+        while(p) {
+            this.stack.push(p)
+            p = p.left
+        }
+        p = this.stack.pop()
+        this.nums.push(p.val)
+        this.last = p.right
+    }
+    return this.nums[this.pointer]
 };
 
 /**
  * @return {boolean}
  */
 BSTIterator.prototype.hasNext = function() {
-    if(this.pointer >= this.arr.length ) {
-        return false
+    if(this.last || this.stack.length > 0 || this.pointer <= this.nums.length-2) {
+        return true
     }
-    return true
+    return false
 };
 
 /** 
