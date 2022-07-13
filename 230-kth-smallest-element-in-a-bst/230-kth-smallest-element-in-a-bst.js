@@ -19,6 +19,9 @@ var kthSmallest = function(root, k) {
         }
         inorder(node.left)
         arr.push(node.val)
+        if(arr.length == k) {
+            return
+        }
         inorder(node.right)
     }
     inorder(root)
