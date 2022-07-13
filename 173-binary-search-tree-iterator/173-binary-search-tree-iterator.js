@@ -10,35 +10,36 @@
  * @param {TreeNode} root
  */
 var BSTIterator = function(root) {
-    this.stack = []
-    this.nums = []
-    this.pointer = -1
-    this.last = root
+    this.arr = []
+    let inorder = (node) => {
+        if(node) {
+            inorder(node.left)
+            this.arr.push(node.val)
+            inorder(node.right)
+        }
+    }
+    inorder(root)
+    this.pointer = 0
 };
 
 /**
  * @return {number}
  */
 BSTIterator.prototype.next = function() {
+    
+    let ans = this.arr[this.pointer]
     this.pointer++
-    if(this.pointer == this.nums.length) {
-        let p = this.last
-        while(p) {
-            this.stack.push(p)
-            p = p.left
-        }
-        p = this.stack.pop()
-        this.nums.push(p.val)
-        this.last = p.right
-    }
-    return this.nums[this.pointer]
+    return ans
 };
 
 /**
  * @return {boolean}
  */
 BSTIterator.prototype.hasNext = function() {
-    return this.last || this.stack.length > 0 || this.pointer + 1 < this.nums.length
+    if(this.pointer >= this.arr.length ) {
+        return false
+    }
+    return true
 };
 
 /** 
