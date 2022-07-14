@@ -4,7 +4,7 @@
  */
 var orangesRotting = function(grid) {
     
-    let time = -1
+    let time = 0
     let m = grid.length, n = grid[0].length
     let queue = new Queue()
     let fresh = 0
@@ -48,5 +48,5 @@ var orangesRotting = function(grid) {
         queue = temp 
     }
     
-    return fresh == 0 ? time : -1
+    return fresh == 0 ? time - 1 : -1
 };
