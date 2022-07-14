@@ -13,24 +13,26 @@
  */
 var buildTree = function(preorder, inorder) {
     
-    let map = new Map()
-    for(let i = 0; i < inorder.length; i++) {
-        map.set(inorder[i], i)
+    let index_map = new Map()
+    for(let index = 0; index < inorder.length; index++) {
+        index_map.set(inorder[index], index)
     }
-    
-    
-    let preIndex = 0
-    let build = (in_start, in_end) => {
+    let build = (pre_start, pre_end, inorder_start, inorder_end) => {
         
-        if(in_start > in_end) {
+        if(pre_start > pre_end || inorder_start > inorder_end) {
             return null
         }
-        let root = new TreeNode(preorder[preIndex])
-        let index = map.get(preorder[preIndex])
-        preIndex++
-        root.left = build(in_start, index - 1)
-        root.right = build(index + 1, in_end)
-        return root
+        
+        let value = preorder[pre_start]
+        let node = new TreeNode(value)
+        let index = index_map.get(value)
+        let length1 = index - inorder_start
+        let length2 = inorder_end - index
+        node.left = build(pre_start + 1, pre_start + length1, inorder_start, index - 1)
+        node.right = build(pre_start + length1 + 1, pre_start +  length1 + length2, index + 1, inorder_end)
+        return node
     }
-    return build(0, inorder.length-1)
+    let pre_start = 0, pre_end = preorder.length - 1
+    let inorder_start = 0, inorder_end = inorder.length - 1
+    return build(pre_start, pre_end, inorder_start, inorder_end)
 };
