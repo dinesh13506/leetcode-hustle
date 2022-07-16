@@ -3,7 +3,33 @@
  * @param {number} amount
  * @return {number}
  */
+
 var coinChange = function(coins, amount) {
+    
+    let n = coins.length
+    let prev = new Array(amount + 1)
+    prev.fill(Infinity)
+    prev[0] = 0
+    for(let index = 0; index < n; index++) {
+        let curr = new Array(amount + 1)
+        curr.fill(Infinity)
+        curr[0] = 0
+        for(let amt = 1; amt <= amount; amt++) {
+            let take = Infinity
+            if(coins[index] <= amt) {
+                take = 1 + curr[amt - coins[index]]
+            }
+            let nottake = index - 1 < 0 ? Infinity : prev[amt]
+            curr[amt] = Math.min(take, nottake) 
+        }
+        prev = curr
+    }
+    let ans = prev[amount]
+    if(ans == Infinity) return -1
+    return ans
+};
+
+var coinChangeDP = function(coins, amount) {
     
     let n = coins.length
     
@@ -34,7 +60,6 @@ var coinChange = function(coins, amount) {
 var coinChangeMemo = function(coins, amount) {
     
     let n = coins.length
-    
     let memo = new Array(n)
     for(let i = 0; i < n; i++) {
         memo[i] = new Array(amount + 1)
@@ -56,9 +81,7 @@ var coinChangeMemo = function(coins, amount) {
         if(coins[index] <= amount) {
             take = 1 + dp(index, amount - coins[index])
         }
-        
         let nottake = dp(index - 1, amount)
-        
         memo[index][amount] =  Math.min(take, nottake)
         return memo[index][amount]
     }
