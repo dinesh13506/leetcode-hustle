@@ -13,10 +13,7 @@ var coinChange = function(coins, amount) {
         memo[i].fill(-1)
     }
     let dp = (index , amount) => {
-        if(index < 0) {
-            return Infinity
-        }
-        if(amount < 0) {
+        if(index < 0 || amount < 0) {
             return Infinity
         }
         if(amount == 0) {
