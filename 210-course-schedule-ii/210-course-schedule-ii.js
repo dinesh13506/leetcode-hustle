@@ -1,46 +1,53 @@
 /**
- * @param {number} numCourses
+ * @param {number} n
  * @param {number[][]} prerequisites
  * @return {number[]}
  */
-var findOrder = function(numCourses, prerequisites) {
+var findOrder = function(n, prerequisites) {
+    let adjList = new Array(n)
+    for(let i = 0; i < n; i++) {
+        adjList[i] = []
+    }
+    
+    for(let preq of prerequisites) {
+        let [a,b] = preq
+        adjList[b].push(a) // b->a
+    }
+    
+    const color = {
+        white : "0",
+        gray : "1",
+        black : "2"
+    }
     
     let order = []
-    let indegree = new Array(numCourses)
-    indegree.fill(0)
+    let colors = new Array(n)
+    colors.fill(color.white)
     
-    let adjacencyList = new Array(numCourses)
-    for(let i = 0; i < numCourses; i++) {
-        adjacencyList[i] = []
-    }
-    for(let preq of prerequisites) {
-        let a = preq[0], b = preq[1]
-        // b - > a
-        indegree[a] = indegree[a] + 1
-        adjacencyList[b].push(a)
-    }
-    
-    let queue = new Queue()
-    for(let i = 0; i < numCourses; i++) {
-        if(indegree[i] == 0) {
-           queue.enqueue(i) 
+    let ispossible = true
+    let dfs = (u) => {
+        if(!ispossible) {
+            return
         }
+        colors[u] = color.gray
+        for(let v of adjList[u]) {
+            if(colors[v] == color.white) {
+                dfs(v)
+            } else if(colors[v] == color.gray) {
+                ispossible = false
+            }
+        }
+        colors[u] = color.black
+        order.push(u)
     }
     
-    while(!queue.isEmpty()) {
-        let u = queue.dequeue()
-        order.push(u)
-        for(let v of adjacencyList[u]) {
-            indegree[v]--
-            if(indegree[v] == 0) {
-                queue.enqueue(v)
+    for(let i = 0; i < n; i++) {
+        if(colors[i] == color.white) {
+            dfs(i)
+            if(ispossible == false) {
+                return []
             }
         }
     }
-    
-    if(order.length == numCourses) {
-        return order
-    }
-    return []
-    
+    return order.reverse()
 };
