@@ -7,6 +7,34 @@ var coinChange = function(coins, amount) {
     
     let n = coins.length
     
+    let dp = new Array(n)
+    for(let i = 0; i < n; i++) {
+        dp[i] = new Array(amount + 1)
+        dp[i].fill(Infinity)
+    }
+    for(let index = 0; index < n; index++) {
+        dp[index][0] = 0
+    }
+    for(let index = 0; index < n; index++) {
+        for(let amt = 1; amt <= amount; amt++) {
+            let take = Infinity
+            if(coins[index] <= amt) {
+                take = 1 + dp[index][amt - coins[index]]
+            }
+            let nottake = index - 1 < 0 ? Infinity : dp[index - 1][amt]
+            dp[index][amt] = Math.min(take, nottake) 
+        }
+    }
+    let ans = dp[n-1][amount]
+    if(ans == Infinity) return -1
+    return ans
+};
+
+
+var coinChangeMemo = function(coins, amount) {
+    
+    let n = coins.length
+    
     let memo = new Array(n)
     for(let i = 0; i < n; i++) {
         memo[i] = new Array(amount + 1)
