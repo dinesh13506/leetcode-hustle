@@ -3,17 +3,19 @@
  * @return {number[]}
  */
 var singleNumber = function(nums) {
-    let n = nums.length
-    nums.sort((a,b) => { return a - b })
-    let stack = []
-    stack.push(nums[0])
-    for(let i = 1; i < n; i++) {
-        let top = stack[stack.length-1]
-        if(top == nums[i]) {
-            stack.pop()
+    let xor = 0
+    for(let num of nums) {
+        xor = xor ^ num
+    }
+    
+    let rtMostBitSetNum = xor & ( -xor )
+    let ans = [0,0]
+    for(let num of nums) {
+        if( (num & rtMostBitSetNum) == 0) {
+            ans[0] = ans[0] ^ num
         } else {
-            stack.push(nums[i])
+            ans[1] = ans[1] ^ num
         }
     }
-    return stack
+    return ans
 };
