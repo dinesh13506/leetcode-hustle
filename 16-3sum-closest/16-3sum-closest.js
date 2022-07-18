@@ -16,7 +16,7 @@ var threeSumClosest = function(nums, target) {
                 diff = target - sum
                 if(diff == 0) break
             }
-            else if(sum < target) {
+            if(sum < target) {
                 lo++
             }
             else {
