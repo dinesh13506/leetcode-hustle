@@ -42,12 +42,12 @@ var minWindow = function(s, t) {
     }
     
     let substr = () => {
-        let op = ""
+        let op = []
         while(ans[1] <= ans[2]) {
-            op += s[ans[1]]
+            op.push(s[ans[1]])
             ans[1]++
         }
-        return op
+        return op.join('')
     }
     return ans[0] == -1 ? "" : substr()
 };
