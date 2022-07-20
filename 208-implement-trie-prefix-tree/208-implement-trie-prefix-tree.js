@@ -1,9 +1,7 @@
-
 var TrieNode = function() {
     this.children = new Array(26)
     this.children.fill(null)
-    this.isEndOfWord = false
-    
+    this.isend = false
 }
 
 var Trie = function() {
@@ -18,12 +16,14 @@ Trie.prototype.insert = function(word) {
     let curr = this.root
     for(let ch of word) {
         let i = ch.charCodeAt() - 'a'.charCodeAt()
-        if(curr.children[i] === null) {
+        if(curr.children[i] != null) {
+            curr = curr.children[i]
+        } else {
             curr.children[i] = new TrieNode()
+            curr = curr.children[i]
         }
-        curr = curr.children[i]
     }
-    curr.isEndOfWord = true
+    curr.isend = true
 };
 
 /** 
@@ -34,12 +34,14 @@ Trie.prototype.search = function(word) {
     let curr = this.root
     for(let ch of word) {
         let i = ch.charCodeAt() - 'a'.charCodeAt()
-        if(curr.children[i] === null) {
+        if(curr.children[i]) {
+            curr = curr.children[i]
+        } else {
             return false
         }
-        curr = curr.children[i]
     }
-    return curr.isEndOfWord
+    
+    return curr.isend
 };
 
 /** 
@@ -50,10 +52,11 @@ Trie.prototype.startsWith = function(prefix) {
     let curr = this.root
     for(let ch of prefix) {
         let i = ch.charCodeAt() - 'a'.charCodeAt()
-        if(curr.children[i] === null) {
+        if(curr.children[i]) {
+            curr = curr.children[i]
+        } else {
             return false
         }
-        curr = curr.children[i]
     }
     return true
 };
