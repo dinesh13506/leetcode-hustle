@@ -4,24 +4,32 @@
  * @return {number[][]}
  */
 var insert = function(intervals, newInterval) {
+    let afterInsert = [], insertflag = false
+    if(intervals.length == 0) return [newInterval]
+    intervals.push(newInterval)
     
-    let start = newInterval[0], end = newInterval[1]
-    let i = 0, n = intervals.length
-    let ans = []
-    while(i < n && start > intervals[i][1]) {
-        ans.push(intervals[i])
-        i++
-    }
+    intervals.sort((a,b) => {
+        if(a[0] < b[0]) {
+            return -1
+        } else if(a[0] == b[0] && a[1] < b[1]) {
+            return -1
+        } else {
+            return 1
+        }
+    })
+    //console.log(intervals)
     
-    while(i < n && end >= intervals[i][0]) {
-        start = Math.min(start, intervals[i][0])
-        end = Math.max(end,  intervals[i][1])
-        i++
+    let tempinterval = intervals[0]
+    let mergedIntervals = []
+    for(let interval of intervals) {
+        if(interval[0] <= tempinterval[1]) {
+            tempinterval[0] = Math.min(tempinterval[0], interval[0])
+            tempinterval[1] = Math.max(tempinterval[1], interval[1])
+        } else {
+            mergedIntervals.push(tempinterval)
+            tempinterval = interval
+        }
     }
-    ans.push([start, end])
-    while(i < n) {
-        ans.push(intervals[i])
-        i++
-    }
-    return ans
+    mergedIntervals.push(tempinterval)
+    return mergedIntervals
 };
