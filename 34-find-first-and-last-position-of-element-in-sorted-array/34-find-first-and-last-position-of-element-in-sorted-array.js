@@ -5,39 +5,50 @@
  */
 var searchRange = function(nums, target) {
     
-    let firstOccurance = function() {
-        let start = 0, end = nums.length - 1
-        let res = -1
-        while(start <= end) {
-            let mid = start + parseInt((end-start)/2)
-            if(nums[mid] == target) {
-                res = mid
-                end = mid - 1
-            } else if(target < nums[mid]) {
-                end = mid - 1
-            } else if(target > nums[mid]) {
-                start = mid + 1
-            }
-        }
-        return res
-    }
-    
-    let lastOccurance = function() {
-        let start = 0, end = nums.length -1
-        let res = -1
+    const n = nums.length
+    let getFirstOccurance = () => {
+        let start = 0, end = n - 1
+        let answer = n
         while(start <= end) {
             let mid = start + parseInt((end - start)/2)
             if(nums[mid] == target) {
-                res = mid
-                start = mid + 1
-            } else if(target < nums[mid]) {
+                answer = Math.min(answer, mid)
                 end = mid - 1
-            } else if(target > nums[mid]) {
+            }
+            else if(target < nums[mid]) {
+                end = mid - 1
+            } else {
                 start = mid + 1
             }
         }
-        return res
+        if(answer < 0 || answer >= n) {
+            answer = -1
+        }
+        
+        return answer
     }
     
-    return [firstOccurance(), lastOccurance()]
+    let getLastOccurance = () => {
+        let start = 0, end = n - 1
+        let answer = -1
+        while(start <= end) {
+            let mid = start + parseInt((end - start)/2)
+            if(nums[mid] == target) {
+                answer = Math.max(answer, mid)
+                start = mid + 1
+            }
+            else if(target < nums[mid]) {
+                end = mid - 1
+            } else {
+                start = mid + 1
+            }
+        }
+        if(answer < 0 || answer >= n) {
+            answer = -1
+        }
+        
+        return answer
+    }
+    
+    return [ getFirstOccurance(), getLastOccurance() ]
 };
