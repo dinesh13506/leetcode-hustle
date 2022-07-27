@@ -11,30 +11,26 @@
  * @return {void} Do not return anything, modify root in-place instead.
  */
 var flatten = function(root) {
+  
     
-    let ischild = function(root) {
-        if(root && root.left == null && root.right == null) {
-            return true
+    let flattenTree = (node) => {
+        if(node == null) {
+            return null
         }
-        return false
-    }
-    let flatenTree = function(root) {
-        if(root == null) {
-            return root
+        if(node.left == null && node.right == null) {
+            return node
         }
-        if(ischild(root)) {
-            return root
-        }
-        let leftTail = flatenTree(root.left)
-        let rightTail = flatenTree(root.right)
         
-        if(leftTail) {
-            leftTail.right = root.right
-            root.right = root.left
-            root.left = null
+        let lefttail = flattenTree(node.left)
+        let righttail = flattenTree(node.right)
+        if(lefttail) {
+            lefttail.right = node.right
+            node.right = node.left
+            node.left = null
         }
-        return rightTail ? rightTail : leftTail
+        
+        return righttail ? righttail : lefttail
     }
-    flatenTree(root)
     
+    flattenTree(root)
 };
