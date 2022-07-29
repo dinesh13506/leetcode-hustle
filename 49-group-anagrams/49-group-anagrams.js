@@ -4,28 +4,24 @@
  */
 var groupAnagrams = function(strs) {
     
-    let map = new Map()
-    let sorted_strs = []
+    const map = new Map()
     const n = strs.length
-    for(let i = 0; i < n; i++) {
-        sorted_strs.push(strs[i].split('').sort().join(''))
-    }
-    for(let i = 0; i < n; i++) {
-        if(map.has(sorted_strs[i])) {
-            map.get(sorted_strs[i]).push(i)
-        } else {
-            map.set(sorted_strs[i], [i])
+    for(let i = 0 ; i < n; i++) {
+        let count = new Array(26)
+        count.fill(0)
+        for(let ch of strs[i]) {
+            count[ch.charCodeAt() - 'a'.charCodeAt()]++
         }
+        let key = count.join('*')
+        if(map.has(key) == false) {
+            map.set(key, [])
+        }
+        map.get(key).push(strs[i])
     }
     
     let answer = []
     for(let key of map.keys()) {
-        let index_arr = map.get(key) 
-        let group = []
-        for(let index of index_arr) {
-            group.push(strs[index])
-        }
-        answer.push(group)
+        answer.push(map.get(key))
     }
     return answer
 };
