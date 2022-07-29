@@ -4,37 +4,35 @@
  */
 var longestPalindrome = function(s) {
     
-    let m = s.length
-    let expandAroundIndex = (p1, p2) => {
-        let len = 0
-        while(p1 >=0 && p2 < m && s[p1] == s[p2]) {
-            len = (p1 == p2 ) ? len + 1 : len + 2
-            p1--
-            p2++
+    let ispalindrome = (start_index, end_index) => {
+        while(start_index <= end_index) {
+            if(s[start_index] != s[end_index]) {
+                return false
+            }
+            start_index++
+            end_index--
         }
-        return len
+        return true
     }
-    let start = 0, end = 0 // start and end index of longest palindromic substr
-    for(let i = 0; i < m; i++) {
-        //take i as center and check plaindrome of even / odd length
-        let len1 = expandAroundIndex(i, i + 1) //even length
-        let len2 = expandAroundIndex(i, i) //odd length
-        let maxlen = Math.max(len1, len2)
-        let newstart = i - parseInt((maxlen-1)/2)
-        let newend = i + parseInt((maxlen)/2)
-        
-        if(newend - newstart > end - start) {
-            start = newstart
-            end = newend
+    
+    const n = s.length
+    let longest = 0, ans = ""
+    for(let start = 0; start < n; start++) {
+        for(let end = start; end < n; end++) {
+            if(ispalindrome(start, end)) {
+                let curr_len = end - start + 1
+                if(curr_len > longest) {
+                    longest = curr_len
+                    let palindrome = []
+                    let i = start
+                    while(i <= end) {
+                        palindrome.push(s[i])
+                        i++
+                    }
+                    ans = palindrome.join('')
+                }
+            }
         }
     }
-    
-    let ans = []
-    while(start <= end) {
-        ans.push(s[start])
-        start++
-    }
-    return ans.join('')
-    
-    
+    return ans
 };
