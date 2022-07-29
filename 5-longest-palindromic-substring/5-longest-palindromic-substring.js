@@ -4,35 +4,46 @@
  */
 var longestPalindrome = function(s) {
     
-    let ispalindrome = (start_index, end_index) => {
-        while(start_index <= end_index) {
-            if(s[start_index] != s[end_index]) {
-                return false
+    const n = s.length
+    let expand = (i,j) => {
+        let len = 0, start = i+1, end = j-1
+        while(i >=0 && j < n) {
+            if(s[i] == s[j]) {
+                len = len + 2
+                start = i
+                end = j
+                i--
+                j++
+            } else {
+                break
             }
-            start_index++
-            end_index--
         }
-        return true
+        return [len, start, end]
     }
     
-    const n = s.length
-    let longest = 0, ans = ""
-    for(let start = 0; start < n; start++) {
-        for(let end = start; end < n; end++) {
-            if(ispalindrome(start, end)) {
-                let curr_len = end - start + 1
-                if(curr_len > longest) {
-                    longest = curr_len
-                    let palindrome = []
-                    let i = start
-                    while(i <= end) {
-                        palindrome.push(s[i])
-                        i++
-                    }
-                    ans = palindrome.join('')
-                }
+    let start = 0, end = 0, longest = 1
+    for(let i = 1; i < n; i++) {
+        if(s[i] == s[i-1]) {
+            let response = expand(i-2, i+1)
+            let curr_len = 2 + response[0]
+            if(curr_len > longest) {
+                start = response[1], end = response[2]
+                longest = curr_len
             }
         }
+        
+        let response = expand(i-1, i+1)
+        let curr_len = 1 + response[0]
+        if(curr_len > longest) {
+            start = response[1], end = response[2]
+            longest = curr_len
+        }
     }
-    return ans
+    //console.log(longest)
+    let answer = []
+    while(start <= end) {
+        answer.push(s[start])
+        start++
+    }
+    return answer.join('')
 };
