@@ -3,25 +3,25 @@
  * @return {number[][]}
  */
 var subsetsWithDup = function(nums) {
-    
-    nums.sort(function(a,b) {
-        return a - b
-    })
-    
-    let n = nums.length
-    let ans = []
-    let f = function(index, arr) {
-        ans.push(arr.slice())
-        for(let i = index; i < n; i++) {
-            if( i != index && nums[i] == nums[i-1]) {
-                continue
+   
+    const n = nums.length
+    let answer = []
+    let set = new Set()
+    let backtrack = (curr, list) => {
+        if(curr >= n) {
+            let str = list.slice().sort((a,b) =>  { return a - b } ).join(',')
+            if(set.has(str) == false) {
+                answer.push(list.slice())
+                set.add(str)
             }
-            arr.push(nums[i])
-            f(i+1, arr)
-            arr.pop()
+            return
         }
+        list.push(nums[curr])
+        backtrack(curr+1, list)
+        list.pop()
+        backtrack(curr+1, list)
     }
-    
-    f(0,[])
-    return ans
+    backtrack(0,[])
+    //console.log(answer)
+    return answer
 };
