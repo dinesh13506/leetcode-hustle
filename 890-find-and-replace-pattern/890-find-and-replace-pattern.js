@@ -14,10 +14,12 @@ var findAndReplacePattern = function(words, pattern) {
             if(map1.has(w) == false) map1.set(w,p)
             if(map1.get(w) != p) return false
         }
-        let seen = new Set()
+        let seen = new Array(26)
         for(let key of map1.keys()) {
-            if(seen.has(map1.get(key))) return false
-            seen.add(map1.get(key))
+            let value = map1.get(key)
+            let index = value.charCodeAt() - 'a'.charCodeAt()
+            if(seen[index]) return false
+            seen[index] = true
         }
         return true
     }
