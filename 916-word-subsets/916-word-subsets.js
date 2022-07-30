@@ -6,7 +6,6 @@
 var wordSubsets = function(words1, words2) {
     
     let answer = []
-    let memo = new Map()
     let getCountMap = (word) => {
         let count = new Array(26)
         count.fill(0)
