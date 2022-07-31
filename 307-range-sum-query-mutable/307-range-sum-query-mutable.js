@@ -1,61 +1,71 @@
 class SegmentTree {
     constructor(nums) {
         const n = nums.length
+        const tree_size = 4 * n
         this.nums = nums
-        this.tree = new Array(4 * n) // 4*n is the upper bound of size of segment tree
+        this.tree = new Array(tree_size)
         this.tree.fill(0)
-        let start_index = 0, end_index = n - 1, node_index = 0
-        this.constructTree(start_index, end_index, node_index)
-        //console.log(this.tree)
+        this.constructTree(0, n - 1, 0)
     }
+    
+    getMid(start_index, end_index) {
+        return parseInt((start_index + end_index) / 2)
+    }
+    
+    left(node_index) {
+        return 2 * node_index + 1
+    }
+    
+    right(node_index) {
+        return this.left(node_index) + 1
+    }
+    
     constructTree(start_index, end_index, node_index) {
         if(start_index > end_index) {
-            return 0
+            return
         }
         if(start_index == end_index) {
             this.tree[node_index] = this.nums[start_index]
             return this.tree[node_index]
         }
-        
-        let mid = parseInt ( (start_index + end_index) / 2 )
-        this.tree[node_index] = this.constructTree(start_index, mid, 2 * mid + 1) 
-                                + this.constructTree(mid + 1, end_index, 2 * mid + 2)
+        let mid = this.getMid(start_index, end_index)
+        this.tree[node_index] = this.constructTree(start_index, mid, this.left(node_index)) + this.constructTree(mid + 1, end_index, this.right(node_index))
         return this.tree[node_index]
     }
     
-    getQuerySum(start_index, end_index, query_start_index, query_end_index, node_index) {
-        if(query_end_index < start_index || query_start_index > end_index) {
+    sumRange(start_index, end_index, node_index, q_start, q_end) {
+        //console.log(start_index, end_index, node_index, q_start, q_end)
+        //out of range condition
+        if(q_end < start_index || q_start > end_index) {
             return 0
         }
-        if(query_start_index <= start_index && end_index <= query_end_index) {
+        if(q_start <= start_index && end_index <= q_end) {
             return this.tree[node_index]
         }
         
-        let mid = parseInt ( (start_index + end_index) / 2 )
-        return this.getQuerySum(start_index, mid, query_start_index, query_end_index, 2 * mid + 1)
-                + this.getQuerySum(mid + 1, end_index, query_start_index, query_end_index, 2 * mid + 2)
+        let mid = this.getMid(start_index, end_index)
+        return this.sumRange(start_index, mid, this.left(node_index), q_start, q_end) + this.sumRange(mid + 1, end_index , this.right(node_index), q_start, q_end)
     }
     
-    update(start_index, end_index,index, diff, node_index) {
+    update(start_index, end_index, node_index, index, diff) {
         if(index < start_index || index > end_index) {
-            return
+            return 
         }
         this.tree[node_index] = this.tree[node_index] + diff
         if(start_index < end_index) {
-            let mid = parseInt ( (start_index + end_index) / 2 )
-            this.update(start_index, mid, index, diff, 2 * mid + 1)
-            this.update(mid + 1, end_index, index, diff, 2 * mid + 2)
+            let mid = this.getMid(start_index, end_index)
+            
+            this.update(start_index, mid, this.left(node_index), index, diff)
+            this.update(mid + 1, end_index, this.right(node_index), index, diff)
         }
     }
 }
-
 
 /**
  * @param {number[]} nums
  */
 var NumArray = function(nums) {
-    this.nums = nums
-    this.segmentTree = new SegmentTree(this.nums)
+    this.segment_tree = new SegmentTree(nums)
 };
 
 /** 
@@ -64,10 +74,10 @@ var NumArray = function(nums) {
  * @return {void}
  */
 NumArray.prototype.update = function(index, val) {
-    let diff = val - this.nums[index]
-    this.nums[index] = val
-    let start_index = 0, end_index = this.nums.length - 1, node_index = 0
-    this.segmentTree.update(start_index, end_index, index, diff, node_index)
+    let diff = val - this.segment_tree.nums[index]
+    this.segment_tree.nums[index] = val
+    let start_index = 0, end_index = this.segment_tree.nums.length - 1, node_index = 0
+    this.segment_tree.update(start_index, end_index, node_index, index,diff)
 };
 
 /** 
@@ -76,8 +86,8 @@ NumArray.prototype.update = function(index, val) {
  * @return {number}
  */
 NumArray.prototype.sumRange = function(left, right) {
-    let start_index = 0, end_index = this.nums.length - 1, node_index = 0
-    return this.segmentTree.getQuerySum(start_index, end_index, left, right, node_index)
+     let start_index = 0, end_index = this.segment_tree.nums.length - 1, node_index = 0
+     return this.segment_tree.sumRange(start_index, end_index, node_index, left, right)
 };
 
 /** 
