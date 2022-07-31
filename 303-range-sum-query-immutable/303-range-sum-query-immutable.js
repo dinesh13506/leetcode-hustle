@@ -32,8 +32,8 @@ class SegmentTree {
         }
         
         let mid = this.getMid(start_index, end_index)
-        this.tree[node_index] = this.constructSegmentTree(start_index, mid, this.getLeftChild(mid))
-                                + this.constructSegmentTree(mid + 1, end_index, this.getRightChild(mid))
+        this.tree[node_index] = this.constructSegmentTree(start_index, mid, this.getLeftChild(node_index))
+                                + this.constructSegmentTree(mid + 1, end_index, this.getRightChild(node_index))
         return this.tree[node_index]
     }
     
@@ -46,8 +46,8 @@ class SegmentTree {
             return this.tree[node_index]
         }
         let mid = this.getMid(start_index, end_index)
-        return this.getSum(start_index, mid, this.getLeftChild(mid), start, end ) + 
-                this.getSum(mid + 1, end_index, this.getRightChild(mid), start, end) 
+        return this.getSum(start_index, mid, this.getLeftChild(node_index), start, end ) + 
+                this.getSum(mid + 1, end_index, this.getRightChild(node_index), start, end) 
     }
 }
 
