@@ -3,55 +3,49 @@
  * @return {number}
  */
 var minCostConnectPoints = function(points) {
-    
-    let minimumCost = 0
-    //step1 build the graph, undirected, weighted and connected
-    let V = points.length
-    let graph = new Array(V)
-    for(let i = 0 ; i < V; i++) {
-        graph[i] = new Array(V)
+    const n = points.length
+    let graph = new Array(n)
+    for(let i = 0; i < n; i++) {
+        graph[i] = new Array()
+        graph[i].fill(0)
     }
     
-    //fill graph matrix with weights
-    for(let i = 0; i < V; i++) {
-        for(let j = 0; j < V; j++) {
-            let point1 = points[i], point2 = points[j]
-            let weight = Math.abs(point1[0] - point2[0]) + Math.abs(point1[1] - point2[1])
-            graph[i][j] = weight
+    for(let p1 = 0; p1 < n; p1++) {
+        for(let p2 = 0; p2 < n; p2++) {
+                let [x1, y1] = points[p1]
+                let [x2, y2] = points[p2]
+                let distance = Math.abs(x2-x1) + Math.abs(y2-y1)
+                graph[p1][p2] = distance
         }
     }
     
-    //prim's greedy algorithm to find MST of V-1 edges
-    let mSet = new Array(V) //represents inclusion of vertex in MST if true else exclusion
-    mSet.fill(false)
-    let keys = new Array(V) //represents edge weights which can be included in MST
-    keys.fill(Infinity)
-    keys[0] = 0
-    //include all V-1 edges for MST
-    for(let count = 0; count < V; count++) {
-        
-        //find a minimum edge weight from keys which can be added to MST
+    //console.log(adjList)
+    
+    let key = new Array(n)
+    key.fill(Infinity)
+    key[0] = 0
+    let visited = new Set()
+    
+    for(let e = 0;  e < n; e++) {
         let u = -1
-        for(let i = 0; i < V; i++) {
-            if(mSet[i] == false) {
-                if(u == -1) {
-                    u = i
-                } else if(keys[i] < keys[u]) {
-                    u = i
-                }
-            } 
+        for(let i = 0; i < n; i++) {
+            if(visited.has(i) == false && (u == -1 || key[i] < key[u])) {
+                u = i
+            }
         }
-        //add the chosen vertex to mSet
-        mSet[u] = true
-        minimumCost = minimumCost + keys[u]
-        
-        //update neighbour keys for u
-        for(let i = 0; i < V; i++) {
-            //i is connected to u
-            if(graph[u][i] !=0 && mSet[i] === false) {
-                keys[i] = Math.min(keys[i], graph[u][i])
+        visited.add(u)
+
+        for(let v = 0; v < n; v++) {
+            if(visited.has(v) == false && u != v && key[v] > graph[u][v]) {
+                key[v] = graph[u][v]
             }
         }
     }
-    return minimumCost
+    //console.log(key)
+    let sum  = 0 
+    for(let k of key) {
+        sum += k
+    }
+    return sum
+    
 };
