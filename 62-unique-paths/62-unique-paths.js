@@ -5,26 +5,22 @@
  */
 var uniquePaths = function(m, n) {
     
-    let memo = new Array(m)
+    let dp = new Array(m)
     for(let i = 0; i < m; i++) {
-        memo[i] = new Array(n)
-        memo[i].fill(-1)
+        dp[i] = new Array(n)
+        dp[i].fill(0)
     }
-    let dp = (i, j) => {
-        if(i < 0 || i >=m || j < 0 || j >= n) {
-            return 0
-        }
-        if(i == 0 && j == 0) {
-            return 1
-        }
-        
-        if(memo[i][j] != -1) {
-            return memo[i][j]
-        }
-        
-        memo[i][j] =  dp(i-1,j) + dp(i, j-1)
-        return memo[i][j]
+    for(let j = 0; j < n; j++) {
+        dp[0][j] = 1
     }
+    for(let i = 0; i < m; i++) {
+        dp[i][0] = 1
+    }
+    for(let i = 1; i < m; i++) {
+        for(let j = 1; j < n; j++) {
+            dp[i][j] = dp[i-1][j] + dp[i][j-1]
+        }
+    }
+    return dp[m-1][n-1]
     
-    return dp(m-1, n-1)
 };
