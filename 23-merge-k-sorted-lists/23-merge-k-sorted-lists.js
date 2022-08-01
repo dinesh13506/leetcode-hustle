@@ -42,7 +42,7 @@ class MinHeap {
         this.size++
         let prt = this.parent(this.size - 1)
         let curri = this.size - 1
-        while( prt>= 0 && this.list[prt] && this.list[prt].value > this.list[curri].value) {
+        while( prt>= 0 && this.list[prt] && this.list[prt].val > this.list[curri].val) {
             this.swap(curri, prt)
             curri = prt
             prt = this.parent(curri)
@@ -53,10 +53,10 @@ class MinHeap {
         let l = this.left(i)
         let r = this.right(i)
         let smallest = i
-        if(l < this.size && this.list[l].value < this.list[smallest].value) {
+        if(l < this.size && this.list[l].val < this.list[smallest].val) {
             smallest = l
         }
-        if(r < this.size && this.list[r].value < this.list[smallest].value) {
+        if(r < this.size && this.list[r].val < this.list[smallest].val) {
             smallest = r
         }
         
@@ -80,31 +80,18 @@ var mergeKLists = function(lists) {
     let tail = dummyNode
     let heap = new MinHeap()
     for(let i = 0; i < lists.length; i++) {
-        
         let head = lists[i]
         if(head) {
-            let firstValue = head.val
-            let obj = {
-                index : head,
-                value: firstValue
-            }
-            heap.insert(obj)
+            heap.insert(head)
         }
     }
     
     while(heap.length() > 0) {
-        //console.log(heap.list)
-        let minObj = heap.delete()
-        //console.log(minObj)
-        tail.next = new ListNode(minObj.value)
+        let node = heap.delete()
+        tail.next = new ListNode(node.val)
         tail = tail.next
-        if(minObj.index.next) {
-            let obj = {
-                index : minObj.index.next,
-                value: minObj.index.next.val
-            }
-            heap.insert(obj)
-            //console.log("pushed ", obj.value, obj.index)
+        if(node.next) {
+            heap.insert(node.next)
         }
     }
     return dummyNode.next
