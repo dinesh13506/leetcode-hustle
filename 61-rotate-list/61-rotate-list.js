@@ -16,24 +16,32 @@ var rotateRight = function(head, k) {
     }
     let len = 0
     let p = head
+    let stack = []
     while(p) {
         len++
+        stack.push(p)
         p = p.next
     }
     k = k % len
-    while(k > 0) {
-        let prev = null
-        let p = head
-        while(p.next != null) {
-            prev = p
-            p = p.next
+    if(k > 0) {
+        
+        let start = null, end = null
+        while(k > 0 ) {
+            start = stack.pop()
+            if(end == null) {
+                end = start
+            }
+            k--
         }
-        if(prev) {
-            prev.next = null
-            p.next = head
-            head = p
+        //console.log(start, end)
+        let newtail = stack[stack.length-1] || null
+        if(newtail) {
+            newtail.next = null
         }
-        k--
+        if(end) {
+            end.next = head
+            head = start
+        }
     }
     return head
 };
