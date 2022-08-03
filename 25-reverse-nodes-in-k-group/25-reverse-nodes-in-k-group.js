@@ -44,7 +44,6 @@ var reverseKGroup = function(head, k) {
     }
     
     let reverse = (group) => {
-        let stack = []
         let curr = group[0], prev = null, end = curr
         while(curr) {
             let next = curr.next
