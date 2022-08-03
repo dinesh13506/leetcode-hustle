@@ -13,18 +13,18 @@
 var maxPathSum = function(root) {
     
     let ans = -Infinity
-    let postorder = (node,max_left, max_right) => {
+    let postorder = (node) => {
         if(node) {
-            let lvalue = postorder(node.left, max_left, max_right)
-            let rvalue = postorder(node.right, max_left, max_right)
-            let lmax = Math.max(lvalue, max_left)
-            let rmax = Math.max(rvalue, max_right)
+            let lvalue = postorder(node.left)
+            let rvalue = postorder(node.right)
+            let lmax = Math.max(lvalue, 0)
+            let rmax = Math.max(rvalue, 0)
             ans = Math.max( ans, node.val + lmax + rmax)
             return node.val + Math.max(lmax, rmax)
         } else {
             return 0
         }
     }
-    postorder(root, 0, 0)
+    postorder(root)
     return ans
 };
