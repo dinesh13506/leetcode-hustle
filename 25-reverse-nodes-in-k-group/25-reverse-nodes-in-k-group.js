@@ -12,51 +12,58 @@
  */
 var reverseKGroup = function(head, k) {
     
-    let length = 0
-    let p = head
-    while(p) {
-        length++
-        p = p.next
+    let getLength = (node) => {
+        let p = node
+        let length = 0
+        while(p) {
+            length++
+            p = p.next
+        }
+        return length
     }
-    //console.log("length = " , length)
-    let groups = parseInt(length / k)
-    //console.log("groups = ", groups)
+    let length = getLength(head)
+    if(length == 0) {
+        return head
+    }
     
-    let curr = head
-    let lists = []
-    for(let g = 1; g <= groups; g++) {
-        let stack = [], count = k
-        let start = curr
+    let groups = parseInt( length / k )
+    let groupInfo = new Array(groups)
+    let curr = head, remainingPart = null
+    for(let i = 0; i < groups; i++) {
+        groupInfo[i] = new Array(2)
+        groupInfo[i][0] = curr
+        let count = k
         while(count > 0) {
-            stack.push(curr)
-            curr = curr.next
             count--
+            groupInfo[i][1] = curr
+            curr = curr.next
         }
-        let dummyNode = new ListNode(-1)
-        let tail = dummyNode
-        while(stack.length) {
-            tail.next = new ListNode(stack.pop().val)
-            tail = tail.next
+        //console.log(groupInfo[i][0].val + " -> "  + groupInfo[i][1].val)
+        remainingPart = groupInfo[i][1].next
+        groupInfo[i][1].next = null
+    }
+    
+    let reverse = (group) => {
+        let stack = []
+        let curr = group[0], prev = null, end = curr
+        while(curr) {
+            let next = curr.next
+            curr.next = prev
+            prev = curr
+            curr = next
         }
-        lists.push([dummyNode.next, tail])
+        
+        group[0] = prev
+        group[1] = end
+        //console.log(prev, curr)
     }
-    let prev = lists[0]
-    for(let i = 1; i < lists.length; i++) {
-        prev[1].next = lists[i][0]
-        prev = lists[i]
+    reverse(groupInfo[0])
+    let prev = groupInfo[0]
+    for(let i = 1; i < groups; i++) {
+        reverse(groupInfo[i])
+        prev[1].next = groupInfo[i][0]
+        prev = groupInfo[i]
     }
-    let remaining = null
-    let count = 1
-    p = head
-    while(count <= length) {
-        if(count > groups * k) {
-            remaining = p
-            break
-        }
-        p = p.next
-        count++
-    }
-    //console.log(remaining)
-    lists[lists.length-1][1].next = remaining
-    return lists[0][0]
+    prev[1].next = remainingPart
+    return groupInfo[0][0]
 };
