@@ -22,7 +22,7 @@ var reverseKGroup = function(head, k) {
     let groups = parseInt(length / k)
     //console.log("groups = ", groups)
     
-    let curr = head, newhead = null
+    let curr = head
     let lists = []
     for(let g = 1; g <= groups; g++) {
         let stack = [], count = k
