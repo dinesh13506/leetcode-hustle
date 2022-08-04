@@ -13,40 +13,23 @@
 var widthOfBinaryTree = function(root) {
     
     let width = 0
-    let deq = []
-    deq.push([root,1])
-    while(deq.length) {
-        let temp = []
-        while(deq.length && deq[0][0] == null) {
-            deq.shift()
-        }
-        while(deq.length && deq[deq.length-1][0] == null) {
-            deq.pop()
-        }
-        
-        let len = 0
-        for(let i = 0; i < deq.length; i++) {
-            //console.log(deq[i])
-            let [el, count] = deq[i]
-            if(el == null) {
-                temp.push([null, count * 2])
-                len = len + count
-            } else {
-                len = len + 1
-                if(el.left) {
-                    temp.push([el.left,1])
-                } else {
-                    temp.push([null,1])
-                }
-                if(el.right) {
-                    temp.push([el.right,1])
-                } else {
-                    temp.push([null,1])
-                }
+    let queue = new Queue()
+    queue.enqueue([root, 0])
+    while(queue.size() > 0) {
+        let first = queue.front(), last = queue.back()
+        let size = queue.size()
+        while(size) {
+            let node = queue.dequeue()
+            size--
+            if(node[0].left) {
+                queue.enqueue([node[0].left, node[1] * 2 - first[1]])
+            }
+            if(node[0].right) {
+                queue.enqueue([node[0].right, node[1] * 2 + 1 - first[1]])
             }
         }
-        width = Math.max(width, len)
-        deq = temp
+        width = Math.max(width, last[1] - first[1] + 1)
     }
     return width
+        
 };
