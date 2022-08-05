@@ -11,11 +11,9 @@
  * @return {number[][]}
  */
 var zigzagLevelOrder = function(root) {
-    
     if(root == null) {
         return []
     }
-    
     let forward = true, answer = []
     let queue = new Queue()
     queue.enqueue(root)
