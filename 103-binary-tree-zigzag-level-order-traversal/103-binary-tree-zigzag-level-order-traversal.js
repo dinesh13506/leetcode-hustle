@@ -19,24 +19,11 @@ var zigzagLevelOrder = function(root) {
     queue.enqueue(root)
     while(queue.size()) {
         //console.log(queue)
-        if(forward) {
-            let arr = []
-            for(let node of queue.toArray()) {
-                arr.push(node.val)
-            }
-            answer.push(arr)
-            forward = false
-        } else {
-            let arr = []
-            for(let node of queue.toArray()) {
-                arr.push(node.val)
-            }
-            answer.push(arr.reverse())
-            forward = true
-        }
+        let arr = []
         let nextLevel = new Queue()
         while(queue.size()) {
             let node = queue.dequeue()
+            arr.push(node.val)
             if(node.left) {
                nextLevel.enqueue(node.left) 
             }
@@ -44,6 +31,12 @@ var zigzagLevelOrder = function(root) {
                 nextLevel.enqueue(node.right) 
             }
         }
+        if(forward) {
+            answer.push(arr)
+        } else {
+            answer.push(arr.reverse())
+        }
+        forward = !forward
         queue = nextLevel
     }
     return answer
