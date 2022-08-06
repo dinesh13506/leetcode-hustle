@@ -7,14 +7,15 @@
 var ladderLength = function(beginWord, endWord, wordList) {
     
    let adjList = new Map()
-   for(let word of wordList) {
+   for(let word_index = 0; word_index < wordList.length; word_index++) {
+       let word = wordList[word_index]
        let m = word.length
        for(let l = 0; l < m; l++) {
            let hash = word.substring(0,l) + '*' + word.substring(l+1, m)
            if(adjList.has(hash) == false) {
                adjList.set(hash, [])
            }
-            adjList.get(hash).push(word)
+            adjList.get(hash).push(word_index)
        }
    }
     let visited = new Set()
@@ -30,7 +31,8 @@ var ladderLength = function(beginWord, endWord, wordList) {
         const m = word.length
         for(let l = 0; l < m; l++) {
             let hash = word.substring(0, l) + '*' + word.substring(l+1, m)
-            for(let neigh of ( adjList.get(hash) || [] )) {
+            for(let word_index of ( adjList.get(hash) || [] )) {
+                let neigh = wordList[word_index]
                 if(visited.has(neigh) == false) {
                     visited.add(neigh)
                     queue.enqueue([neigh, node[1] + 1])
