@@ -20,7 +20,7 @@ var findCheapestPrice = function(n, flights, src, dst, k) {
     
     let memo = new Array(n)
     for(let i = 0; i < n; i++) {
-        memo[i] = new Array(k+1)
+        memo[i] = new Array(k+2)
         memo[i].fill(-1)
     }
     
@@ -28,7 +28,7 @@ var findCheapestPrice = function(n, flights, src, dst, k) {
         if(node == dst) {
             return 0
         }
-        if(hops < 0) {
+        if(hops <= 0) {
             return Infinity
         }
         if(memo[node][hops] != -1) {
@@ -45,6 +45,6 @@ var findCheapestPrice = function(n, flights, src, dst, k) {
         return memo[node][hops]
     }
     
-    let ans =  dfs(src, k)
+    let ans =  dfs(src, k+1) // k+1 edges max
     return (ans == Infinity ?  -1 :  ans )
 };
