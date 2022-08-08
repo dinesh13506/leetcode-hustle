@@ -1,4 +1,4 @@
-class Node {
+class ListNode {
     constructor(key,value) {
         this.key = key
         this.value = value
@@ -7,21 +7,18 @@ class Node {
     }
 }
 
-
-
-/**
- * @param {number} capacity
- */
-var LRUCache = function(capacity) {
-    this.size = 0
-    this.cache = new Map()
-    this.capacity = capacity
-    this.head = new Node()
-    this.tail = new Node()
-    this.head.next = this.tail
-    this.tail.prev = this.head
+class DLL {
+    constructor(capacity) {
+        this.size = 0
+        this.capacity = capacity
+        this.head = new ListNode(-1,-1)
+        this.tail = new ListNode(-1,-1)
+        this.tail.prev = this.head
+        this.head.next = this.tail
+        this.map = new Map()
+    }
     
-    this.addNode = function(node) {
+    addNode(node) {
         node.prev = this.head
         node.next = this.head.next
         
@@ -29,21 +26,48 @@ var LRUCache = function(capacity) {
         this.head.next = node
     }
     
-    this.removeNode = function(node) {
+    removeNode(node) {
         node.next.prev = node.prev
         node.prev.next = node.next
     }
     
-    this.moveToHead = function(node) {
+    get(key) {
+        if(this.size == 0 || this.map.has(key) == false) {
+            return -1
+        }
+        let node = this.map.get(key)
         this.removeNode(node)
         this.addNode(node)
+        return node.value
     }
     
-    this.popTail = function(node) {
-        let prev = this.tail.prev
-        this.removeNode(prev)
-        return prev
+    put(key, value) {
+        if(this.map.has(key)) {
+            let node = this.map.get(key)
+            node.value = value
+            this.map.set(key, node)
+            this.removeNode(node)
+            this.addNode(node)
+        }
+        else {
+            let node = new ListNode(key, value)
+            this.map.set(key, node)
+            this.addNode(node)
+            this.size++
+            if(this.size > this.capacity) {
+                let node = this.tail.prev
+                this.map.delete(node.key)
+                this.removeNode(node)
+                this.size--
+            }  
+        }
     }
+}
+/**
+ * @param {number} capacity
+ */
+var LRUCache = function(capacity) {
+    this.dll = new DLL(capacity)
 };
 
 /** 
@@ -51,12 +75,7 @@ var LRUCache = function(capacity) {
  * @return {number}
  */
 LRUCache.prototype.get = function(key) {
-    let node = this.cache.get(key)
-    if(!node) {
-        return -1
-    }
-    this.moveToHead(node)
-    return node.value
+    return this.dll.get(key)
 };
 
 /** 
@@ -65,22 +84,7 @@ LRUCache.prototype.get = function(key) {
  * @return {void}
  */
 LRUCache.prototype.put = function(key, value) {
-    let node = this.cache.get(key)
-    if(!node) {
-        let node = new Node(key,value)
-        this.cache.set(key, node)
-        this.addNode(node)
-        this.size++
-        if(this.size > this.capacity) {
-            let tail = this.popTail()
-            this.size--
-            this.cache.delete(tail.key)
-        }
-    } else {
-        node.value = value
-        this.cache.set(key,node)
-        this.moveToHead(node)
-    }
+     this.dll.put(key, value)
 };
 
 /** 
