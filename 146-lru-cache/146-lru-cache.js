@@ -1,9 +1,9 @@
 class ListNode {
-    constructor(key,value) {
+    constructor(key, value) {
         this.key = key
         this.value = value
-        this.prev = null
         this.next = null
+        this.prev = null
     }
 }
 
@@ -11,8 +11,8 @@ class DLL {
     constructor(capacity) {
         this.size = 0
         this.capacity = capacity
-        this.head = new ListNode(-1,-1)
-        this.tail = new ListNode(-1,-1)
+        this.head = new ListNode()
+        this.tail = new ListNode()
         this.tail.prev = this.head
         this.head.next = this.tail
         this.map = new Map()
@@ -21,7 +21,6 @@ class DLL {
     addNode(node) {
         node.prev = this.head
         node.next = this.head.next
-        
         this.head.next.prev = node
         this.head.next = node
     }
@@ -31,38 +30,41 @@ class DLL {
         node.prev.next = node.next
     }
     
-    get(key) {
-        if(this.size == 0 || this.map.has(key) == false) {
-            return -1
-        }
-        let node = this.map.get(key)
+    movetohead(node) {
         this.removeNode(node)
         this.addNode(node)
+    }
+    
+    get(key) {
+        let node = this.map.get(key)
+        if(!node) {
+            return -1
+        }
+        this.movetohead(node)
         return node.value
     }
     
-    put(key, value) {
-        if(this.map.has(key)) {
-            let node = this.map.get(key)
+    set(key, value) {
+        let node = this.map.get(key)
+        if(node) {
             node.value = value
             this.map.set(key, node)
-            this.removeNode(node)
-            this.addNode(node)
-        }
-        else {
+            this.movetohead(node)
+        } else {
             let node = new ListNode(key, value)
-            this.map.set(key, node)
             this.addNode(node)
             this.size++
+            this.map.set(key, node)
             if(this.size > this.capacity) {
-                let node = this.tail.prev
-                this.map.delete(node.key)
-                this.removeNode(node)
+                let prev = this.tail.prev
+                this.removeNode(prev)
+                this.map.delete(prev.key)
                 this.size--
-            }  
+            }
         }
     }
 }
+
 /**
  * @param {number} capacity
  */
@@ -84,7 +86,7 @@ LRUCache.prototype.get = function(key) {
  * @return {void}
  */
 LRUCache.prototype.put = function(key, value) {
-     this.dll.put(key, value)
+    this.dll.set(key,value)
 };
 
 /** 
