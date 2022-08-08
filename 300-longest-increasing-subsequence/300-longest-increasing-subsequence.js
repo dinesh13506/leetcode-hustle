@@ -3,17 +3,39 @@
  * @return {number}
  */
 var lengthOfLIS = function(nums) {
-   
-    const n = nums.length
-    let lis = new Array(n)
-    lis.fill(1)
+    let n = nums.length
+    let temp = []
     
-    for(let i = 0; i < n; i++) {
-        for(let j = 0; j < i; j++) {
-            if(nums[j] < nums[i]) {
-                lis[i] = Math.max(lis[i], lis[j] + 1)
+    //find index where target is found or just greater value is found
+    let lowerBound = function(target) {
+        let start = 0, end = temp.length - 1, ans = -1
+        while(start <= end) {
+            let mid = parseInt((start + end) / 2)
+            if(temp[mid] === target) {
+                ans = mid
+                break
+            } else if(target < temp[mid]) {
+                ans = mid
+                end = mid - 1
+            } else {
+                start = mid + 1
             }
         }
+        return ans
     }
-    return Math.max(...lis)
+    
+    let len = 0
+    temp.push(nums[0])
+    len++
+    for(let i = 1; i < n; i++) {
+        if(nums[i] > temp[temp.length-1]) {
+            temp.push(nums[i])
+            len++
+        } else {
+            let idx = lowerBound(nums[i])
+            temp[idx] = nums[i]
+        }
+    }
+    
+    return len
 };
