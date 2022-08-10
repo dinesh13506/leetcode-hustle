@@ -12,17 +12,19 @@
  */
 var sortedArrayToBST = function(nums) {
     
-    let root = null
-    let buildTree = (start, end) => {
-        if(end < start) {
+    const n = nums.length
+    let start_index = 0, end_index = n - 1
+    
+    let build = (start_index, end_index) => {
+        if(start_index > end_index) {
             return null
         }
-        
-        let mid = start + parseInt((end - start)/2)
-        let node = new TreeNode(nums[mid])
-        node.left = buildTree(start, mid - 1)
-        node.right = buildTree(mid + 1, end)
+        let mid_index = start_index + parseInt((end_index - start_index)/2)
+        let node = new TreeNode(nums[mid_index])
+        node.left = build(start_index, mid_index - 1)
+        node.right = build(mid_index + 1, end_index)
         return node
     }
-    return buildTree(0, nums.length-1)
+    
+    return build(start_index, end_index)
 };
