@@ -12,15 +12,14 @@
  */
 var isValidBST = function(root) {
     
-    return isvalid(root, -Infinity, Infinity)
+    
+    let preorder = (node, min, max) => {
+        if(node == null) {
+            return true
+        }
+        if(node.val <= min || node.val >= max) return false
+        
+        return preorder(node.left, min, node.val) && preorder(node.right, node.val, max)
+    }
+    return preorder(root, -Infinity, Infinity)
 };
-
-let isvalid = (node, min, max) => {
-    if(node == null) {
-        return true
-    }
-    if(node.val <= min || node.val >= max) {
-        return false
-    }
-    return isvalid(node.left, min, node.val) && isvalid(node.right, node.val,max)
-}
