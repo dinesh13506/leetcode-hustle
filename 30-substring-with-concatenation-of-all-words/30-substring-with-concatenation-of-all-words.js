@@ -18,25 +18,9 @@ var findSubstring = function(s, words) {
         map.set(w, map.get(w) + 1)
     }
     
-    let i = 0
-    const n = s.length
-    const answer = []
-    while(i < n && i + windowSize - 1 < n) {
-        
-        /*get substr string from i till windowsize*/
-        let substr = () => {
-            let j = i
-            let arr = []
-            while(j < i + windowSize) {
-                arr.push(s[j])
-                j++
-            }
-            return arr.join('')
-        }
-        let windowstr = substr()
-        
-        /* check if window is valid -> concat of all words in any order */
-        let isvalid = () => {
+    /* check if window is valid -> concat of all words in any order */
+    let isvalid = (windowstr) => {
+            if(windowstr.length != windowSize) return false
             let cmap = new Map(map)
             let stack = []
             for(let ch of windowstr) {
@@ -53,11 +37,28 @@ var findSubstring = function(s, words) {
                 
             }
             return true
+    }
+    
+    let i = 0
+    const n = s.length
+    const answer = []
+    let windowStr = []
+    while(  i < n && i < windowSize  ) {
+        windowStr.push(s[i])
+        i++
+    }
+    if(isvalid(windowStr.join(''))) {
+        answer.push(i - windowStr.length)
+    }
+    //console.log(windowStr, i)
+    while(i < n) {
+        windowStr.shift()
+        windowStr.push(s[i])
+        //console.log(windowStr, i)
+        if(isvalid(windowStr.join(''))) {
+            answer.push(i - windowStr.length + 1)
         }
-        if(isvalid()) {
-            answer.push(i)
-        }
-        i = i + 1
+        i++
     }
     return answer
 };
