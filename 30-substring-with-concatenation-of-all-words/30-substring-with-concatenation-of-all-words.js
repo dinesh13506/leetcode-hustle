@@ -41,6 +41,7 @@ var findSubstring = function(s, words) {
             let stack = []
             for(let ch of windowstr) {
                 //console.log(stack)
+                stack.push(ch)
                 if(stack.length == wordSize) {
                     let str = stack.join('')
                     if(cmap.has(str) == false || cmap.get(str) <= 0) {
@@ -49,15 +50,7 @@ var findSubstring = function(s, words) {
                     cmap.set(str, cmap.get(str) - 1)
                     stack = []
                 }
-                stack.push(ch)
-            }
-            if(stack.length == wordSize) {
-                let str = stack.join('')
-                if(cmap.has(str) == false || cmap.get(str) <= 0) {
-                        return false
-                }
-                cmap.set(str, cmap.get(str) - 1)
-                stack = []
+                
             }
             return true
         }
