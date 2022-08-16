@@ -1,94 +1,77 @@
+class DllNode {
+    constructor(value) {
+        this.value = value
+        this.prev = null
+        this.next = null
+    }
+}
+
+class DLL {
+    constructor() {
+        this.head = new DllNode(-1)
+        this.tail = new DllNode(-1)
+        this.head.next = this.tail
+        this.tail.prev = this.head
+        this.size = 0
+    }
+    
+    insert(currNode) {
+        let prevNode = this.tail.prev
+        let nextNode = this.tail
+        currNode.next = nextNode
+        currNode.prev = prevNode
+        prevNode.next = currNode
+        nextNode.prev = currNode
+        this.size++
+    }
+    
+    delete(currNode) {
+        let prevNode = currNode.prev
+        let nextNode = currNode.next
+        prevNode.next = nextNode
+        nextNode.prev = prevNode
+        this.size--
+    }
+}
+
+
 /**
  * @param {number[]} nums
  * @param {number} k
  * @return {number[]}
  */
-class Node {
-    constructor(index, value) {
-        this.index = index
-        this.value = value
-    }
-}
-
-
-class MaxHeap {
-    constructor() {
-        this.size = 0
-        this.list = []
-    }
-    isEmpty() {
-        return this.size > 0 ? false : true
-    }
-    
-    swap(i,j) {
-        let temp = this.list[i]
-        this.list[i] = this.list[j]
-        this.list[j] = temp
-    }
-    
-    heapify(i) {
-        let largest = i 
-        let left = 2 * i + 1
-        let right = left + 1
-        if(left < this.list.length && this.list[left].value > this.list[largest].value) {
-            largest = left
-        }
-        if(right < this.list.length && this.list[right].value > this.list[largest].value) {
-            largest = right
-        }
-        if(largest != i) {
-            this.swap(i, largest)
-            this.heapify(largest)
-        }
-    }
-    
-    bottomUp(i) {
-        let parent = parseInt((i-1)/2)
-        while(parent >= 0 && this.list[parent].value < this.list[i].value) {
-            this.swap(i,parent)
-            this.bottomUp(parent)
-        }
-    }
-    
-    insert(index, value) {
-        let node = new Node(index, value)
-        this.list.push(node)
-        this.size++
-        this.bottomUp(this.size - 1)
-    }
-    
-    extractMax() {
-        this.swap(0, this.size - 1)
-        let node = this.list.pop()
-        this.size--
-        this.heapify(0)
-        return node
-    }
-    
-    getMax() {
-        return this.list[0]
-    }
-}
 var maxSlidingWindow = function(nums, k) {
+    
     let answer = []
-    let maxheap = new MaxHeap()
+    const n = nums.length
+    let dll = new DLL()
     for(let i = 0; i < k; i++) {
-        maxheap.insert(i, nums[i])
+        //console.log(dll)
+        while(dll.size && dll.head.next.value <= i - k ) {
+            let front = dll.head.next
+            dll.delete(front)
+        }
+        while(dll.size > 0 && nums[dll.tail.prev.value] < nums[i]) {
+            let back = dll.tail.prev
+            dll.delete(back)
+        }
+        let currNode = new DllNode(i)
+        dll.insert(currNode)
     }
     
-    for(let i = k; i < nums.length; i++) {
-        while(maxheap.isEmpty() == false && (maxheap.getMax().index < i - k)) {
-            maxheap.extractMax()
+    answer.push(nums[dll.head.next.value])
+    for(let i = k; i < n; i++) {
+        while(dll.size && dll.head.next.value <= i - k ) {
+            let front = dll.head.next
+            dll.delete(front)
         }
-        let node = maxheap.getMax()
-        answer.push(node.value)
-        maxheap.insert(i, nums[i])
+        let currNode = new DllNode(i)
+        while(dll.size > 0 && nums[dll.tail.prev.value] < nums[i]) {
+            let back = dll.tail.prev
+            dll.delete(back)
+        }
+        dll.insert(currNode)
+        answer.push(nums[dll.head.next.value])
     }
-    //console.log(maxheap.list)
-    while(maxheap.isEmpty() == false && maxheap.getMax().index < nums.length - k) {
-        maxheap.extractMax()
-    }
-    let node = maxheap.getMax()
-    answer.push(node.value)
     return answer
 };
