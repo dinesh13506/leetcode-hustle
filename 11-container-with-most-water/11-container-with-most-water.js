@@ -4,12 +4,17 @@
  */
 var maxArea = function(height) {
     
-    let i = 0, j = height.length - 1, max = -Infinity
-    while(i < j) {
-        let area = (j - i) * Math.min(height[i],height[j])
-        max = Math.max(area,max)
-        if(height[i] < height[j]) i++
-        else j--
+    let max = 0
+    let p1 = 0, p2 = height.length - 1
+    while(p1 < p2) {
+        
+        let currArea = (p2 - p1) * Math.min(height[p1], height[p2])
+        max = Math.max(currArea, max)
+        if(height[p1] < height[p2]) {
+            p1++
+        } else {
+            p2--
+        }
     }
     return max
 };
