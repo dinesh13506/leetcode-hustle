@@ -2,51 +2,48 @@ class DLLNode {
     constructor(key, value) {
         this.key = key
         this.value = value
-        this.frequency = 1
         this.prev = null
         this.next = null
+        this.freq = 1
     }
 }
 
 class DLL {
     constructor() {
-        this.listSize = 0
+        this.size = 0
         this.head = new DLLNode(0,0)
         this.tail = new DLLNode(0,0)
         this.head.next = this.tail
         this.tail.prev = this.head
     }
-    
-    addNode(currNode) {
+    /* insert at the front of DLL */
+    insert(currNode) {
         let nextNode = this.head.next
         let prevNode = this.head
         currNode.next = nextNode
         currNode.prev = prevNode
-        prevNode.next = currNode
         nextNode.prev = currNode
-        this.listSize++
+        prevNode.next = currNode
+        this.size++
     }
     
-    deleteNode(currNode) {
+    delete(currNode) {
         let nextNode = currNode.next
         let prevNode = currNode.prev
         prevNode.next = nextNode
         nextNode.prev = prevNode
-        this.listSize--
+        this.size--
     }
 }
-
-
-
 /**
  * @param {number} capacity
  */
 var LFUCache = function(capacity) {
     this.capacity = capacity
-    this.curSize = 0
-    this.minfrequency = 0
-    this.nodemap = new Map() // key -> node
-    this.freqmap = new Map() // freq -> DLL
+    this.size = 0
+    this.cache = new Map() /* key -> node */
+    this.freqmap = new Map() /* freq -> doubly linked list */
+    this.minfreq = 0
 };
 
 /** 
@@ -54,59 +51,62 @@ var LFUCache = function(capacity) {
  * @return {number}
  */
 LFUCache.prototype.get = function(key) {
-    let currNode = this.nodemap.get(key)
-    if(currNode == undefined || currNode == null) {
+    let currNode = this.cache.get(key)
+    /* if currNode is not prersent */
+    if(currNode == null || currNode == undefined) {
         return -1
+    } else {
+        //update the frequency of node , remove from old freq and all to new
+        this.updateNode(currNode)
+        return currNode.value
     }
-    this.updateNode(currNode)
-    return currNode.value
 };
-
 /** 
  * @param {number} key 
  * @param {number} value
  * @return {void}
  */
 LFUCache.prototype.put = function(key, value) {
-    //console.log(this.minfrequency,this.curSize, this.capacity )
     if(this.capacity == 0) {
         return
     }
-    let currNode = this.nodemap.get(key)
-    if(currNode) {
+    if(this.cache.has(key)) {
+        let currNode = this.cache.get(key)
         currNode.value = value
         this.updateNode(currNode)
     } else {
-        this.curSize++
-        if(this.curSize > this.capacity) {
-            let minFreqDll = this.freqmap.get(this.minfrequency)
-            let lastNode = minFreqDll.tail.prev
-            minFreqDll.deleteNode(lastNode)
-            this.nodemap.delete(lastNode.key)
-            this.curSize--
+        this.size++
+        if(this.size > this.capacity) {
+            //console.log(this.minfreq, this.freqmap.get(this.minfreq))
+            let minfreqdll = this.freqmap.get(this.minfreq)
+            let lastnode = minfreqdll.tail.prev
+            minfreqdll.delete(lastnode)
+            this.cache.delete(lastnode.key)
+            this.size--
         }
-        this.minfrequency = 1
-        let newNode = new DLLNode(key,value)
-        let dllList = this.freqmap.get(1) || new DLL()
-        dllList.addNode(newNode)
-        this.freqmap.set(1, dllList)
-        this.nodemap.set(key, newNode)
+        this.minfreq = 1
+        let newNode = new DLLNode(key, value)
+        this.cache.set(key, newNode)
+        let dll = this.freqmap.get(1) || new DLL()
+        dll.insert(newNode)
+        this.freqmap.set(1, dll)
     }
 };
 
 LFUCache.prototype.updateNode = function(currNode) {
-    let dll = this.freqmap.get(currNode.frequency)
-    dll.deleteNode(currNode)
-    if(this.minfrequency == currNode.frequency && dll.listSize == 0) {
-        this.minfrequency++
+    let currDll = this.freqmap.get(currNode.freq)
+    currDll.delete(currNode)
+    
+    /** if currfreq is minimum and dll become empty */
+    if(currNode.freq == this.minfreq && currDll.size == 0) {
+        this.minfreq++
     }
-    currNode.frequency++
-    let newdll = this.freqmap.get(currNode.frequency) || new DLL()
-    newdll.addNode(currNode)
-    this.freqmap.set(currNode.frequency, newdll)
-    this.nodemap.set(currNode.key, currNode)
-};
-
+    currNode.freq++
+    let newDll = this.freqmap.get(currNode.freq) || new DLL()
+    newDll.insert(currNode)
+    this.freqmap.set(currNode.freq, newDll)
+    this.cache.set(currNode.key, currNode)
+}
 /** 
  * Your LFUCache object will be instantiated and called as such:
  * var obj = new LFUCache(capacity)
