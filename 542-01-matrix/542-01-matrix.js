@@ -11,33 +11,32 @@ var updateMatrix = function(mat) {
         dist[r].fill(Infinity)
     }
     
-    let queue = new Queue()
+    
     for(let r = 0;  r < m; r++) {
         for(let c = 0; c < n; c++) {
             if(mat[r][c] == 0) {
                 dist[r][c] = 0
-                queue.enqueue([r,c])
-            }
-        }
-    }
-    
-    let dir = [
-        [-1,0],
-        [1,0],
-        [0,-1],
-        [0,1]
-    ]
-    while(queue.size()) {
-        let [r,c] = queue.dequeue()
-        for(let d of dir) {
-            let rnew = r + d[0], cnew = c + d[1]
-            if(rnew >=0 && rnew < m && cnew >=0 && cnew < n) {
-                if(dist[rnew][cnew] > dist[r][c] + 1) {
-                    dist[rnew][cnew] = dist[r][c] + 1
-                    queue.enqueue([rnew, cnew])
+            } else {
+                if(r-1 >= 0) {
+                    dist[r][c] = Math.min(dist[r][c], 1 + dist[r-1][c])
+                }
+                if(c-1 >= 0) {
+                     dist[r][c] = Math.min(dist[r][c], 1 + dist[r][c-1])
                 }
             }
         }
     }
+    
+    for(let r = m-1;  r >=0 ; r--) {
+        for(let c = n-1; c >= 0; c--) {
+                if(r+1 < m) {
+                    dist[r][c] = Math.min(dist[r][c], 1 + dist[r+1][c])
+                }
+                if(c + 1 < n) {
+                     dist[r][c] = Math.min(dist[r][c], 1 + dist[r][c+1])
+                }
+            }
+    }
     return dist
+    
 };
