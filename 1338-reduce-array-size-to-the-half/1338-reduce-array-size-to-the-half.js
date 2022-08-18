@@ -22,14 +22,13 @@ var minSetSize = function(arr) {
     //console.log(nums)
     
     let len = arr.length
-    let ans = 0, i = 0
+    let i = 0
     while(i < nums.length) {
         let count = map.get(nums[i])
         //console.log(len, count)
         len = len - count
-        ans++
         i++
         if(len <= arr.length/2) break
     }
-    return ans
+    return i
 };
