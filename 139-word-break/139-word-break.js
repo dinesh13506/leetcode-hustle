@@ -5,19 +5,27 @@
  */
 var wordBreak = function(s, wordDict) {
     
-    const set = new Set(wordDict)
+    let set = new Set(wordDict)
     const n = s.length
-    let dp = new Array(n+1)
-    dp.fill(0)
     
-    for(let end = 0; end < n; end++) {
-        for(let start = 0; start <= end; start++) {
-            let substr = s.substring(start, start + (end - start + 1))
-            if(set.has(substr)) {
-                dp[end] = dp[end] + (start > 0 ? dp[start-1] : 1)
+    let memo = new Array(n)
+    memo.fill(-1)
+    
+    let dp = (start) => {
+        if(start == n) return true
+        if(memo[start] != -1) {
+            return memo[start] 
+        }
+        for(let end = start; end < n; end++) {
+            let substr = s.substring(start, start + end - start  + 1)
+            if(set.has(substr) && dp(start + end - start  + 1)) {
+                memo[start] =  true
+                return memo[start]
             }
         }
+        memo[start] =  false
+        return memo[start]
     }
     
-    return dp[n-1] > 0
+    return dp(0)
 };
