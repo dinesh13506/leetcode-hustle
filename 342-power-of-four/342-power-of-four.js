@@ -6,5 +6,5 @@ var isPowerOfFour = function(n) {
     
     if(n <= 0) return false
     
-    return (Math.log(n)/ Math.log(2)) % 2 == 0
+    return ( (n & ( n - 1)) == 0) && (n & 0xaaaaaaaa) == 0
 };
