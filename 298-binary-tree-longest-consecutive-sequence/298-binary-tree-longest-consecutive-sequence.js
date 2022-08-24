@@ -12,27 +12,25 @@
  */
 var longestConsecutive = function(root) {
     
-    let ans = 1
-    let preorder = function(node, prev, count) {
-        ans = Math.max(ans,count)
-        if(node) {
-            //console.log( " node = " , node.val,  " prev = " , prev ? prev.val : null, count)
-            if(prev && (prev.val + 1 == node.val)) {
-                preorder(node.left, node, count + 1)
-            } else {
-                preorder(node.left, node, 1)
-            }
-            //console.log("left done")
-            //console.log( " node = " , node.val,  " prev = " , prev ? prev.val : null, count)
-            if(prev && (prev.val + 1 == node.val)) {
-                //console.log("hey")
-                preorder(node.right, node, count + 1)
-            } else {
-                preorder(node.right, node, 1)
-            }
-            //console.log("right done")
+    let length = 0
+    
+    let dfs = (node) => {
+        if(node == null) {
+            return 0
         }
+        let llen = 1, rlen = 1
+        let left = dfs(node.left)
+        if(node.left && node.val == node.left.val - 1) {
+            llen = Math.max(llen, left + 1)
+        }
+        let right = dfs(node.right)
+        if(node.right && node.val == node.right.val - 1) {
+            rlen = Math.max(rlen, right + 1)
+        }
+        length = Math.max(length, Math.max(rlen, llen))
+        return Math.max(rlen, llen)
+        
     }
-    preorder(root, null, 1)
-    return ans
+    dfs(root)
+    return length
 };
