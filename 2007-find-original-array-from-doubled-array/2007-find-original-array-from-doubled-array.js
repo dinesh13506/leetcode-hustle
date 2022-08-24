@@ -21,12 +21,10 @@ var findOriginalArray = function(changed) {
     let ansmap = new Map()
     for(let i = 0; i < n; i++) {
         let x = changed[i], y = 2 * x
-        //console.log(x,y)
         if(x == 0 || y == 0) {
             continue
         }
         if(map.has(x) == false || map.get(x) <= 0) {
-            //console.log("continue")
             continue
         }
         if(map.has(y) == false || map.get(y) <= 0) {
