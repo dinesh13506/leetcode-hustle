@@ -15,17 +15,15 @@ var longestConsecutive = function(nums) {
     let set = new Set(nums)
     nums = [...set]
     
-    let currlen = 1, prevnum = nums[0], max = 1
-    for(let i = 1; i < nums.length; i++) {
-        if(nums[i] == prevnum + 1) {
-            currlen++
-            max = Math.max(currlen, max)
-            prevnum = nums[i]
-        } else {
-            max = Math.max(currlen, max)
-            currlen = 1
-            prevnum = nums[i]
-        }
+    let  max = 0
+    let map = new Map()
+    for(let i = 0; i < nums.length; i++) {
+        let currlen = 1 // nums[i] alone
+        let prev = map.get(nums[i] - 1)  || 0
+        let next = map.get(nums[i] + 1)  || 0
+        currlen = Math.max( prev + next + 1, currlen)
+        map.set(nums[i], currlen)
+        max = Math.max(max, currlen)
     }
     return max
 };
