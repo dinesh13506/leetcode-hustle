@@ -10,11 +10,6 @@ var findOriginalArray = function(changed) {
         count++
         map.set(num, count)
     }
-    let set = new Set(changed)
-    let nums = [...set]
-    nums.sort((a,b) => {
-        return a - b
-    })
     changed.sort((a,b) => {
         return a - b
     })
@@ -22,9 +17,6 @@ var findOriginalArray = function(changed) {
     if(map.has(0) && map.get(0) % 2 != 0) {
         return []
     }
-    //console.log(map)
-    //console.log(set)
-    //console.log(nums)
     const n = changed.length
     let ansmap = new Map()
     for(let i = 0; i < n; i++) {
