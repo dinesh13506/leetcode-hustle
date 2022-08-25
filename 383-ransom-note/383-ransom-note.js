@@ -4,19 +4,18 @@
  * @return {boolean}
  */
 var canConstruct = function(ransomNote, magazine) {
-    let freqmap = new Map()
+    let map = new Array(26)
+    map.fill(0)
     for(let ch of magazine) {
-        let count = freqmap.get(ch) || 0
-        count++
-        freqmap.set(ch, count)
+        let idx = ch.charCodeAt() - 'a'.charCodeAt()
+        map[idx]++
     }
     for(let ch of ransomNote) {
-        if(freqmap.has(ch) == false || freqmap.get(ch) <= 0) {
+        let idx = ch.charCodeAt() - 'a'.charCodeAt()
+        if(map[idx] <= 0) {
             return false
         } else {
-            let count = freqmap.get(ch) 
-            count--
-            freqmap.set(ch, count)
+            map[idx]--
         }
     }
     return true
