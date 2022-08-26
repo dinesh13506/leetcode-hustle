@@ -2,38 +2,36 @@
  * @param {number} n
  * @return {boolean}
  */
+
+for(let i = 0; i < 31; i++) {
+    let x = 1 << i
+    
+}
 var reorderedPowerOf2 = function(n) {
     
-    let s1 = ('' + n).split('')
-    s1.sort(function(a,b) {
-        if(a.charCodeAt() == b.charCodeAt()) {
-            return 0
+    let getcount = (num) => {
+        let count = new Array(10)
+        count.fill(0)
+        while(num) {
+            let digit = num % 10
+            count[digit]++
+            num = parseInt(num/10)
         }
-        else if(a.charCodeAt() < b.charCodeAt()) {
-            return -1
-        }
-        else {
-            return 1
-        }
-    })
-    for(let i = 0; i < 31; i++) {
-        let s2 = ('' + (1 << i)).split('')
-        s2.sort(function(a,b) {
-            if(a.charCodeAt() == b.charCodeAt()) {
-                return 0
-            }
-            else if(a.charCodeAt() < b.charCodeAt()) {
-                return -1
-            }
-            else {
-                return 1
-            }
-        })
-        if(s1.join() == s2.join()) {
-            return true
-        } 
+        return count
     }
     
-    return false
+    let isDigitsEqual = (count1, count2) => {
+        for(let i = 0; i < 10; i++) {
+            if(count1[i] != count2[i]) return false
+        }
+        return true
+    }
     
+    let count = getcount(n)
+    for(let i = 0; i < 31; i++) {
+        let val = 1 << i
+        let count1 = getcount(val)
+        if(isDigitsEqual(count, count1)) return true
+    }
+    return false
 };
