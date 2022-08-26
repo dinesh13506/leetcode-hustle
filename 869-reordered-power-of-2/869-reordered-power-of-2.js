@@ -2,11 +2,6 @@
  * @param {number} n
  * @return {boolean}
  */
-
-for(let i = 0; i < 31; i++) {
-    let x = 1 << i
-    
-}
 var reorderedPowerOf2 = function(n) {
     
     let getcount = (num) => {
