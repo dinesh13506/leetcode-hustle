@@ -1,3 +1,3 @@
-* k = max(m,n)
-* Time Complexity : O( k^2logk)
-* Space Complexity : O(max(m,n))
+* Maximum diagonal size  k = O(min(m,n))
+* TC : O(m * n log(k))
+* SC : O(m*n)
