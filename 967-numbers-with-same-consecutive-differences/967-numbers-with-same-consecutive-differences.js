@@ -6,13 +6,13 @@
  * @return {number[]}
  */
 var numsSameConsecDiff = function(n, k) {
-    let size = 0
+    let level = 0
     let queue = new Queue()
     for(let d = 1; d <= 9; d++) {
         queue.enqueue(d + "")
     }
-    size++
-    while(size < n && queue.isEmpty() == false) {
+    level++
+    while(level < n && queue.isEmpty() == false) {
         let temp = new Queue()
         while(queue.isEmpty() == false) {
             let num = queue.dequeue()
@@ -24,7 +24,7 @@ var numsSameConsecDiff = function(n, k) {
             }
         }
         queue = temp
-        size++
+        level++
     }
     let answer = []
     while(queue.isEmpty() == false) {
