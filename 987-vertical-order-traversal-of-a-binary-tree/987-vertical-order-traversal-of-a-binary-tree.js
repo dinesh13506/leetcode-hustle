@@ -26,7 +26,6 @@ var verticalTraversal = function(root) {
         }
     }
     preorder(root, 0, 0)
-    //console.log(map)
     for(let key of map.keys()) {
         let arr = map.get(key)
         arr.sort((a,b) => {
@@ -37,7 +36,6 @@ var verticalTraversal = function(root) {
         }
         })
     }
-    //console.log(map)
     let cols = [...map.keys()]
     cols.sort((a,b) => {
         return a - b
