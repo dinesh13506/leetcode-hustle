@@ -11,24 +11,7 @@
  * @return {TreeNode}
  */
 var pruneTree = function(root) {
-    
-    let haveAllZeros = (node) => {
-        if(node == null) return false
-        let q = new Queue()
-        q.enqueue(node)
-        while(q.size()) {
-            let x = q.dequeue()
-            if(x.val == 1) return false
-            if(x.left) {
-               q.enqueue(x.left) 
-            }
-            if(x.right) {
-               q.enqueue(x.right) 
-            }
-        }
-        return true
-    }
-    
+     
     let postorder = (node) => {
         if(node) {
            
@@ -49,6 +32,5 @@ var pruneTree = function(root) {
     if(postorder(root) == 0) {
         root = null
     }
-    
     return root
 };
