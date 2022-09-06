@@ -29,24 +29,26 @@ var pruneTree = function(root) {
         return true
     }
     
-    let preorder = (node) => {
+    let postorder = (node) => {
         if(node) {
-            if(haveAllZeros(node.left)) {
+           
+            let left =  postorder(node.left)
+            if(left == 0 && node.left) {
                 node.left = null
             }
-            preorder(node.left)
-            if(haveAllZeros(node.right)) {
+            let right = postorder(node.right)
+            if(right == 0 && node.right) {
                 node.right = null
             }
-            preorder(node.right)
-            if(haveAllZeros(node)) {
-                node = null
-            }
+            return Math.max(Math.max(left, right), node.val)
+            
+        } else {
+            return 0
         }
     }
-    preorder(root)
-    if(haveAllZeros(root)) {
+    if(postorder(root) == 0) {
         root = null
     }
+    
     return root
 };
