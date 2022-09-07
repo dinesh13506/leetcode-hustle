@@ -31,10 +31,6 @@ var str2tree = function(s) {
         if(index >= s.length) {
             return null
         }
-        // if(s[index] == ')') {
-        //     index++
-        //     return null
-        // }
         let num = getNumber(index)
         let node = new TreeNode(num)
         if(index < s.length && s[index] == '(') {
