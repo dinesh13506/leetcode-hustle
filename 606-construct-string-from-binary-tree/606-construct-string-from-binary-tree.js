@@ -15,20 +15,19 @@ var tree2str = function(root) {
     let output = ""
     let preorder = (node) => {
         if(node) {
-            let answer = "" + node.val
             let left = preorder(node.left)
             let right = preorder(node.right)
             if(left == "" && right == "") {
-                return answer
+                return "" + node.val
             }
             else if(right == "") {
-                return answer + "(" + left + ")"
+                return node.val + "(" + left + ")"
             }
             else if(left == "") {
-                return answer + "()" + "(" + right + ")"
+                return node.val + "()" + "(" + right + ")"
             }
             else {
-                return answer + "(" + left + ")" + "(" + right + ")"
+                return node.val + "(" + left + ")" + "(" + right + ")"
             }
             
         } else {
