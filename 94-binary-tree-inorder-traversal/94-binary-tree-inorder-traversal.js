@@ -12,13 +12,22 @@
  */
 var inorderTraversal = function(root) {
     let answer = []
-    let inorder = (node) => {
-        if(node) {
-            inorder(node.left)
-            answer.push(node.val)
-            inorder(node.right)
+    let curr = root
+    let pre;
+    while(curr) {
+        if(curr.left == null) {
+            answer.push(curr.val)
+            curr = curr.right
+        } else {
+            pre = curr.left
+            while(pre.right) {
+                pre = pre.right
+            }
+            pre.right = curr
+            let temp = curr
+            curr = curr.left
+            temp.left = null
         }
     }
-    inorder(root)
     return answer
 };
