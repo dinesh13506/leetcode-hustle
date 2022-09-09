@@ -1,67 +1,6 @@
 
-class Node {
-    constructor(value, count) {
-        this.value = value
-        this.count = count
-        this.prev = null
-        this.next = null
-    }
-}
-
-class MyQueue {
-    constructor() {
-        this.ans = 0
-        this.front = null
-        this.rear = null
-        this.size  = 0
-    }
-    getFront() {
-        return this.front
-    }
-    popFromBack() {
-        let last = this.rear
-        if(this.size == 1) {
-            this.rear = null
-            this.front = null
-        } else {
-            this.rear = this.rear.prev
-        }
-        this.size--
-        return last
-    }
-    popFromFront() {
-        let first = this.front
-        if(this.size == 1) {
-            this.rear = null
-            this.front = null
-        } else {
-            this.front = this.front.next
-        }
-        this.size--
-        return first
-    }
-    insertAtBack(value) {
-            if(this.rear && value == this.rear.value) {
-                let last = this.rear
-                last.count++
-            } else {
-                let node = new Node(value,1)
-                if(this.size == 0) {
-                    this.front = node
-                    this.rear = node
-                } else {
-                    node.prev = this.rear
-                    this.rear.next = node
-                    this.rear = node
-                }
-                this.size++
-            }
-            this.ans = this.ans + 1
-    }
-    
-}
 var HitCounter = function() {
-    this.q = new MyQueue()
+    this.queue = new Queue()
 };
 
 /** 
@@ -69,7 +8,7 @@ var HitCounter = function() {
  * @return {void}
  */
 HitCounter.prototype.hit = function(timestamp) {
-    this.q.insertAtBack(timestamp)
+    this.queue.enqueue(timestamp)
 };
 
 /** 
@@ -77,16 +16,15 @@ HitCounter.prototype.hit = function(timestamp) {
  * @return {number}
  */
 HitCounter.prototype.getHits = function(timestamp) {
-    while(this.q.size) {
-        let first = this.q.front
-        if(first && (timestamp - first.value) >= 300) {
-            this.q.popFromFront()
-            this.q.ans = this.q.ans - first.count
-        } else {
+    while(this.queue.size()) {
+        let front = this.queue.front()
+        if(timestamp - front >= 300) {
+            this.queue.dequeue()
+        }  else {
             break
         }
     }
-    return this.q.ans
+    return this.queue.size()
 };
 
 /** 
