@@ -4,37 +4,29 @@
  */
 var maxEnvelopes = function(envelopes) {
     
-    envelopes.sort(function(e1, e2) {
-        if(e1[0] == e2[0]) {
-            return e2[1] - e1[1]
-            
-        }
-        return e1[0] - e2[0]
+    envelopes.sort((a,b) => {
+        if(a[0] == b[0]) return b[1] - a[1]
+        return a[0] - b[0]
     })
-    //console.log(envelopes)
+    
     let heights = []
     for(let env of envelopes) {
         heights.push(env[1])
     }
-    return lengthOfLIS(heights)
-     
-};
-
-
-var lengthOfLIS = function(nums) {
-    let n = nums.length
-    let dp = new Array(n)
     let temp = []
+    temp.push(heights[0])
     
-    //find index where target is found or just greater value is found
-    let lowerBound = function(target) {
-        let start = 0, end = temp.length - 1, ans = -1
+    let bs = (target) => {
+        let start = 0, end = temp.length-1
+        let ans = null
         while(start <= end) {
-            let mid = parseInt((start + end) / 2)
-            if(temp[mid] === target) {
+            let mid = start + parseInt((end - start)/2)
+            let curr = temp[mid]
+            if(curr == target) {
                 ans = mid
                 break
-            } else if(target < temp[mid]) {
+            }
+            else if(target < curr) {
                 ans = mid
                 end = mid - 1
             } else {
@@ -44,18 +36,16 @@ var lengthOfLIS = function(nums) {
         return ans
     }
     
-    let len = 0
-    temp.push(nums[0])
-    len++
-    for(let i = 1; i < n; i++) {
-        
-        if(nums[i] > temp[temp.length-1]) {
-            temp.push(nums[i])
-            len++
+    
+    for(let i = 1; i < heights.length; i++) {
+        let curr = heights[i]
+        let last = temp[temp.length-1]
+        if(curr > last) {
+            temp.push(curr)
         } else {
-            let idx = lowerBound(nums[i])
-            temp[idx] = nums[i]
+            let idx = bs(curr)
+            temp[idx] = curr
         }
     }
-    return len
+    return temp.length
 };
