@@ -14,44 +14,22 @@
  */
 var trimBST = function(root, low, high) {
     
-    if(root == null) {
-        return root
-    }
-    //find root
-    while(root && (root.val < low  || root.val > high)) {
-        if(root.val < low) {
-            root = root.right
-        }
-        if(root.val > high) {
-            root = root.left
-        }
-    }
-    if(root==null) {
-        return root
-    }
-    let stack = []
-    stack.push(root)
-    while(stack.length) {
-        let curr = stack.pop()
-        let leftNode = curr.left
-        let rightNode = curr.right
-        //trim left
-        while(leftNode && leftNode.val < low) {
-            leftNode = leftNode.right
-        }
-        //trim right
-        while(rightNode && rightNode.val > high) {
-            rightNode = rightNode.left
-        }
-        curr.left = leftNode
-        curr.right = rightNode
-        if(curr.left) {
-            stack.push(curr.left)
-        }
-        if(curr.right) {
-            stack.push(curr.right)
+    let trim = (node) => {
+        if(node) {
+            let left = trim(node.left)
+            let right = trim(node.right)
+            if(node.val >= low && node.val <= high) {
+                node.left = left
+                node.right = right
+                return node
+            } else if(node.val < low) {
+                return right
+            }
+            else return left
+            
+        } else {
+            return null
         }
     }
-    return root
-    
+    return trim(root)
 };
