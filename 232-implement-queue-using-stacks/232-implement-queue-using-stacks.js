@@ -1,7 +1,7 @@
 
 var MyQueue = function() {
-    this.input_stack = []
-    this.output_stack = []
+    this.stack1 = []
+    this.stack2 = []
 };
 
 /** 
@@ -9,42 +9,38 @@ var MyQueue = function() {
  * @return {void}
  */
 MyQueue.prototype.push = function(x) {
-    this.input_stack.push(x)
+    this.stack2.push(x)
 };
 
 /**
  * @return {number}
  */
 MyQueue.prototype.pop = function() {
-    if(this.output_stack.length > 0) {
-        return this.output_stack.pop()
-    } else {
-        while(this.input_stack.length) {
-            this.output_stack.push(this.input_stack.pop())
+    if(this.stack1.length == 0) {
+        while(this.stack2.length) {
+            this.stack1.push(this.stack2.pop())
         }
-        return this.output_stack.pop()
     }
+    return this.stack1.pop()
 };
 
 /**
  * @return {number}
  */
 MyQueue.prototype.peek = function() {
-    if(this.output_stack.length > 0) {
-        return this.output_stack[this.output_stack.length - 1]
-    } else {
-        while(this.input_stack.length) {
-            this.output_stack.push(this.input_stack.pop())
+    if(this.stack1.length == 0) {
+        while(this.stack2.length) {
+            this.stack1.push(this.stack2.pop())
         }
-        return this.output_stack[this.output_stack.length - 1]
     }
+    return this.stack1[this.stack1.length-1]
 };
 
 /**
  * @return {boolean}
  */
 MyQueue.prototype.empty = function() {
-    return this.input_stack.length == 0 && this.output_stack.length==0
+    return this.stack1.length == 0 && this.stack2.length == 0 ? true : false
 };
 
 /** 
