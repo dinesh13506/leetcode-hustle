@@ -7,7 +7,7 @@
  */
 var maxPerformance = function(n, speed, efficiency, k) {
     
-    const mod = 1000000000n + 7n
+    const mod = 1000000007n
     let input = []
     let answer = 0n
     let sum = 0n
