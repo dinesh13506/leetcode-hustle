@@ -1,6 +1,7 @@
 #### Solutions to Data Structures & Algorithms coding problems, updated daily.
 
 ### Get input in Javascript
+```
 const readline = require("readline")
 const rl = readline.createInterface({
     input : process.stdin,
@@ -13,6 +14,7 @@ rl.question("", (str) => {
     console.log("name = " + name)
     rl.close()
 })
+```
 
 ### Leetcode everyday, keeps the interview anxiety away :)
 
