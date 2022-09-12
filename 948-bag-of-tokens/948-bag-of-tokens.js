@@ -12,7 +12,6 @@ var bagOfTokensScore = function(tokens, power) {
     })
     
     while(i <= j) {
-        //console.log(score, power, i, j)
         if(power >= tokens[i]) {
             score++
             power = power - tokens[i]
@@ -23,7 +22,6 @@ var bagOfTokensScore = function(tokens, power) {
             power = power + tokens[j]
             j--
         } else {
-            //console.log("bye")
             break
         }
         if(score > max) max = score
