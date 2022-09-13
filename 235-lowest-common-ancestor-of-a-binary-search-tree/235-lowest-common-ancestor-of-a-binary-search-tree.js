@@ -14,12 +14,17 @@
  */
 var lowestCommonAncestor = function(root, p, q) {
     
-    let lca = (node, p, q) => {
-        if(node == null) return node
-        if(p.val < node.val && q.val < node.val) return lca(node.left, p, q)
-        if(p.val > node.val && q.val > node.val) return lca(node.right, p, q)
-        return node
+    let node = root
+    while(node) {
+        if(p.val < node.val && q.val < node.val) {
+            node = node.left
+        }
+        else if(p.val > node.val && q.val > node.val) {
+            node = node.right
+        }
+        else {
+            return node
+        }
     }
-    
-    return lca(root, p, q) 
+    return null
 };
