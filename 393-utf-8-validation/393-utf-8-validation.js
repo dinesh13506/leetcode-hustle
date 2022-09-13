@@ -20,7 +20,6 @@ var validUtf8 = function(data) {
     for(let num of data) {
         arr.push(convertToBin(num))
     }
-    console.log(arr)
     let i = 0
     const one = '1', zero = '0'
     while(i < arr.length) {
