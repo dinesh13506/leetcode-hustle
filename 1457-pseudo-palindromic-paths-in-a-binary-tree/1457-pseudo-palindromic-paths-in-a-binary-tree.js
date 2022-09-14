@@ -47,7 +47,5 @@ var pseudoPalindromicPaths  = function(root) {
     let count = new Array(10)
     count.fill(0)
     preorder(root, count)
-    
-    
     return ans
 };
