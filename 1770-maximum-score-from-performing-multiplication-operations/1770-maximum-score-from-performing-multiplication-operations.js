@@ -8,6 +8,30 @@ var maximumScore = function(nums, multipliers) {
     const m = multipliers.length
     const n = nums.length
     
+    let dp = new Array(m + 1)
+    for(let i = 0; i <= m; i++) {
+        dp[i] = new Array(m + 1)
+        dp[i].fill(0)
+    }
+    
+    for(let mindex = m-1; mindex >= 0; mindex--) {
+        for(let left = m-1; left>=0 ; left--) {
+            let right = (n-1) - (mindex - left)
+            let l = nums[left] * multipliers[mindex] + dp[mindex + 1][left + 1]
+            let r = nums[right] * multipliers[mindex] + dp[mindex + 1][left]
+            dp[mindex][left] =  Math.max(l,r)
+        }
+    }
+    
+    return dp[0][0]
+};
+
+
+var maximumScoreTopDown = function(nums, multipliers) {
+    
+    const m = multipliers.length
+    const n = nums.length
+    
     let memo = new Array(m)
     for(let i = 0; i < m; i++) {
         memo[i] = new Array(m)
