@@ -17,11 +17,11 @@ var minSubArrayLen = function(target, nums) {
     let p1 = 0
     for(let i = 0; i < n; i++) {
         sum += nums[i]
-        if(sum >= target) ans = Math.min(ans,  i - p1 + 1)
-        while(sum - nums[p1] >= target && p1 < i) {
+        //if(sum >= target) ans = Math.min(ans,  i - p1 + 1)
+        while(sum >= target) {
+            ans = Math.min(ans,  i - p1 + 1)
             sum = sum - nums[p1]
             p1++
-            ans = Math.min(ans,  i - p1 + 1)
         }
     }
     return ans
