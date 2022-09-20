@@ -8,20 +8,20 @@ var findLength = function(nums1, nums2) {
     const m = nums1.length
     const n = nums2.length
     
-    let dp = new Array(m+1)
-    for(let i = 0; i <= m; i++) {
-        dp[i] = new Array(n+1)
-        dp[i].fill(0)
-    }
+    let next = new Array(m+1)
+    next.fill(0)
     
     let max = 0
     for(let i=m-1; i >=0; i--) {
+        let curr = new Array(m+1)
+        curr.fill(0)
         for(let j = n-1; j >=0; j--) {
             if(nums1[i] == nums2[j]) {
-                dp[i][j] = 1 + dp[i+1][j+1]
-                max = Math.max(max, dp[i][j])
+                curr[j] = 1 + next[j+1]
+                max = Math.max(max, curr[j])
             }
         }
+        next = curr
     }
     return max
 };
