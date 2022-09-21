@@ -12,11 +12,15 @@ var sumEvenAfterQueries = function(nums, queries) {
         }
     }
     
+    let mod = (m,n) => {
+        return ((m % n) + n) % n
+    }
+    
     let ans = []
     for(let query of queries) {
         let [value, idx] = query
-        let valMod =  ( (value % 2) + 2 ) % 2
-        let numMod = ( (nums[idx] % 2) + 2 ) % 2
+        let valMod = mod(value, 2)
+        let numMod = mod(nums[idx], 2)
         if( (numMod % 2 == 0) && (valMod == 0) ) {
             total += value
         }
