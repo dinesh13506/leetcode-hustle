@@ -16,25 +16,21 @@ var trimBST = function(root, low, high) {
     
     let trim = (node) => {
         if(node) {
-            let l = trim(node.left)
-            let r = trim(node.right)
+            let left = trim(node.left)
+            let right = trim(node.right)
             if(node.val >= low && node.val <= high) {
-                node.left = l
-                node.right = r
+                node.left = left
+                node.right = right
                 return node
-            } else if(l) {
-                return l
-            } else if(r) {
-                return r
-            } else {
-                return null
+            } else if(node.val < low) {
+                return right
+            } else if(node.val > high) {
+                return left
             }
             
         } else {
             return null
         }
     }
-    
-    
     return trim(root)
 };
