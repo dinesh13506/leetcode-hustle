@@ -12,17 +12,18 @@
  */
 var distributeCoins = function(root) {
     
-    let moves = 0
+    let ops = 0
     let postorder = (node) => {
         if(node) {
-            let left = postorder(node.left)
-            let right = postorder(node.right)
-            moves += Math.abs(left) + Math.abs(right)
-            return node.val - 1 + left + right
+            let lhs = postorder(node.left)
+            let rhs = postorder(node.right)
+            ops = ops + Math.abs(lhs) + Math.abs(rhs)
+            return node.val - 1 + lhs + rhs
+            
         } else {
             return 0
         }
     }
     postorder(root)
-    return moves
+    return ops
 };
