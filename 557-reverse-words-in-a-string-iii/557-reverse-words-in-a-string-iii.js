@@ -4,21 +4,11 @@
  */
 var reverseWords = function(s) {
     
-    let words = s.split(' ')
-    let reverse = function(word) {
-        let arr = word.split('')
-        let i = 0, j = arr.length
-        while(i <= j) {
-            let temp = arr[i]
-            arr[i] = arr[j]
-            arr[j] = temp
-            i++
-            j--
-        }
-        return arr.join('')
+    let ans = []
+    let words = s.split(" ")
+    for(let w of words) {
+        w = w.split('').reverse().join('')
+        ans.push(w)
     }
-    for(let i = 0; i < words.length; i++) {
-        words[i] = reverse(words[i])
-    }
-    return words.join(' ')
-};
+    return ans.join(" ")
+}
