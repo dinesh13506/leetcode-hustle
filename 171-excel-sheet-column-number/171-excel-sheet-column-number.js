@@ -3,11 +3,15 @@
  * @return {number}
  */
 var titleToNumber = function(columnTitle) {
-    let pow = 0
+    
+    const n = columnTitle.length
     let ans = 0
-    for(let i = columnTitle.length - 1; i>= 0; i--) {
-        ans += (columnTitle[i].charCodeAt() - 'A'.charCodeAt() + 1 ) * Math.pow(26, pow)
-        pow++
+    let p = 0
+    for(let i =  n-1; i >= 0; i--)  {
+        let value = columnTitle[i].charCodeAt() - 'A'.charCodeAt() + 1
+        ans = ans + Math.pow(26, p) * value
+        p++
     }
     return ans
+        
 };
