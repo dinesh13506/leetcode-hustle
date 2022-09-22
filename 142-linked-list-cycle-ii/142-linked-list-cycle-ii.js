@@ -12,25 +12,27 @@
  */
 var detectCycle = function(head) {
     
-    if(head == null || head.next == null) return null
-    let slow = head, fast = head
+    if(head == null) return null
+    if(head.next == null) return null
+    
+    let slow = head , fast = head
     while(fast && fast.next) {
         slow = slow.next
         fast = fast.next.next
-        if(slow == fast) {
+        if(fast == slow) {
             break
         }
     }
-    //console.log(slow.val)
-    if(slow) {
-       let p1 = slow
-       let p2 = head
-       while(p1 && p2 && p1 != p2) {
-           p1 = p1.next
-           p2 = p2.next
-       }
-       return p1
+    //console.log(fast? fast.val : null)
+    if(fast) {
+        let fast = head
+        while(slow && fast && slow != fast) {
+            slow = slow.next
+            fast = fast.next
+        }
+        return slow
     } else {
         return null
     }
+    //console.log(detectCycle(head))
 };
