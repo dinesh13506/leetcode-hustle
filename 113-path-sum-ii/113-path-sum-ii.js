@@ -12,29 +12,27 @@
  * @return {number[][]}
  */
 var pathSum = function(root, targetSum) {
-    
-    const ans = []
-    if(root == null) {
+    let ans = []
+    if(!root) {
         return ans
     }
-    let q = new Queue()
-    q.enqueue([root, [root.val], root.val])
-    while(q.isEmpty() == false) {
-        let [currNode, path, currSum] = q.dequeue()
-        if(currSum == targetSum && currNode.left == null && currNode.right == null) {
-            ans.push(path)
-        }
-        if(currNode.left) {
-            let leftPath = path.slice()
-            leftPath.push(currNode.left.val)
-            q.enqueue([currNode.left, leftPath, currSum + currNode.left.val])
-        }
-        if(currNode.right) {
-            let rightPath = path.slice()
-            rightPath.push(currNode.right.val)
-            q.enqueue([currNode.right, rightPath, currSum + currNode.right.val])
+    let preorder = (node, path, sum) => {
+        if(node) {
+            if(node.left == null && node.right == null && node.val == sum) {
+                path.push(node.val)
+                ans.push(path.slice())
+                path.pop()
+                return
+            }
+            path.push(node.val)
+            preorder(node.left, path, sum - node.val)
+            preorder(node.right, path, sum - node.val)
+            path.pop()
+            
+        } else {
+            return "done"
         }
     }
+    preorder(root, [], targetSum)
     return ans
-    
 };
