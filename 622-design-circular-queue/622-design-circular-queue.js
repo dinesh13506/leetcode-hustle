@@ -28,9 +28,11 @@ class Myqueue {
         if(this.size == 0) {
             this.front = node
             this.rear = node
+            this.rear.next = this.front
         } else {
             this.rear.next = node
             this.rear = this.rear.next
+            this.rear.next = this.front
         }
         this.size++
         return true
@@ -45,6 +47,7 @@ class Myqueue {
             this.rear = null
         } else {
             this.front = this.front.next
+            this.rear.next = this.front
         }
         this.size--
         return true
