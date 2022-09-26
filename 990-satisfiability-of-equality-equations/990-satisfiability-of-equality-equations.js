@@ -4,7 +4,7 @@
  */
 var equationsPossible = function(equations) {
     
-    let adjList1 = new Map()
+    let adjList = new Map()
     for(let eq of equations) {
         let u = eq[0]
         let sign = eq[1] + eq[2]
@@ -12,22 +12,22 @@ var equationsPossible = function(equations) {
         if(sign == "!=" && u == v) return false
         
         if(sign == "==") {
-            if(adjList1.has(u) == false) {
-                adjList1.set(u, [])
+            if(adjList.has(u) == false) {
+                adjList.set(u, [])
             }
-            adjList1.get(u).push(v)
-            if(adjList1.has(v) == false) {
-                adjList1.set(v, [])
+            adjList.get(u).push(v)
+            if(adjList.has(v) == false) {
+                adjList.set(v, [])
             }
-            adjList1.get(v).push(u)
+            adjList.get(v).push(u)
         }
     }
     
    
-    let visited1 = new Set()
-    let components1 = []
+    let visited = new Set()
+    let components = []
     
-    let dfs = (u, visited,adjList,component) => {
+    let dfs = (u,component) => {
          if(visited.has(u))  {
              return;
          }
@@ -35,20 +35,16 @@ var equationsPossible = function(equations) {
          visited.add(u)
          let neighbors = adjList.get(u)
          for(let v of neighbors) {
-             dfs(v,visited, adjList,component)
+             dfs(v,component)
          }
     }
-    for(let u of adjList1.keys()) {
-        if(visited1.has(u) == false)  {
+    for(let u of adjList.keys()) {
+        if(visited.has(u) == false)  {
             let component = []
-            dfs(u, visited1, adjList1,component)
-            components1.push(component)
-            //console.log(component)
+            dfs(u,component)
+            components.push(component)
         }   
     }
-    
-    
-    // console.log(components1)
     for(let eq of equations) {
          let u = eq[0]
          let sign = eq[1] + eq[2]
@@ -56,13 +52,10 @@ var equationsPossible = function(equations) {
          if(sign == "!=" && u == v) return false
          if(sign == "==" && u == v) continue
          if(sign == "!=") {
-             for(let comp of components1) {
+             for(let comp of components) {
                  if(comp.includes(u) && comp.includes(v)) return false
              }
          } 
     }
     return true
-    
-    
-    
 };
