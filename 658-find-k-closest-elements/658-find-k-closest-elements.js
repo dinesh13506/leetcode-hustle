@@ -4,31 +4,27 @@
  * @param {number} x
  * @return {number[]}
  */
-const test = require('@datastructures-js/priority-queue');
 
 var findClosestElements = function(arr, k, x) {
     
-    const input = [], n = arr.length
-    for(let i = 0; i < n; i++) {
-        input.push({
-            "value" : arr[i],
-            "dist" : Math.abs(arr[i] - x)
-        })
+    const ans = []
+    const n = arr.length
+    let left = 0 , right = n - 1
+    let getDistance = (i) => {
+        return Math.abs(arr[i] - x)
     }
-    //console.log(input)
-    input.sort((a,b) => {
-            if(a.dist == b.dist) {
-                return a.value - b.value
-            } else {
-                return a.dist - b.dist
-            }
-    })
-    
-    let ans = []
-    for(let i = 0; i < k; i++) {
-        ans.push(input[i].value)
+    while(right - left + 1 > k) {
+        let ld = getDistance(left), rd = getDistance(right)
+        if(ld == rd) {
+            right--
+        } else if(ld < rd) {
+            right--
+        } else {
+            left++
+        }
     }
-    ans.sort((a,b) =>  { return a - b })
+    for(let i = left; i <= right; i++) {
+        ans.push(arr[i])
+    }
     return ans
-
 };
