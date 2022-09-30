@@ -6,25 +6,31 @@
  */
 var killProcess = function(pid, ppid, kill) {
     
-    let childMap = new Map()
-    for(let parent of ppid) {
-        childMap.set(parent, [])
+    let map = new Map()
+    const n = pid.length
+    for(let i = 0; i < n; i++) {
+        let process_id = pid[i]
+        let parent_id = ppid[i]
+        if(parent_id > 0) {
+            let children = map.get(parent_id) || []
+            children.push(process_id)
+             map.set(parent_id, children)
+        }
     }
-    
-    for(let i = 0; i < ppid.length; i++) {
-        childMap.get(ppid[i]).push(pid[i])
-    }
-    
     
     let ans = []
-    let dfs = (kill) => {
-        ans.push(kill)
-        if(childMap.has(kill)) {
-            for(let child of childMap.get(kill)) {
-                dfs(child)
+    let queue = new Queue()
+    queue.enqueue(kill)
+    
+    while(queue.isEmpty() == false) {
+        let curr = queue.dequeue()
+        ans.push(curr)
+        let children = map.get(curr) || []
+        if(children && children.length > 0) {
+            for(let child of children) {
+                queue.enqueue(child)
             }
         }
     }
-    dfs(kill)
     return ans
 };
