@@ -18,7 +18,7 @@ var prisonAfterNDays = function(cells, n) {
         n--
         state = cells.join('')
         if(seen.has(state)) {
-            n %= (seen.get(state) - n)
+            n = n % (seen.get(state) - n)
         }
     }
     return cells
