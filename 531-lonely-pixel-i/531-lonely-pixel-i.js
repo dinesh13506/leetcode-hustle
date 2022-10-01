@@ -4,41 +4,32 @@
  */
 var findLonelyPixel = function(picture) {
     
-    
-    let m = picture.length
-    let n = picture[0].length
-    let rowCount = new Array(m)
-    rowCount.fill(0)
-    let colCount = new Array(n)
-    colCount.fill(0)
-    let ans = 0
-    for(let i = 0; i < m; i++) {
-        let c= 0 
-        for(let j = 0; j < n; j++) {
-            if(picture[i][j] == "B") {
-                c++
-            }
-        }
-        rowCount[i] = c
-    }
-    for(let j = 0; j < n; j++) {
-        let c = 0
-        for(let i = 0; i < m; i++) {
-            if(picture[i][j] == "B") {
-                c++
-            }
-        }
-        colCount[j] = c
-    }
-    
-    for(let i = 0; i < m; i++) {
-        for(let j = 0; j < n; j++) {
-            if(picture[i][j] == "B" && rowCount[i] == 1 && colCount[j] == 1) {
-                ans++
-            }
+    let rmap = new Map()
+    let cmap = new Map()
+    const m = picture.length, n = picture[0].length
+    let count = 0
+    for(let r = 0; r < m; r++) {
+        for(let c = 0; c < n; c++) {
+            if(picture[r][c] == "B")
+                rmap.set(r, (rmap.get(r) || 0) + 1)
         }
     }
     
-    return ans
+    for(let c = 0; c < n; c++) {
+        for(let r = 0; r < m; r++) {
+            if(picture[r][c] == "B")
+                cmap.set(c, (cmap.get(c) || 0) + 1)
+        }
+    }
     
+    //console.log(rmap, cmap)
+    for(let r = 0; r < m; r++) {
+        for(let c = 0; c < n; c++) {
+            if(picture[r][c] == "B" && rmap.get(r) == 1 && cmap.get(c) == 1) {
+                count++
+            }
+                
+        }
+    }
+    return count
 };
