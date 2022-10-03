@@ -26,16 +26,6 @@ var numEquivDominoPairs = function(dominoes) {
         }
     }
     //console.log(stack)
-    
-    let fact = (n) => {
-        let ans = 1n
-        let i = 1n
-        while(i <= n) {
-            ans *= i
-            i++
-        }
-        return ans
-    }
     let ans= 0n
     while(stack.length) {
         let top = stack.pop()
