@@ -9,16 +9,16 @@ var minCost = function(colors, neededTime) {
     const n = colors.length
     for(let i = 0; i < n; i++) {
         if(stack.length == 0) {
-            stack.push([ colors[i],neededTime[i], neededTime[i] ])
+            stack.push([neededTime[i], neededTime[i] ])
         } else {
             let top = stack[stack.length - 1]
-            let topColor = top[0]
+            let topColor = colors[i-1]
             if(colors[i] == topColor) {
                 
-                top[1] += neededTime[i]
-                top[2] = Math.max(top[2], neededTime[i])
+                top[0] += neededTime[i]
+                top[1] = Math.max(top[1], neededTime[i])
             } else {
-                stack.push([ colors[i] ,neededTime[i], neededTime[i] ])
+                stack.push([neededTime[i], neededTime[i] ])
             }
         }
     }
@@ -26,7 +26,7 @@ var minCost = function(colors, neededTime) {
     let ans = 0
     while(stack.length) {
         let top = stack.pop()
-        ans += (top[1] - top[2])
+        ans += (top[0] - top[1])
     }
     return ans
 };
