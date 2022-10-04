@@ -5,5 +5,10 @@
 var isPowerOfTwo = function(n) {
     
     if(n <= 0) return false 
-    return ( n & (n - 1)  ) == 0
+    while(n > 1) {
+        let remainder = n % 2
+        if(remainder != 0) return false
+        n = parseInt(n/2)
+    }
+    return true
 };
