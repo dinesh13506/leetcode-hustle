@@ -35,10 +35,11 @@
 var numRollsToTarget = function(d, f, target) {
     
     const MOD = BigInt(10) ** BigInt(9) + BigInt(7); // 10^9 + 7.
-    const dp = new Array(d);
-    for(let i = 0; i < d; i++) {
+    const dp = new Array(d+1);
+    for(let i = 0; i <= d; i++) {
         dp[i] = new Array(target + 1)
     }
+    //console.log(dp)
     
     const helper = (rest, length) => {
        
@@ -53,7 +54,7 @@ var numRollsToTarget = function(d, f, target) {
             sum += helper(rest - k, length + 1);
         }
         
-        dp[length] = dp[length] || [];
+        //dp[length] = dp[length] || [];
         dp[length][rest] = sum;
         
         return sum % MOD;
