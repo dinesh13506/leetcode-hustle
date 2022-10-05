@@ -4,54 +4,26 @@
  * @param {number} target
  * @return {number}
  */
-var numRollsToTarget = function(d, f, target) {
-    const mod = (BigInt(10) ** BigInt(9)) + BigInt(7)
+var numRollsToTarget = function(n, k, target) {
     
-    const map = new Array(d+1);
-    for(let i = 0; i <= d; i++) {
-        map[i] = new Array(target + 1)
-        map[i].fill(null)
+    const MOD = BigInt(10) ** BigInt(9) + BigInt(7)
+    
+    let memo = new Array(n)
+    for(let i=0;i < n; i++) {
+        memo[i] = new Array(target)
     }
-    let dp = (rest, diceNo) => {
-        if(diceNo == d && rest == 0) return BigInt(1)
-        if(diceNo > d || rest < 0) return BigInt(0)
-        if(map[diceNo][rest] != undefined) return map[diceNo][rest]
+    let dp = (diceNo, sum) => {
+        if(diceNo == n && sum == target) return BigInt(1)
+        if(diceNo >= n || sum > target)  return BigInt(0)
+        
+        if(memo[diceNo][sum] != undefined) return memo[diceNo][sum]
         let ways = BigInt(0)
-        for(let k = 1; k <= f; k++) {
-            ways += dp(rest - k, diceNo + 1)
+        for(let i = 1; i <= k; i++) {
+            ways += dp(diceNo + 1, sum + i)
         }
-       map[diceNo][rest] = (ways % mod)
-        return map[diceNo][rest]
+        
+        memo[diceNo][sum] =  ways % MOD
+        return memo[diceNo][sum]
     }
-    
-    return dp(target,0) % mod
+    return dp(0,0)
 };
-
-// var numRollsToTarget = function(d, f, target) {
-    
-//     const MOD = BigInt(10) ** BigInt(9) + BigInt(7); // 10^9 + 7.
-//     const dp = new Array(d+1);
-//     for(let i = 0; i <= d; i++) {
-//         dp[i] = new Array(target + 1)
-//     }
-    
-//     const helper = (rest, length) => {
-       
-//         if(length === d && rest === 0) return BigInt(1);
-//         if(length > d || rest < 0) return BigInt(0);
-        
-//         if(dp[length][rest] !== undefined) return dp[length][rest];
-        
-//         let sum = BigInt(0);
-        
-//         for(let k = 1; k<= f; k++){
-//             sum += helper(rest - k, length + 1);
-//         }
-        
-//         dp[length][rest] = sum;
-        
-//         return sum % MOD;
-//     };
-    
-//     return helper(target, 0) % MOD;
-// };
