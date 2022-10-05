@@ -35,8 +35,7 @@
 var numRollsToTarget = function(d, f, target) {
     
     const MOD = BigInt(10) ** BigInt(9) + BigInt(7); // 10^9 + 7.
-    //const max = Math.min(f, target);
-    const dp = [];
+    const dp = new Array(d);
     
     const helper = (rest, length) => {
        
