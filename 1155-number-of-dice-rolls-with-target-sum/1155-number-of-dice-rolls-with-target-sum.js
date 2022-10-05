@@ -39,14 +39,13 @@ var numRollsToTarget = function(d, f, target) {
     for(let i = 0; i <= d; i++) {
         dp[i] = new Array(target + 1)
     }
-    //console.log(dp)
     
     const helper = (rest, length) => {
        
         if(length === d && rest === 0) return BigInt(1);
         if(length > d || rest < 0) return BigInt(0);
         
-        if(dp[length]?.[rest] !== undefined) return dp[length][rest];
+        if(dp[length][rest] !== undefined) return dp[length][rest];
         
         let sum = BigInt(0);
         
@@ -54,7 +53,6 @@ var numRollsToTarget = function(d, f, target) {
             sum += helper(rest - k, length + 1);
         }
         
-        //dp[length] = dp[length] || [];
         dp[length][rest] = sum;
         
         return sum % MOD;
