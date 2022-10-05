@@ -35,7 +35,7 @@
 var numRollsToTarget = function(d, f, target) {
     
     const MOD = BigInt(10) ** BigInt(9) + BigInt(7); // 10^9 + 7.
-    const max = Math.min(f, target);
+    //const max = Math.min(f, target);
     const dp = [];
     
     const helper = (rest, length) => {
@@ -47,7 +47,7 @@ var numRollsToTarget = function(d, f, target) {
         
         let sum = BigInt(0);
         
-        for(let k = 1; k<= max; k++){
+        for(let k = 1; k<= f; k++){
             sum += helper(rest - k, length + 1);
         }
         
