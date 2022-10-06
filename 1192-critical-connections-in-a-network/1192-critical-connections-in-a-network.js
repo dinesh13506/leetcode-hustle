@@ -7,8 +7,6 @@ var criticalConnections = function(n, connections) {
     
     let visited = new Array(n)
     visited.fill(false)
-    let parent = new Array(n)
-    parent.fill(null)
     let discoveryTime = new Array(n)
     let mindiscoveryTime = new Array(n)
     mindiscoveryTime.fill(Infinity)
@@ -29,7 +27,7 @@ var criticalConnections = function(n, connections) {
     let ans = []
     let time = 0
     
-    let dfs = (u) => {
+    let dfs = (u, parent) => {
         if(visited[u]) {
             return
         }
@@ -39,21 +37,19 @@ var criticalConnections = function(n, connections) {
         mindiscoveryTime[u] = time
         
         for(let v of adjList.get(u)) {
+            if(v == parent) continue
             if(visited[v] == false) {
-                parent[v] = u
-                dfs(v)
+                dfs(v, u)
                 mindiscoveryTime[u] = Math.min(mindiscoveryTime[u], mindiscoveryTime[v])
                 if(discoveryTime[u] < mindiscoveryTime[v]) {
                     ans.push([u,v])
                 }
             } else {
-                if(parent[u] != v) {
-                    mindiscoveryTime[u] = Math.min(mindiscoveryTime[u], mindiscoveryTime[v])
-                }
+                mindiscoveryTime[u] = Math.min(mindiscoveryTime[u], mindiscoveryTime[v])
             }
         }
     }
     
-    dfs(0)
+    dfs(0, null)
     return ans
 };
