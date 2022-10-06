@@ -29,7 +29,6 @@ TimeMap.prototype.get = function(key, timestamp) {
     let start = 0, end = elements.length - 1
     let index = -1
     while(start <= end) {
-        //console.log(start, end)
         let mid = start + parseInt((end - start) / 2)
         if(elements[mid][1] == timestamp) {
             index = mid
@@ -42,7 +41,6 @@ TimeMap.prototype.get = function(key, timestamp) {
         }
     }
     if(index != -1) {
-        //console.log(elements)
         return elements[index][0]
     } else {
         return ""
