@@ -1,6 +1,6 @@
 
 var TimeMap = function() {
-   this.map = new Map() 
+    this.store = new Map()
 };
 
 /** 
@@ -10,10 +10,12 @@ var TimeMap = function() {
  * @return {void}
  */
 TimeMap.prototype.set = function(key, value, timestamp) {
-    if(this.map.has(key) == false) {
-        this.map.set(key, [])
+    if(this.store.has(key)) {
+        this.store.get(key).push([value, timestamp])
+    } else {
+       this.store.set(key, [])
+       this.store.get(key).push([value, timestamp])
     }
-    this.map.get(key).push([value, timestamp])
 };
 
 /** 
@@ -22,23 +24,29 @@ TimeMap.prototype.set = function(key, value, timestamp) {
  * @return {string}
  */
 TimeMap.prototype.get = function(key, timestamp) {
-    let events = this.map.get(key) || []
-    if(events.length <= 0) return ""
-    
-    let start = 0, end = events.length-1, answer = ""
+    if(this.store.has(key) == false) return ""
+    let elements = this.store.get(key)
+    let start = 0, end = elements.length - 1
+    let index = -1
     while(start <= end) {
+        //console.log(start, end)
         let mid = start + parseInt((end - start) / 2)
-        if(events[mid][1] == timestamp) {
-            return events[mid][0]
-        } else if(timestamp < events[mid][1]) {
+        if(elements[mid][1] == timestamp) {
+            index = mid
+            start = mid + 1
+        } else if(timestamp < elements[mid][1]) {
             end = mid - 1
         } else {
-            answer = events[mid][0]
+            index = Math.max(index, mid)
             start = mid + 1
         }
     }
-    return answer
-    
+    if(index != -1) {
+        //console.log(elements)
+        return elements[index][0]
+    } else {
+        return ""
+    }
 };
 
 /** 
