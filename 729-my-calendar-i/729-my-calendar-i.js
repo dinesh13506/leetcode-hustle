@@ -14,6 +14,7 @@ class SortedLinkedList {
         let node =  new ListNode(val)
         if(this.head == null) {
             this.head = node
+            return [null, node]
         } else {
             let p = this.head
             let prev = null
@@ -27,9 +28,11 @@ class SortedLinkedList {
             if(prev == null) {
                 node.next = this.head
                 this.head = node
+                return [null, node]
             } else {
                 node.next = prev.next 
                 prev.next = node
+                return [prev, node]
             }
         }
     }
@@ -74,8 +77,8 @@ var MyCalendar = function() {
  * @return {boolean}
  */
 MyCalendar.prototype.book = function(start, end) {
-    this.sortedLL.insert(start)
-    this.sortedLL.insert(end)
+    let [prev_start, node_start] = this.sortedLL.insert(start)
+    let [prev_end, node_end] = this.sortedLL.insert(end)
     this.map.set(start, (this.map.get(start) || 0) + 1)
     this.map.set(end, (this.map.get(end) || 0) - 1)
     
