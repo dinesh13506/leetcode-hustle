@@ -1,6 +1,7 @@
 class ListNode {
     constructor(val) {
         this.val = val
+        this.prev = null
         this.next = null
     }
 }
@@ -8,13 +9,15 @@ class ListNode {
 class SortedLinkedList {
     constructor() {
         this.head = null
+        this.tail = null
     }
     
     insert(val) {
         let node =  new ListNode(val)
+        //console.log(val)
         if(this.head == null) {
             this.head = node
-            return [null, node]
+            this.tail = node
         } else {
             let p = this.head
             let prev = null
@@ -26,32 +29,32 @@ class SortedLinkedList {
                 p = p.next
             }
             if(prev == null) {
+                this.head.prev = node
                 node.next = this.head
                 this.head = node
-                return [null, node]
             } else {
-                node.next = prev.next 
+                node.next = prev.next
+                node.prev = prev
+                if(node.next) {
+                    node.next.prev = node
+                }
                 prev.next = node
-                return [prev, node]
             }
+            
         }
+        return node
     }
     
-    delete(val) {
-        let prev = null
-        let p = this.head
-        while(p) {
-            if(p.val == val) {
-                break
-            }
-            prev = p
-            p = p.next
-        }
-        
-        if(prev == null) {
+    delete(node) {
+        if(node == this.head) {
             this.head = this.head.next
         } else {
-            prev.next = p.next
+            if(node.next) {
+                node.next.prev = node.prev
+            }
+            if(node.prev) {
+                node.prev.next = node.next
+            }
         }
     }
     
@@ -77,8 +80,8 @@ var MyCalendar = function() {
  * @return {boolean}
  */
 MyCalendar.prototype.book = function(start, end) {
-    let [prev_start, node_start] = this.sortedLL.insert(start)
-    let [prev_end, node_end] = this.sortedLL.insert(end)
+    let startNode = this.sortedLL.insert(start)
+    let endNode = this.sortedLL.insert(end)
     this.map.set(start, (this.map.get(start) || 0) + 1)
     this.map.set(end, (this.map.get(end) || 0) - 1)
     
@@ -92,11 +95,11 @@ MyCalendar.prototype.book = function(start, end) {
     let count = 0
     for(let time of keys) {
         count += this.map.get(time)
-        if(count >= 2) {
+        if(count >= 2 ) {
             this.map.set(start, (this.map.get(start) || 0) - 1)
             this.map.set(end, (this.map.get(end) || 0) + 1)
-            this.sortedLL.delete(start)
-            this.sortedLL.delete(end)
+            this.sortedLL.delete(startNode)
+            this.sortedLL.delete(endNode)
             //this.sortedLL.print()
             return false
         }
