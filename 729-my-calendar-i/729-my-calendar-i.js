@@ -1,6 +1,71 @@
+class ListNode {
+    constructor(val) {
+        this.val = val
+        this.next = null
+    }
+}
+
+class SortedLinkedList {
+    constructor() {
+        this.head = null
+    }
+    
+    insert(val) {
+        let node =  new ListNode(val)
+        if(this.head == null) {
+            this.head = node
+        } else {
+            let p = this.head
+            let prev = null
+            while(p) {
+                if(p.val >= val) {
+                    break
+                }
+                prev = p
+                p = p.next
+            }
+            if(prev == null) {
+                node.next = this.head
+                this.head = node
+            } else {
+                node.next = prev.next 
+                prev.next = node
+            }
+        }
+    }
+    
+    delete(val) {
+        let prev = null
+        let p = this.head
+        while(p) {
+            if(p.val == val) {
+                break
+            }
+            prev = p
+            p = p.next
+        }
+        
+        if(prev == null) {
+            this.head = this.head.next
+        } else {
+            prev.next = p.next
+        }
+    }
+    
+    print() {
+        let p = this.head
+        let list = []
+        while(p) {
+            list.push(p.val)
+            p = p.next
+        }
+        console.log("list => ", list)
+    }
+}
 
 var MyCalendar = function() {
     this.map = new Map()
+    this.sortedLL = new SortedLinkedList()
 };
 
 /** 
@@ -9,29 +74,30 @@ var MyCalendar = function() {
  * @return {boolean}
  */
 MyCalendar.prototype.book = function(start, end) {
-    this.map.set(start , (this.map.get(start) || 0) + 1)
-    this.map.set(end , (this.map.get(end) || 0) - 1)
+    this.sortedLL.insert(start)
+    this.sortedLL.insert(end)
+    this.map.set(start, (this.map.get(start) || 0) + 1)
+    this.map.set(end, (this.map.get(end) || 0) - 1)
     
-    let flag = false
-    let keys = [...this.map.keys()]
-    keys.sort((a,b) => {
-        return a - b
-    })
-    
-    let ans = 0, max = 0
+    let p = this.sortedLL.head
+    let keys = []
+    while(p) {
+        keys.push(p.val)
+        p = p.next
+    }
+    //console.log(keys)
+    let count = 0
     for(let time of keys) {
-        ans += this.map.get(time)
-        max = ans > max ? ans : max
-        if(ans >= 2) {
-            flag = true
-            this.map.set(start , (this.map.get(start) || 0) - 1)
-            this.map.set(end , (this.map.get(end) || 0) + 1)
-            break
+        count += this.map.get(time)
+        if(count >= 2) {
+            this.map.set(start, (this.map.get(start) || 0) - 1)
+            this.map.set(end, (this.map.get(end) || 0) + 1)
+            this.sortedLL.delete(start)
+            this.sortedLL.delete(end)
+            //this.sortedLL.print()
+            return false
         }
     }
-    if(flag) {
-        return false
-    } 
     return true
 };
 
