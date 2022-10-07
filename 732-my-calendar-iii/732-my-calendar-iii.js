@@ -68,7 +68,6 @@ class SortedLinkedList {
             
             p = p.next
         }
-        //console.log("list => ", set)
         return Array.from(set)
     }
 }
@@ -90,11 +89,9 @@ MyCalendarThree.prototype.book = function(start, end) {
     let endNode = this.sortedLL.insert(end)
     this.map.set(start, (this.map.get(start) || 0) + 1)
     this.map.set(end, (this.map.get(end) || 0) - 1)
-    //console.log(this.map)
     let ans = 0, cur = 0
     let keys = this.sortedLL.getkeys()
     for(let time of keys) {
-        //console.log(this.map.get(time))
         cur += this.map.get(time)
         ans = Math.max(ans, cur)
     }
