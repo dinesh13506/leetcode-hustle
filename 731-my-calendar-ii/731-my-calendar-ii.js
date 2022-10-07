@@ -62,7 +62,10 @@ class SortedLinkedList {
         let p = this.head
         let list = new Set()
         while(p) {
-            list.add(p.val)
+            if(list.has(p.val) == false) {
+                list.add(p.val)
+            }
+            
             p = p.next
         }
         //console.log("list => ", list)
