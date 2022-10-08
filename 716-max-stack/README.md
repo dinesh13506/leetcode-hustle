@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/max-stack/">716. Max Stack</a></h2><h3>Easy</h3><hr><div><p>Design a max stack data structure that supports the stack operations and supports finding the stack's maximum element.</p>
+<h2><a href="https://leetcode.com/problems/max-stack/">716. Max Stack</a></h2><h3>Hard</h3><hr><div><p>Design a max stack data structure that supports the stack operations and supports finding the stack's maximum element.</p>
 
 <p>Implement the <code>MaxStack</code> class:</p>
 
@@ -10,6 +10,8 @@
 	<li><code>int peekMax()</code> Retrieves the maximum element in the stack without removing it.</li>
 	<li><code>int popMax()</code> Retrieves the maximum element in the stack and removes it. If there is more than one maximum element, only remove the <strong>top-most</strong> one.</li>
 </ul>
+
+<p>You must come up with a solution that supports <code>O(1)</code> for each <code>top</code> call and <code>O(logn)</code> for each other call.</p>
 
 <p>&nbsp;</p>
 <p><strong>Example 1:</strong></p>
@@ -38,9 +40,7 @@ stk.top();     // return 5, [<strong><u>5</u></strong>] the stack did not change
 
 <ul>
 	<li><code>-10<sup>7</sup> &lt;= x &lt;= 10<sup>7</sup></code></li>
-	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>push</code>, <code>pop</code>, <code>top</code>, <code>peekMax</code>, and <code>popMax</code>.</li>
+	<li>At most <code>10<sup>5</sup></code>&nbsp;calls will be made to <code>push</code>, <code>pop</code>, <code>top</code>, <code>peekMax</code>, and <code>popMax</code>.</li>
 	<li>There will be <strong>at least one element</strong> in the stack when <code>pop</code>, <code>top</code>, <code>peekMax</code>, or <code>popMax</code> is called.</li>
 </ul>
-
-<p>&nbsp;</p>
-<strong>Follow up:</strong> Could you come up with a solution that supports <code>O(1)</code> for each <code>top</code> call and <code>O(logn)</code> for each other call?&nbsp;</div>
+</div>
