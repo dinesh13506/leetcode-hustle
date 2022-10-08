@@ -8,15 +8,17 @@ var threeSumClosest = function(nums, target) {
     nums.sort((a,b) => {
         return a - b
     })
-    let sums = []
+    let closest = Infinity
     for(let i= 0; i < n; i++) {
         let first = nums[i]
         let sum = target - first
         let p1 = i + 1, p2 = n-1
-        let closest = Infinity
         while(p1 < p2) {
             let temp = nums[p1] + nums[p2]
-            sums.push(temp + first)
+            let total = temp + first
+            if(Math.abs(total - target) < Math.abs(closest - target)) {
+                closest = total
+            }
             if(temp <= sum) {
                 p1++
             } else if(temp > sum) {
@@ -25,9 +27,5 @@ var threeSumClosest = function(nums, target) {
         }
     }
     
-    sums.sort((a,b) => {
-        return Math.abs(a - target) - Math.abs(b - target)
-    })
-    //console.log(sums)
-    return sums[0]
+    return closest
 };
