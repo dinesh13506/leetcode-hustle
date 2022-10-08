@@ -30,9 +30,7 @@ class MaxStack {
     }
     
     public int top() {
-        //System.out.println(stack);
         int[] pair = stack.last();
-        //System.out.println(pair);
         return pair[0];
     }
     
