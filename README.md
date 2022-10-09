@@ -16,6 +16,22 @@ rl.question("", (str) => {
 })
 ```
 
+
+### Java print methods of a class (trick)
+```
+import java.util.*;
+import java.lang.reflect.Method;
+class HelloWorld {
+    public static void main(String[] args) {
+        Method[] methods = Queue.class.getDeclaredMethods();
+        for(Method method : methods) {
+             System.out.println(method.toGenericString());
+        }
+        System.out.println();
+    }
+}
+```
+
 ### Leetcode everyday, keeps the interview anxiety away :)
 
 ### About
