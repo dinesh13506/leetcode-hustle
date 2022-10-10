@@ -14,13 +14,13 @@ var reverseList = function(head) {
     let newhead = null
     let dfs = (p) => {
         if(p) {
-            let next = dfs(p.next)
+            let prev = dfs(p.next)
             //console.log(next ? next.val : null)
-            if(next == null) {
+            if(prev == null) {
                 newhead = p
             } else {
                 p.next = null
-                next.next = p
+                prev.next = p
             }
             return p
         }
