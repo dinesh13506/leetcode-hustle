@@ -1,14 +1,14 @@
 <h2><a href="https://leetcode.com/problems/merge-intervals/">56. Merge Intervals</a></h2><h3>Medium</h3><hr><div><p>Given an array&nbsp;of <code>intervals</code>&nbsp;where <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code>, merge all overlapping intervals, and return <em>an array of the non-overlapping intervals that cover all the intervals in the input</em>.</p>
 
 <p>&nbsp;</p>
-<p><strong>Example 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre><strong>Input:</strong> intervals = [[1,3],[2,6],[8,10],[15,18]]
 <strong>Output:</strong> [[1,6],[8,10],[15,18]]
-<strong>Explanation:</strong> Since intervals [1,3] and [2,6] overlaps, merge them into [1,6].
+<strong>Explanation:</strong> Since intervals [1,3] and [2,6] overlap, merge them into [1,6].
 </pre>
 
-<p><strong>Example 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre><strong>Input:</strong> intervals = [[1,4],[4,5]]
 <strong>Output:</strong> [[1,5]]
