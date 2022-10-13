@@ -12,9 +12,9 @@ class Solution {
         ListNode nextNode = node.next;
         ListNode tailPrev = null;
         while(nextNode != null) {
-            currNode.val = currNode.val + nextNode.val;
+            currNode.val += nextNode.val;
             nextNode.val = currNode.val - nextNode.val;
-            currNode.val = currNode.val - nextNode.val;
+            currNode.val -= nextNode.val;
             tailPrev = currNode;
             currNode = nextNode;
             nextNode = nextNode.next;
