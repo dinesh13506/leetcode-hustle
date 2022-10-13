@@ -12,5 +12,6 @@ class Solution {
         ListNode nextNode = nodeToBeDeleted.next; //it exists as node is not tail
         nodeToBeDeleted.val = nextNode.val;
         nodeToBeDeleted.next = nextNode.next;
+        nextNode.next = null;
     }
 }
