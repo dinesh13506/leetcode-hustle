@@ -9,59 +9,65 @@ abstract class Node {
 };
 
 
-class TreeNode extends Node {
-     public String data;
-     public TreeNode left;
-     public TreeNode right;
-     public TreeNode(String data) {
-         this.data = data;
-         this.left = null;
-         this.right = null;
-     }
-     public int evaluate() {
-         if(this.left == null && this.right == null) {
-             return Integer.parseInt(this.data);
-         }
-         int lv = this.left.evaluate();
-         int rv = this.right.evaluate();
-         
-         if(this.data.equals("+")) {
-             return lv + rv;
-         } else if(this.data.equals("-")) {
-             return lv - rv;
-         } else if(this.data.equals("*")) {
-             return lv * rv;
-         } else  {
-             return lv / rv;
-         }
-     }
-}
-
-
 /**
  * This is the TreeBuilder class.
  * You can treat it as the driver code that takes the postinfix input 
  * and returns the expression tree represnting it as a Node.
  */
 
-class TreeBuilder {
-    Node buildTree(String[] postfix) {
-        LinkedList<TreeNode> stack = new LinkedList<TreeNode>();
-        int n = postfix.length;
+class TreeNode extends Node {
+    public String data;
+    public TreeNode left;
+    public TreeNode right;
+    
+    public TreeNode(String data) {
+        this.data = data;
+        this.left = null;
+        this.right = null;
+    }
+    public  int evaluate() {
         HashSet<String> set = new  HashSet<String>();
         set.add("+");
         set.add("-");
-        set.add("*");
         set.add("/");
-        for(int i = 0; i < n; i++) {
-            String curr = postfix[i];
-            if(set.contains(curr)) {
-                TreeNode node = new TreeNode(curr);
+        set.add("*");
+        
+        if(set.contains(this.data) == false) {
+            return Integer.parseInt(this.data);
+        }
+        
+        int lv = this.left.evaluate();
+        int rv = this.right.evaluate();
+        String sign = this.data;
+        if(sign.equals("+")) {
+            return lv + rv;
+        } else if(sign.equals("-")) {
+            return lv - rv;
+        }else if(sign.equals("*")) {
+            return lv * rv;
+        }else  {
+            return lv / rv;
+        }
+    } 
+}
+
+class TreeBuilder  {
+    
+    Node buildTree(String[] postfix) {
+        HashSet<String> set = new  HashSet<String>();
+        set.add("+");
+        set.add("-");
+        set.add("/");
+        set.add("*");
+        LinkedList<TreeNode> stack = new LinkedList<TreeNode>();
+        for(String value : postfix) {
+            if(set.contains(value)) {
+                TreeNode node = new TreeNode(value);
                 node.right = stack.pollLast();
                 node.left = stack.pollLast();
                 stack.add(node);
             } else {
-                TreeNode node = new TreeNode(curr);
+                TreeNode node = new TreeNode(value);
                 stack.add(node);
             }
         }
