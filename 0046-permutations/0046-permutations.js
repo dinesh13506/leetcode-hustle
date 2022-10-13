@@ -4,28 +4,26 @@
  */
 var permute = function(nums) {
     const n = nums.length;
-    let swap = (i,j) => {
-        let temp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = temp;
-    }
-    
-    let output = []
-    let backtrack = (first) => {
+   
+    let result = []
+    let backtrack = (output) => {
         
-        if(first >= n) {
-            //console.log(nums);
-            output.push(nums.slice());
+        if(output.length >= n) {
+            //console.log(output);
+            result.push(output.slice());
             return;
         }
         
-        for(let i = first; i < n; i++) {
-            swap(first, i )
-            backtrack(first + 1)
-            swap(first, i)
+        for(let i = 0; i < n; i++) {
+            if(output.includes(nums[i])) {
+                continue
+            }
+            output.push(nums[i]);
+            backtrack(output);
+            output.pop();
         }
     }
     
-    backtrack(0);
-    return output;
+    backtrack([]);
+    return result;
 };
