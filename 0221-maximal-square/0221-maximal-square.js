@@ -23,7 +23,7 @@ var maximalSquare = function(matrix) {
                 max = Math.max(max, dp[r][c])
             }
             if(r > 0 && c > 0) {
-                if(matrix[r-1][c-1] == '1' && matrix[r][c] == '1') {
+                if( matrix[r][c] == '1') {
                     dp[r][c] = 1 + Math.min(dp[r-1][c-1], Math.min(dp[r-1][c], dp[r][c-1]))
                 }
                 max = Math.max(max, dp[r][c])
