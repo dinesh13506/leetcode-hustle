@@ -4,20 +4,20 @@
  */
 var thirdMax = function(nums) {
     
-    let arr = [];
-    let set = new Set();
-    for(let num of nums) {
-        if(set.has(num)) {
-            continue;
-        }
-        arr.push(num);
-    }
+    // let arr = [];
+    // let set = new Set();
+    // for(let num of nums) {
+    //     if(set.has(num)) {
+    //         continue;
+    //     }
+    //     arr.push(num);
+    // }
     
     let first = -Infinity;
     let second = -Infinity;
     let third = -Infinity;
     
-    for(let num of arr) {
+    for(let num of nums) {
         if(num > first) {
             third = second;
             second = first;
