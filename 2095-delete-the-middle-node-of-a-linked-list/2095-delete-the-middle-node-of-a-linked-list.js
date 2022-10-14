@@ -11,27 +11,18 @@
  */
 var deleteMiddle = function(head) {
     
-    let p = head;
-    let n = 0;
-    while(p) {
-        n++;
-        p = p.next;
-    }
-    let x = parseInt(n/2);
-    let c = 0;
-    p = head;
     let prev = null;
-    while(p) {
-        if(x == c) {
-           if(prev == null) {
-               return null;
-           } else {
-               prev.next = p.next;
-               return head;
-           }
-        }
-        c++;
-        prev = p;
-        p = p.next;
+    let slow = head;
+    let fast = head;
+    while(fast && fast.next) {
+        prev = slow;
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    if(prev == null) {
+        return null;
+    } else {
+        prev.next = slow.next;
+        return head;
     }
 };
