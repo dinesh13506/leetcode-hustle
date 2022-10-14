@@ -1,38 +1,29 @@
 class Solution {
     public String removeKdigits(String num, int k) {
         final int n = num.length();
-        Stack<Character> stack = new Stack<Character>();
+        LinkedList<Character> queue = new LinkedList<Character>();
         for(int i = 0; i < n; i++) {
-            if(stack.size() == 0) {
-                stack.push(num.charAt(i));
-            } else {
-                while(stack.size() > 0 && num.charAt(i) < stack.peek() && k > 0) {
-                    stack.pop();
-                    k--;
-                }
-                stack.push(num.charAt(i));
+            while(queue.isEmpty() == false && num.charAt(i) < queue.peekLast() && k > 0) {
+                k--;
+                queue.pollLast();
             }
+            queue.addLast(num.charAt(i));
         }
-        while(stack.size() > 0 && k > 0) {
-            stack.pop();
-            k--;
+        while(queue.isEmpty() == false && k > 0) {
+                k--;
+                queue.pollLast();
+        }
+        //System.out.println(queue);
+        while(queue.isEmpty() == false && queue.peekFirst() == '0') {
+                queue.pollFirst();
         }
         
-        Stack<Character> resultStack = new Stack<Character>();
-        while(stack.size() > 0) {
-            resultStack.push(stack.pop());
+        StringBuilder sb = new StringBuilder("");
+        while(queue.isEmpty() == false) {
+                sb.append( queue.pollFirst());
         }
-        while(resultStack.size() > 0 && resultStack.peek() == '0') {
-            resultStack.pop();
-        }
-        while(resultStack.size() > 0) {
-            
-            stack.push(resultStack.pop());
-        }
-        StringBuilder sb = new StringBuilder();
-        while(stack.size() > 0) {
-            sb.insert(0,stack.pop());
-        }
-        return sb.length() <= 0 ? "0" : sb.toString();
+        
+        return sb.length() == 0 ? "0" : sb.toString();
+        
     }
 }
