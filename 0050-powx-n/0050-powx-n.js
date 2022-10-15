@@ -5,19 +5,20 @@
  */
 var myPow = function(x, n) {
     
+    let memo = new Map();
     let pow = (x, n) => {
         if( n == 0) {
-            return 1;
+            return 1
         }
-        let temp = pow(x, parseInt(n/2));
-        if(n%2 == 0) {
-            return temp * temp;
+        if(memo.has(n)) {
+            return memo.get(n);
+        }
+        if((n&1) == 0) {
+            memo.set(n , pow(x, n / 2) * pow(x,n/2));
         } else {
-            return x * temp * temp;
+            memo.set(n, x * pow(x, parseInt(n/2)) * pow(x, parseInt(n/2)));
         }
+        return memo.get(n);
     }
-    
-    let value = pow(x, Math.abs(n));
-    if(n >= 0) return value;
-    return 1/value;
+    return n >= 0 ? pow(x,n) : 1 / pow(x,n);
 };
