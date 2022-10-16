@@ -15,26 +15,30 @@
  */
 class BSTIterator {
 
-    public int pointer = -1;
-    public ArrayList<TreeNode> nodes;
+    public Stack<TreeNode> stack;
+    
     public void inorder(TreeNode node) {
-        if(node != null) {
-            inorder(node.left);
-            nodes.add(node);
-            inorder(node.right);
+        while(node != null) {
+            stack.push(node);
+            node = node.left;
         }
     }
     public BSTIterator(TreeNode root) {
-        nodes = new ArrayList<TreeNode>();
+        stack = new Stack<TreeNode>();
         inorder(root);
     }
     
     public int next() {
-        return nodes.get(++pointer).val;
+        TreeNode top = stack.pop();
+        if(top.right != null) {
+            inorder(top.right);
+        }
+        return top.val;
+        
     }
     
     public boolean hasNext() {
-        return (pointer + 1) < nodes.size() ? true : false;
+        return stack.size() > 0 ? true : false;
     }
 }
 
