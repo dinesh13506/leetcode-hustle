@@ -30,13 +30,11 @@ class BSTIterator {
     }
     
     public int next() {
-        pointer++;
-        return nodes.get(pointer).val;
+        return nodes.get(++pointer).val;
     }
     
     public boolean hasNext() {
-        if(pointer + 1 < nodes.size()) return true;
-        return false;
+        return (pointer + 1) < nodes.size() ? true : false;
     }
 }
 
