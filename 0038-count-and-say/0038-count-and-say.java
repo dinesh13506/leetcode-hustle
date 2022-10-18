@@ -12,7 +12,6 @@ class Solution {
     public Solution() {
         map = new HashMap<Integer, String>();
         map.put(1, "1");
-        dp(30);
     }
     public String say(String s) {
         Stack<Node> stack = new Stack<Node>();
@@ -43,6 +42,11 @@ class Solution {
         return map.get(n);
     }
     public String countAndSay(int n) {
+        if(map.containsKey(n)) {
+            return map.get(n);
+        }
+        dp(30);
         return map.get(n);
+        
     }
 }
