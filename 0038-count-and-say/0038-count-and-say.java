@@ -8,11 +8,6 @@ class Node {
 }
 
 class Solution {
-    HashMap<Integer, String> map;
-    public Solution() {
-        map = new HashMap<Integer, String>();
-        map.put(1, "1");
-    }
     public String say(String s) {
         Stack<Node> stack = new Stack<Node>();
         for(int i = 0; i < s.length(); i++) {
@@ -36,17 +31,11 @@ class Solution {
     }
     public String dp(int n) {
         if(n == 1) {
-            return map.get(n);
+            return "1";
         }
-        map.put(n , say(dp(n-1)));
-        return map.get(n);
+        return say(dp(n-1));
     }
     public String countAndSay(int n) {
-        if(map.containsKey(n)) {
-            return map.get(n);
-        }
-        dp(30);
-        return map.get(n);
-        
+        return dp(n);
     }
 }
