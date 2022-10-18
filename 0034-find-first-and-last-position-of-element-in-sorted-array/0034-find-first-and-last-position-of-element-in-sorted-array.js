@@ -10,7 +10,7 @@ function getLowestIndex(nums, target){
     let lowestIndex = Infinity;
     
     while(low <= high) {
-        let mid = parseInt((low + high) / 2);
+        let mid = low + parseInt((high - low) / 2); 
         if(nums[mid] == target) {
             if(mid < lowestIndex) {
                 lowestIndex = mid;
@@ -34,7 +34,7 @@ function getHighestIndex(nums, target) {
     let highestIndex = -Infinity;
     
     while(low <= high) {
-        let mid = parseInt((low + high) / 2);
+        let mid = low + parseInt((high - low) / 2); 
         if(nums[mid] == target) {
             if(mid > highestIndex) {
                 highestIndex = mid;
