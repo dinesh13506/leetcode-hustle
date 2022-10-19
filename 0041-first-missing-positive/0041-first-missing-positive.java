@@ -4,7 +4,7 @@ class Solution {
         final int n = nums.length;
         int max = 0;
         for(int i = 0; i < n; i++) {
-            if(nums[i] > 0 && set.contains(nums[i]) == false) {
+            if(nums[i] < n + 1 && nums[i] > 0 && set.contains(nums[i]) == false) {
                 if(nums[i] > max) max = nums[i];
                 set.add(nums[i]);
             }
