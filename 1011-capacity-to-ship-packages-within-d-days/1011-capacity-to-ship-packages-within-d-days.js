@@ -33,11 +33,11 @@ var shipWithinDays = function(weights, days) {
     let ans = max_capacity;
     let low = min_capacity, high = max_capacity;
     
-    while(low < high) {
+    while(low <= high) {
         let mid = low + parseInt( (high - low) / 2 );
         if(ispossible(mid)) {
             ans = Math.min(ans, mid);
-            high = mid;
+            high = mid - 1;
         } else {
             low = mid + 1;
         }
