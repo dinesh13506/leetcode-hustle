@@ -5,7 +5,7 @@ class Solution {
         int max = 0;
         for(int i = 0; i < n; i++) {
             if(nums[i] > 0 && set.contains(nums[i]) == false) {
-                max = nums[i] > max ? nums[i] : max;
+                if(nums[i] > max) max = nums[i];
                 set.add(nums[i]);
             }
         }
