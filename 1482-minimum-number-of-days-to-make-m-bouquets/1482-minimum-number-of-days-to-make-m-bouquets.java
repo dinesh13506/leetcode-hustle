@@ -19,19 +19,17 @@ class Solution {
                     }
                 }
             } else {
-                while(stack.isEmpty() == false && stack.peek() < k) {
+                if(stack.isEmpty() == false && stack.peek() < k) {
                     stack.pop();
                 }
             }
         }
         
-        //System.out.println(days + " " + stack);
         while(stack.isEmpty() == false) {
             int top = stack.peek();
             stack.pop();
             if(top >= k) c++;
         }
-        //System.out.println(c);
         return c >= m ? true : false; 
     }
     public int minDays(int[] bloomDay, int m, int k) {
@@ -42,11 +40,9 @@ class Solution {
         }
         
         int low = min, high = max;
-        //System.out.println(min + " " + max);
         int ans = -1;
         while(low <= high) {
             int mid = low + ((high - low) / 2);
-            //System.out.println(mid);
             if(isPossible(bloomDay, k, m, mid)) {
                 ans = (ans == -1) ? mid : Math.min(ans, mid);
                 high = mid - 1;
