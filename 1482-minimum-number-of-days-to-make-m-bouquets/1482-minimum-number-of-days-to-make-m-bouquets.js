@@ -26,12 +26,11 @@ var minDays = function(bloomDay, m, k) {
                     }
                 }
             } else {
-                while(stack.length && stack[stack.length - 1] < k) {
+                if(stack.length && stack[stack.length - 1] < k) {
                     stack.pop();
                 }
             }
         }
-        //console.log(days, stack,totalMakes)
         let c = 0;
         for(let value of stack) {
             if(value >= k) c++
