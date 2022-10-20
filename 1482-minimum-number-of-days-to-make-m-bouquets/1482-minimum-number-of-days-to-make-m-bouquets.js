@@ -11,30 +11,32 @@ var minDays = function(bloomDay, m, k) {
     //console.log(min, max);
     
     let isPossible = (days) => {
-        let count = 0;
-        
-        let canMake = (i) => {
-            let c = 0;
-            while(i < n) {
-                if(bloomDay[i] > days || c >= k) {
-                    break;
-                }
-                i++
-                c++;
-            }
-            return c >= k ? true : false;
-        }
-        
+        let stack = [];
         let totalMakes = 0;
-        for(let i = 0; i < n;) {
-            if(canMake(i)) {
-                i = i + k;
-                totalMakes++;
+        for(let i = 0; i < n; i++) {
+            if(bloomDay[i] <= days) {
+                if(stack.length == 0) {
+                    stack.push(1);
+                } else {
+                    let top = stack[stack.length - 1];
+                    if(top < k) {
+                        stack[stack.length - 1] = stack[stack.length - 1] + 1;
+                    } else {
+                        stack.push(1);
+                    }
+                }
             } else {
-                i = i + 1;
+                while(stack.length && stack[stack.length - 1] < k) {
+                    stack.pop();
+                }
             }
         }
-        return totalMakes >= m;
+        //console.log(days, stack,totalMakes)
+        let c = 0;
+        for(let value of stack) {
+            if(value >= k) c++
+        }
+        return c >= m;
     }
     
     let ans = -1;
