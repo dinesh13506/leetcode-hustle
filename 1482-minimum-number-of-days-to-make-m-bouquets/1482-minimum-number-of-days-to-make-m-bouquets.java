@@ -18,6 +18,9 @@ class Solution {
                         stack.push(1);
                     }
                 }
+                if(stack.peek() == k) {
+                    c++;
+                }
             } else {
                 if(stack.isEmpty() == false && stack.peek() < k) {
                     stack.pop();
@@ -25,11 +28,11 @@ class Solution {
             }
         }
         
-        while(stack.isEmpty() == false) {
-            int top = stack.peek();
-            stack.pop();
-            if(top >= k) c++;
-        }
+        // while(stack.isEmpty() == false) {
+        //     int top = stack.peek();
+        //     stack.pop();
+        //     if(top >= k) c++;
+        // }
         return c >= m ? true : false; 
     }
     public int minDays(int[] bloomDay, int m, int k) {
