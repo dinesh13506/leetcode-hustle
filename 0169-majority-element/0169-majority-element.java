@@ -12,10 +12,6 @@ class Solution {
                     count++;
                 } else {
                     count--;
-                    if(count == 0) {
-                        count++;
-                        ans = num;
-                    }
                 }
             }
         }
