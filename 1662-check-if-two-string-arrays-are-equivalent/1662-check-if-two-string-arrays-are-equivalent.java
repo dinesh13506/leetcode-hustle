@@ -8,6 +8,6 @@ class Solution {
         for(String w : word2) {
             sb2.append(w);
         }
-        return sb1.toString().compareTo(sb2.toString()) == 0 ? true : false;
+        return sb1.compareTo(sb2) == 0 ? true : false;
     }
 }
