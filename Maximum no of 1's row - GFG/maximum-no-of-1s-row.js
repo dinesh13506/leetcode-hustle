@@ -78,30 +78,17 @@ class Solution{
     maxOnes(mat, n, m){
         //code here
         
-        let findLowestIndex = (rowNo) => {
-            let start = 0, end = m - 1;
-            let ans = m;
-            while(start <= end) {
-                let mid = (start + end) / 2;
-                mid = parseInt(mid);
-                if(mat[rowNo][mid] == 1) {
-                    ans = Math.min(ans, mid);
-                    end = mid - 1;
-                } else if(mat[rowNo][mid]  == 0) {
-                    start = mid + 1;
-                }
-            }
-            if(ans == m) {
-                return 0
-            } else {
-                return m - ans;
-            }
-        }
+
         
         let max = 0;
         let row = -1;
         for(let r = 0;  r < n; r++) {
-            let count = findLowestIndex(r);
+            let count = 0;
+            for(let c = 0; c < m; c++) {
+                if(mat[r][c] == 1) {
+                    count++;
+                }
+            }
             if(count > max) {
                 max = count;
                 row = r;
