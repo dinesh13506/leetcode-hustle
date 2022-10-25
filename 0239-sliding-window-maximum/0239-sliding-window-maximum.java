@@ -4,7 +4,7 @@ class Solution {
 
   public void clean_deque(int i, int k) {
     // remove indexes of elements not from sliding window
-    if (!deq.isEmpty() && deq.getFirst() == i - k)
+    while (!deq.isEmpty() && deq.getFirst() == i - k)
       deq.removeFirst();
 
     // remove from deq indexes of all elements 
