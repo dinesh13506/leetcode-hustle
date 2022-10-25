@@ -4,49 +4,21 @@
  */
 var smallestCommonElement = function(mat) {
     
-    let prevset = new Set()
-    let m = mat.length, n = mat[0].length
-    let map = new Map()
-    for(let i = 0; i < m; i++) {
-        for(let j = 0; j < n; j++) {
-            map.set(mat[i][j], 1 + (map.get(mat[i][j]) || 0))
-        }
-    }
-    let ans = 100000
-    for(let num of map.keys()) {
-        if(map.get(num) == m) {
-            ans = Math.min(ans, num)
-        }
-    }
-    return ans == 100000 ? -1 : ans
-};
-
-
-var smallestCommonElementFirst = function(mat) {
-    
-    let prevset = new Set()
-    let m = mat.length, n = mat[0].length
-    for(let j = 0 ; j < n; j++) {
-        prevset.add(mat[0][j])
+    let set = new Set();
+    for(let x of mat[0]) {
+        if(set.has(x)) continue;
+        set.add(x);
     }
     
-    for(let i = 1; i < m; i++) {
-        let currset = new Set()
-        for(let j = 0; j < n; j++) {
-            if(prevset.has(mat[i][j])) {
-                currset.add(mat[i][j])
+    for(let i = 1; i < mat.length; i++) {
+        let prev = new Set();
+        for(let x of mat[i]) {
+            if(set.has(x)) {
+                prev.add(x);
             }
         }
-        prevset = currset
+        set = prev;
     }
     
-    let arr = Array.from(prevset)
-    //console.log(arr)
-    if(arr.length == 0) {
-        return -1
-    }
-    arr.sort(function(a,b) {
-        return a - b
-    })
-    return arr[0]
+    return set.size > 0 ? Math.min(...set) : -1;
 };
