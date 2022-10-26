@@ -16,7 +16,7 @@ class Solution {
             }
             if(map.containsKey(rem)) {
                 int j = map.get(rem);
-                if(i - j  > 1) {
+                if(i > j + 1) {
                     return true;
                 }
             } else {
