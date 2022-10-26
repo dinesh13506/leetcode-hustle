@@ -22,11 +22,10 @@ var checkSubarraySum = function(nums, k) {
             }
         }
     }
-    //console.log(prefixSum)
+    console.log(prefixSum)
     for(let i = 0;  i < n; i++) {
-        //case 1 if sum at ith index is multiple of k
+        //case 1 if sum at ith index is multiple of k and sub array size > 1
         if(prefixSum[i] % k == 0 && i > 0) {
-            console.log("hey")
             return true;
         } else {
             let value = prefixSum[i] - k;
@@ -39,7 +38,6 @@ var checkSubarraySum = function(nums, k) {
                 }
                 value = value - k;
             }
-            
         }
     }
     return false;
