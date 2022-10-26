@@ -16,11 +16,11 @@ class Solution {
             }
             if(map.containsKey(rem)) {
                 int j = map.get(rem);
-                if(i - j > 0) {
+                if(i - j  > 1) {
                     return true;
                 }
             } else {
-                map.put(rem, i + 1);
+                map.put(rem, i);
             }
         }
         return false;
