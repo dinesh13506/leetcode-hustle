@@ -12,12 +12,14 @@ var subarraySum = function(nums, k) {
     for(let i = 0; i < n; i++) {
         ps[i] = (i > 0 ? ps[i-1] : 0) + nums[i];
     }
+    let sum = 0;
     map.set(0,1);
     for(let i = 0; i < n; i++) {
-        if(map.has(ps[i] - k)) {
-            count += map.get(ps[i] - k);
+        sum = (i > 0 ? sum : 0) + nums[i];
+        if(map.has(sum - k)) {
+            count += map.get(sum - k);
         }
-        map.set(ps[i], (map.get(ps[i]) || 0) + 1);
+        map.set(sum, (map.get(sum) || 0) + 1);
     }
     return count;
 };
