@@ -7,32 +7,20 @@ class Solution {
         if(n <= 1) {
             return false;
         }
-        int[] prefixSum = new int[n];
+        int sum = 0;
         for(int i = 0; i < n; i++) {
-            prefixSum[i] = (i > 0 ? prefixSum[i-1] : 0) + nums[i];
-            if(map.containsKey(prefixSum[i])) {
-                int j = map.get(prefixSum[i]);
-                if(i - j > 1) {
-                    return true; //we found a subarray of sum 0 and length > 1
-                }
-            } else {
-                map.put(prefixSum[i], i);
-            }
-        }
-        for(int i = 0; i < n; i++) {
-            if(i > 0 && prefixSum[i] % k == 0) {
+            sum += nums[i];
+            int rem = sum % k;
+            if(rem % k == 0 && i > 0) {
                 return true;
-            } else {
-                int value = prefixSum[i] - k;
-                while(value > 0) {
-                    if(map.containsKey(value)) {
-                        int j = map.get(value);
-                        if(i - j > 1) {
-                            return true;
-                        }
-                    }
-                    value -= k;
+            }
+            if(map.containsKey(rem)) {
+                int j = map.get(rem);
+                if(i - j > 0) {
+                    return true;
                 }
+            } else {
+                map.put(rem, i + 1);
             }
         }
         return false;
