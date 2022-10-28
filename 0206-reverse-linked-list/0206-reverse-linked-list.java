@@ -9,24 +9,23 @@
  * }
  */
 class Solution {
+    public ListNode newhead;
+    public ListNode reverse(ListNode node) {
+        if(node.next == null) {
+            newhead = node;
+            return node;
+        }
+        ListNode prev = reverse(node.next);
+        prev.next = node;
+        node.next = null;
+        return node;
+    }
     public ListNode reverseList(ListNode head) {
         if(head == null || head.next == null) {
             return head;
         }
-        LinkedList<ListNode> stack = new LinkedList<ListNode>();
-        ListNode p = head;
-        while(p != null) {
-            stack.add(p);
-            p = p.next;
-        }
-        ListNode newhead = new ListNode(0), newtail = newhead;
-        while(stack.size() > 0) {
-            ListNode node = stack.pollLast();
-            newtail.next = node;
-            node.next = null;
-            newtail = newtail.next;
-        }
-        return newhead.next;
+        reverse(head);
+        return newhead;
         
     }
 }
