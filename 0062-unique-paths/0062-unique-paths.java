@@ -1,22 +1,17 @@
 class Solution {
     public int[][] memo;
-    public int ways(int i, int j) {
-        if(i < 0 || j < 0) {
-            return 0;
+    public int ways(int m, int n) {
+        for(int r = 1; r < m; r++) {
+            for(int c = 1; c < n; c++) {
+                memo[r][c] = memo[r-1][c] + memo[r][c-1];
+            }
         }
-        if(i == 0 && j == 0) {
-            return 1;
-        }
-        if(memo[i][j] != 0) {
-            return memo[i][j];
-        }
-        memo[i][j] =  ways(i-1, j) + ways(i, j-1);
-        return memo[i][j];
+        return memo[m-1][n-1];
     }
     
     public int uniquePaths(int m, int n) {
         memo = new int[m][n];
-        Arrays.stream(memo).forEach(row -> Arrays.fill(row, 0));
-        return ways(m-1, n-1);
+        Arrays.stream(memo).forEach(row -> Arrays.fill(row, 1));
+        return ways(m, n);
     }
 }
