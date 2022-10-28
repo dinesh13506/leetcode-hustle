@@ -24,29 +24,25 @@ class Solution {
                 tail.next = p1;
                 p1 = p1.next;
                 tail = tail.next;
-                tail.next = null;
             } else {
                 tail.next = p2;
                 p2 = p2.next;
                 tail = tail.next;
-                tail.next = null;
             }
         }
         
         
-        while(p1!= null) {
+        if(p1!= null) {
             tail.next = p1;
             p1 = p1.next;
             tail = tail.next;
-            tail.next = null;
         }
-        while(p2 != null) {
+        if(p2 != null) {
             tail.next = p2;
             p2 = p2.next;
             tail = tail.next;
-            tail.next = null;
         }
-        
+        //tail.next = null;
         return head.next;
         
     }
