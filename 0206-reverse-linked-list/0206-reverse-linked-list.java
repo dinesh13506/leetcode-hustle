@@ -9,27 +9,24 @@
  * }
  */
 class Solution {
-    
-    public ListNode newhead = null;
-    public ListNode dfs(ListNode p) {
-        if(p != null) {
-            ListNode prev = dfs(p.next);
-            // System.out.println(prev != null ? prev.val : null);
-            // System.out.println(p != null ? p.val : null);
-            if(prev == null) {
-                newhead = p;
-            } else {
-                p.next = null;
-                prev.next = p;
-            }
-            return p;    
-        } else {
-            return null;
-        }
-    }
-    
     public ListNode reverseList(ListNode head) {
-        dfs(head);
-        return newhead;
+        if(head == null || head.next == null) {
+            return head;
+        }
+        LinkedList<ListNode> stack = new LinkedList<ListNode>();
+        ListNode p = head;
+        while(p != null) {
+            stack.add(p);
+            p = p.next;
+        }
+        ListNode newhead = new ListNode(0), newtail = newhead;
+        while(stack.size() > 0) {
+            ListNode node = stack.pollLast();
+            newtail.next = node;
+            node.next = null;
+            newtail = newtail.next;
+        }
+        return newhead.next;
+        
     }
 }
