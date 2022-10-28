@@ -2,19 +2,17 @@ class Solution {
     
     HashMap<Integer, Integer> memo;
     
-    public int ways(int i) {
-        if(i == 0) {
-            return 0;
+    public int ways(int n) {
+        int a = 1;
+        int b = 2;
+        if(n == 1 ) return a;
+        if(n == 2) return b;
+        for(int i = 3; i <= n; i++) {
+            int ways = a + b;
+            a = b;
+            b = ways;
         }
-        if(i == 1) {
-            return 1;
-        }
-        if(i == 2) {
-            return 2;
-        }
-        if(memo.get(i) != null) return memo.get(i);
-        memo.put(i, ways(i-1) + ways(i-2));
-        return memo.get(i);
+        return b;
     }
     public int climbStairs(int n) {
         memo = new  HashMap<Integer, Integer>();
