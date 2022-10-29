@@ -8,7 +8,7 @@ var earliestFullBloom = function(plantTime, growTime) {
     let input = [];
     for(let i = 0; i < n; i++) {
         input.push([
-            plantTime[i], growTime[i], growTime[i] / plantTime[i]
+            plantTime[i], growTime[i]
         ]);
     }
     //console.log(input);
@@ -21,7 +21,6 @@ var earliestFullBloom = function(plantTime, growTime) {
                 return b[1] - a[1];
             }
     })
-    //console.log(input);
     let pt = 0;
     let ans = 0;
     for(let i = 0; i < n; i++) {
