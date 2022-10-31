@@ -28,13 +28,16 @@ class Solution {
     }
 
     ListNode getMid(ListNode head) {
-        ListNode midPrev = null;
-        while (head != null && head.next != null) {
-            midPrev = (midPrev == null) ? head : midPrev.next;
-            head = head.next.next;
+        ListNode slow = head;
+        ListNode fast = head;
+        ListNode prev = null;
+        while(fast != null && fast.next != null) {
+            prev = slow;
+            slow = slow.next;
+            fast = fast.next.next;
         }
-        ListNode mid = midPrev.next;
-        midPrev.next = null;
-        return mid;
+        ListNode l2 = prev.next;
+        prev.next = null;
+        return l2;
     }
 }
