@@ -15,6 +15,9 @@ class Solution {
                    temp.add(mat[i][j]);
                }
             }
+            if(temp.size() == 0) {
+                return -1;
+            }
             hset = temp;
         }
         
