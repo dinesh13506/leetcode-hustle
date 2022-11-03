@@ -2,33 +2,19 @@ class Solution {
     public int smallestCommonElement(int[][] mat) {
         final int m = mat.length;
         final int n = mat[0].length;
-        HashSet<Integer> hset = new HashSet<Integer>();
-        
-        for(int j = 0; j < n; j++) {
-            hset.add(mat[0][j]);
-        }
-        
-        for(int i = 1; i < m ; i++) {
-            HashSet<Integer> temp = new HashSet<Integer>();
+        HashMap<Integer, Integer> hmap = new HashMap<Integer, Integer>();
+        for(int i = 0; i < m ; i++) {
             for(int j = 0; j < n; j++) {
-               if(hset.contains(mat[i][j])) {
-                   temp.add(mat[i][j]);
-               }
+               hmap.put(mat[i][j], hmap.getOrDefault(mat[i][j] , 0) + 1);
             }
-            if(temp.size() == 0) {
-                return -1;
-            }
-            hset = temp;
         }
+        int min = Integer.MAX_VALUE;
+        for(int key : hmap.keySet()) {
+            if(hmap.get(key) >= m) {
+                min = Math.min(min, key);
+            }
+        }
+        return min == Integer.MAX_VALUE ? -1 : min;
         
-        if(hset.size() == 0) {
-            return -1;
-        } else {
-            int min = Integer.MAX_VALUE;
-            for(int value : hset) {
-                min = Math.min(value, min);
-            }
-            return min;
-        }
     }
 }
