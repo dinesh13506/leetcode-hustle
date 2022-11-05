@@ -53,15 +53,13 @@ var findWords = function(board, words) {
         trie.insert(w);
     }
     
-    let dfs = (i, j , node) => {
-        
+    let dfs = (i, j , node, parent) => {
         let ch = board[i][j];
         let idx = ch.charCodeAt() - 'a'.charCodeAt();
-        let currNode = node.children[idx];
-        //console.log(currNode.word != null)
-        if(currNode.word != null) {
-            ans.push(currNode.word);
-            currNode.word = null;
+        // let currNode = node.children[idx];
+        if(node.word != null) {
+            ans.push(node.word);
+            node.word = null;
         }
         let value =  board[i][j];
         board[i][j] = '#';
@@ -72,13 +70,13 @@ var findWords = function(board, words) {
                 continue;
             }
             let idx = board[x][y].charCodeAt() - 'a'.charCodeAt();
-            if(currNode.children[idx] != null) {
-                dfs(x, y, currNode);
+            if(node.children[idx] != null) {
+                dfs(x, y, node.children[idx], node);
             }
         }
         board[i][j] = value;
-        if(trie.isEmpty(currNode)) {
-            node.children[idx] = null;
+        if(trie.isEmpty(node)) {
+            parent.children[idx] = null;
         }
     }
     
@@ -86,12 +84,9 @@ var findWords = function(board, words) {
         for(let c = 0; c < n; c++) {
             let idx = board[r][c].charCodeAt() - 'a'.charCodeAt();
             if(trie.root.children[idx] != null) {
-                dfs(r, c, trie.root);
+                dfs(r, c, trie.root.children[idx], trie.root);
             }
         }
     }
-    
     return ans;
-    
-    
 };
