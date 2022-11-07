@@ -14,17 +14,25 @@
  * }
  */
 class Solution {
-    public ArrayList<Integer> al;
-    public void inorder(TreeNode node) {
+    public PriorityQueue<Integer> pq;
+    public void inorder(TreeNode node, int k) {
         if(node != null) {
-            inorder(node.left);
-            al.add(node.val);
-            inorder(node.right);
+            inorder(node.left, k);
+            if(pq.peek() == null) {
+                pq.add(node.val);
+            } else if(pq.size() < k) {
+                pq.add(node.val);
+            }
+            else if(pq.size() >= k && pq.peek() > node.val) {
+                pq.poll();
+                pq.add(node.val);
+            }
+            inorder(node.right, k);
         }
     }
     public int kthSmallest(TreeNode root, int k) {
-        al = new ArrayList<Integer>();
-        inorder(root);
-        return al.get(k-1);
+        pq = new PriorityQueue<Integer>((a,b) -> { return b - a;});
+        inorder(root, k);
+        return pq.peek();
     }
 }
