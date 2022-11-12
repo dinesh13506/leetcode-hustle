@@ -2,24 +2,20 @@ class Solution {
     public int[] nextGreaterElement(int[] nums1, int[] nums2) {
         final int n = nums1.length;
         final int[] ans = new int[n];
-        for(int i = 0; i < n; i++) {
-            var found = false;
-            for(int j = 0; j < nums2.length; j++) {
-                if(nums1[i] == nums2[j]) {
-                    while(j < nums2.length) {
-                        if(nums2[j] > nums1[i]) {
-                            found = true;
-                            ans[i] = nums2[j];
-                            break;
-                        }
-                        j++;
-                    }
-                }
+        var stack = new Stack<Integer>();
+        var map = new HashMap<Integer, Integer>();
+        for(var num : nums2) {
+            while(stack.size() > 0 && stack.peek() < num) {
+                map.put(stack.pop() , num);
             }
-            if(found == false) {
-                ans[i] = -1;
-            }
+            stack.push(num);
         }
+        var p = 0;
+        for(var num : nums1) {
+            ans[p] = map.get(num) == null ? -1 : map.get(num);
+            p++;
+        }
+        
         return ans;
     }
 }
