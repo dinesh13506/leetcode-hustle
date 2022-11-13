@@ -1,7 +1,7 @@
 class Solution {
     public String reverseWords(String s) {
-        s = s.trim();
-        s = s.replaceAll("\\s+"," ");
+        s = s.trim(); //remove starting and trailing spaces
+        s = s.replaceAll("\\s+"," "); // replace all in between spaces with a single space
         var arr = s.split(" ");
         int i = 0, j = arr.length - 1;
         while(i < j) {
@@ -11,8 +11,6 @@ class Solution {
             i++;
             j--;
         }
-        
         return String.join(" ", arr);
-        
     }
 }
