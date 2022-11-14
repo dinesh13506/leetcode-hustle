@@ -46,19 +46,7 @@ class Solution {
                     }
                 }
             }
-        }
-        
-        /*
-        //System.out.println(neighbors);
-        for(var point: neighbors.keySet()) {
-            System.out.println(point.getX() + "," + point.getY());
-            for(var nbr : neighbors.get(point)) {
-                System.out.print(nbr.getX() + " " + nbr.getY() + "\n");
-            }
-            System.out.println();
-        }
-        */
-       
+       }
        int components = 0;
        for(var i = 0; i < n; i++) {
            if(visited.get(points.get(i)) != true) {
@@ -66,7 +54,6 @@ class Solution {
                components++;
            }
        }
-        //System.out.println(components);
-        return n - components;
+       return n - components;
     }
 }
