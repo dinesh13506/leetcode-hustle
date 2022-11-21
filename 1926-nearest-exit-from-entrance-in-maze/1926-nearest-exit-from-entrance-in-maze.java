@@ -2,7 +2,6 @@ class Solution {
     
     public boolean isExit(int i, int j, int m, int n, int[] entrance) {
         if(i == 0 || j == 0 || i == m - 1 || j == n - 1) {
-            //System.out.println("hey");
             if(i == entrance[0] && j == entrance[1]) {
                 return false;
             } else {
@@ -27,7 +26,6 @@ class Solution {
         int steps = 0;
         while(queue.size() > 0) {
             int[] point = queue.pollFirst();
-            //System.out.println(point[0] + " - " + point[1]);
             if(isExit(point[0], point[1], m, n, entrance)) {
                 return point[2];
             }
@@ -42,7 +40,6 @@ class Solution {
             }
             steps++;
         }
-        
         return -1;
     }
 }
