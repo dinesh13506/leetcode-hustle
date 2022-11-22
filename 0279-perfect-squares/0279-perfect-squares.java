@@ -19,9 +19,9 @@ class Solution {
             return memo.get(n);
         }
         int ans = Integer.MAX_VALUE;
-        for(int i = squareNumCount; i >= 1; i--) {
-            if(i * i <= n) {
-                ans = Math.min(ans, 1 + dp(n - (i * i), squareNumCount));
+        for(int i = 1; i < squareNumCount; i++) {
+            if(squareNums[i] <= n) {
+                ans = Math.min(ans, 1 + dp(n - squareNums[i], squareNumCount));
             } 
         }
         memo.put(n,ans);
@@ -31,6 +31,10 @@ class Solution {
         //System.out.println(isSquare(n));
         memo = new HashMap<Integer, Integer>();
         int squareNumCount = (int) Math.sqrt(n) + 1;
+        squareNums = new int[squareNumCount];
+        for(int i = 1; i < squareNumCount; i++) {
+            squareNums[i] = i * i;
+        }
         return dp(n,squareNumCount);
     }
 }
