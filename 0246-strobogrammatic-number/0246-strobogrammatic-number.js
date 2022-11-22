@@ -3,11 +3,6 @@
  * @return {boolean}
  */
 var isStrobogrammatic = function(num) {
-    //0
-    //1
-    //6
-    //8
-    //9
     let map = new Map();
     map.set("0","0");
     map.set("1","1");
@@ -20,10 +15,9 @@ var isStrobogrammatic = function(num) {
         if(map.has(ch)) {
             output.push(map.get(ch))
         } else {
-            output.push("*");
+            return false;
         }
     }
-    //console.log(output);
     return output.reverse().join("") == input;
     
 };
