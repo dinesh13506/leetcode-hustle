@@ -32,6 +32,7 @@ class Solution {
             }
         }
         
+        //test each 3 by 3 box
         for(int i = 0; i < m; i = i + 3) {
             for(int j = 0; j < n; j = j + 3) {
                 Set<Character> set = new HashSet<Character>();
