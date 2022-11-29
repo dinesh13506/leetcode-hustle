@@ -21,7 +21,7 @@ var isValidPalindrome = function(s, k) {
         if(s[i] == s[j]) {
             memo[i][j] =  dp(i + 1, j - 1);
         } else {
-             memo[i][j] =  1 + Math.min(dp(i+1, j), dp(i, j - 1));
+             memo[i][j] =  Math.min( 1 + dp(i+1, j), 1 + dp(i, j - 1), 2 + dp(i+1, j - 1));
         }
         return memo[i][j];
     }
