@@ -1,6 +1,7 @@
 class Solution {
     public boolean halvesAreAlike(String s) {
         final int n = s.length();
+        int mid = n / 2;
         Set<Character> set = new HashSet<>();
         set.add('a');
         set.add('e');
@@ -12,7 +13,7 @@ class Solution {
         for(int i = 0; i < n; i++) {
             char ch = s.charAt(i);
             if(set.contains(ch)) {
-                if(i < n / 2) {
+                if(i < mid) {
                    count1++;
                 } else {
                     count2++;
