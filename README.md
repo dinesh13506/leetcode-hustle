@@ -42,4 +42,4 @@ class HelloWorld {
 1. I code everyday / goal = DSA Master.
 2. I keep track of my solutions.
 3. Consistency is the key.
-4. Working Hard everyday.
+4. Working Hard everyday, :).
