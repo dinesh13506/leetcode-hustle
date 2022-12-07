@@ -24,7 +24,7 @@ weight[] = {4,5,6}
 <strong>Output: </strong>0</span></pre>
 
 <p><span style="font-size:18px"><strong>Your Task:</strong><br>
-Complete the function&nbsp;<strong>knapSack()</strong>&nbsp;which takes maximum capacity W, weight array wt[], value array val[], and the number of items n as a parameter and returns the&nbsp;<strong>maximum possible</strong>&nbsp;value you can get.</span></p>
+Complete the function&nbsp;<strong>knapSack()</strong>&nbsp;which takes maximum capacity W, weight array wt[], value array val[], and the number of items n as a parameter and returns the&nbsp;<strong>maximum possible</strong>&nbsp;value you can get.!</span></p>
 
 <p><span style="font-size:18px"><strong>Expected Time Complexity:</strong>&nbsp;O(N*W).<br>
 <strong>Expected Auxiliary Space:</strong>&nbsp;O(N*W)</span></p>
