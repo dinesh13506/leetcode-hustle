@@ -1,6 +1,6 @@
 #### Solutions to Data Structures & Algorithms coding problems, updated daily.
 
-### Get input in Javascript
+### Get input  in Javascript
 ```
 const readline = require("readline")
 const rl = readline.createInterface({
